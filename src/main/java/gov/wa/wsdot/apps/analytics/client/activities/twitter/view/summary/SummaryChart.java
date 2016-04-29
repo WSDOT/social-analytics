@@ -8,6 +8,7 @@ import com.google.gwt.core.client.JsDate;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.jsonp.client.JsonpRequestBuilder;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -17,16 +18,26 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 import com.google.web.bindery.event.shared.binder.EventBinder;
 import com.google.web.bindery.event.shared.binder.EventHandler;
+import com.googlecode.gwt.charts.client.ChartLoader;
+import com.googlecode.gwt.charts.client.ChartPackage;
+import com.googlecode.gwt.charts.client.ColumnType;
+import com.googlecode.gwt.charts.client.DataTable;
+import com.googlecode.gwt.charts.client.corechart.AreaChart;
+import com.googlecode.gwt.charts.client.corechart.AreaChartOptions;
+import com.googlecode.gwt.charts.client.corechart.PieChart;
+import com.googlecode.gwt.charts.client.options.*;
 import gov.wa.wsdot.apps.analytics.client.activities.events.DateSubmitEvent;
 import gov.wa.wsdot.apps.analytics.client.resources.Resources;
 import gov.wa.wsdot.apps.analytics.shared.FollowerSummary;
 import gov.wa.wsdot.apps.analytics.shared.TweetSummary;
 import gov.wa.wsdot.apps.analytics.util.Consts;
+import gwt.material.design.client.ui.MaterialCardAction;
+import gwt.material.design.client.ui.MaterialCardContent;
 import gwt.material.design.client.ui.MaterialRow;
 import gwt.material.design.client.ui.MaterialToast;
-import javafx.scene.chart.AreaChart;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class SummaryChart extends Composite{
@@ -47,14 +58,21 @@ public class SummaryChart extends Composite{
     static
     HTMLPanel chartDetailsFollowers;
 
+    @UiField
+    static
+    MaterialCardAction labels;
 
+    @UiField
+    static
+    MaterialCardContent cardContent;
+
+    private static AreaChart chart;
 
     private static final String JSON_URL = Consts.HOST_URL + "/summary";
     static JsArray<TweetSummary> tweetSummary;
     static JsArray<FollowerSummary> followerSummary;
     static ArrayList<String> dateArrayList = new ArrayList<String>();
-    private static int numberOfStatuses;
-    private static int numberOfMentions;
+
     private HTMLPanel sectionHeaderHTMLPanel;
     private static Image mentionsLoading = new Image(Resources.INSTANCE.ajaxLoaderGIF());
 
@@ -68,6 +86,8 @@ public class SummaryChart extends Composite{
         updateChart(defaultDateRange);
         //updateChartFollowers(defaultDateRange);
     }
+
+
 
     @EventHandler
     void onDateSubmit(DateSubmitEvent event){
@@ -105,12 +125,92 @@ public class SummaryChart extends Composite{
                 // has been loaded.
                 tweetSummary = result.getTweetSummary();
 
+                // Create the API Loader
+                ChartLoader chartLoader = new ChartLoader(ChartPackage.CORECHART);
+                chartLoader.loadApi(new Runnable() {
 
+                    @Override
+                    public void run() {
+                        cardContent.clear();
+                        cardContent.add(getChart());
+                        drawChart(tweetSummary);
+                    }
+                });
 
 
 
             }
         });
     }
+
+
+    private static Widget getChart() {
+        if (chart == null) {
+            chart = new AreaChart();
+        }
+        return chart;
+    }
+
+
+    private static void drawChart(JsArray<TweetSummary> tweetSummary) {
+
+
+        DataTable data = DataTable.create();
+        data.addColumn(ColumnType.STRING, "Date");
+        data.addColumn(ColumnType.NUMBER, "Mentions");
+        data.addColumn(ColumnType.NUMBER, "Tweets");
+
+        data.addRows(tweetSummary.length());
+
+        DateTimeFormat fmt = DateTimeFormat.getFormat("MMM d");
+        DateTimeFormat fmt2 = DateTimeFormat.getFormat("/yyyy/M/d");
+
+        int numberOfStatuses = 0;
+        int numberOfMentions = 0;
+
+        for (int i = 0; i < tweetSummary.length(); i++) {
+            dateArrayList.add(fmt2.format(new Date((long) tweetSummary.get(i).getId())));
+            data.setValue(i, 0, fmt.format(new Date((long) tweetSummary.get(i).getId())));
+            data.setValue(i, 1, tweetSummary.get(i).getValue().getMentions());
+            data.setValue(i, 2, tweetSummary.get(i).getValue().getStatuses());
+            numberOfMentions += tweetSummary.get(i).getValue().getMentions();
+            numberOfStatuses += tweetSummary.get(i).getValue().getStatuses();
+        }
+
+        labels.clear();
+        labels.add(new Label("Mentions: " + numberOfMentions));
+        labels.add(new Label("Statuses: " + numberOfStatuses));
+
+        // Set options
+        //Grid Lines
+        Gridlines lines = Gridlines.create();
+        lines.setColor("fff");
+
+        // Text Positions X and Y Axis
+        HAxis hAxis = HAxis.create();
+        hAxis.setSlantedText(true);
+        VAxis vAxis = VAxis.create();
+        vAxis.setGridlines(lines);
+        hAxis.setGridlines(lines);
+        // Legend
+        Legend legend = Legend.create();
+        legend.setPosition(LegendPosition.TOP);
+        legend.setAligment(LegendAlignment.END);
+
+        // Set options
+        AreaChartOptions options = AreaChartOptions.create();
+        options.setIsStacked(true);
+        options.setAreaOpacity(1);
+        options.setVAxis(vAxis);
+        options.setHAxis(hAxis);
+        options.setLegend(legend);
+        options.setColors("2196f3", "bbdefb");
+
+
+
+        // Draw the chart
+        chart.draw(data, options);
+    }
+
 
 }
