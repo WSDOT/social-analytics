@@ -48,7 +48,7 @@ public class AnalyticsActivity extends AbstractActivity implements AnalyticsView
 
             // TODO Event bus
             clientFactory.getEventBus().fireEvent(new DateSubmitEvent(dateRange, account));
-            
+
             /*
             //dateRangeLoading.setVisible(true);
             SummaryChart.updateChart(dateRange);

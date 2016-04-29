@@ -22,14 +22,14 @@
   <inherits name="com.google.gwt.place.Place" />
   <inherits name="com.google.gwt.activity.Activity" />
   <inherits name='com.google.web.bindery.event.EventBinder'/>
-    <inherits name='com.github.gwtd3.D3' />
 
-    <!-- Specify the app entry point class.                         -->
+  <!-- Specify the app entry point class.                         -->
   <entry-point class='gov.wa.wsdot.apps.analytics.client.SocialAnalytics'/>
 
   <!-- Specify the paths for translatable code                    -->
   <source path='client'/>
   <source path='shared'/>
+
 
     <!-- Use ClientFactoryImpl by default -->
     <replace-with class="gov.wa.wsdot.apps.analytics.client.ClientFactoryImpl">

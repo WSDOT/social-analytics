@@ -1,10 +1,63 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-             xmlns:g="urn:import:com.google.gwt.user.client.ui">
+             xmlns:g="urn:import:com.google.gwt.user.client.ui"
+             xmlns:m="urn:import:gwt.material.design.client.ui">
 
-    <g:HTMLPanel ui:field="chart" >
-        <g:HTMLPanel ui:field="chartDetails" />
-        <g:HTMLPanel ui:field="chartDetailsFollowers" />
-    </g:HTMLPanel>
+    <ui:style>
+
+
+        .whiteTheme {
+        width: 50%;
+        }
+
+
+        .graph {
+
+
+        }
+
+            .block{
+            display: block;
+            padding: 20px;
+            }
+
+    </ui:style>
+
+    <m:MaterialRow ui:field="tabs" styleName="{style.whiteTheme}">
+        <m:MaterialColumn grid="s12">
+            <m:MaterialTab ui:field="tab" backgroundColor="blue" indicatorColor="yellow">
+                <m:MaterialTabItem waves="YELLOW" grid="s4">
+                    <m:MaterialLink text="Tweets" href="#tab1" textColor="white"/>
+                </m:MaterialTabItem>
+                <m:MaterialTabItem waves="YELLOW" grid="s4">
+                    <m:MaterialLink text="Followers" href="#tab2" textColor="white"/>
+                </m:MaterialTabItem>
+            </m:MaterialTab>
+        </m:MaterialColumn>
+
+        <m:MaterialColumn m:id="tab1" grid="s12">
+
+            <m:MaterialColumn grid="s12 m6 l4">
+                <m:MaterialCard>
+                    <m:MaterialCardTitle text="Area Chart" iconType="MORE_VERT" iconPosition="RIGHT" textColor="black" addStyleNames="{style.block}"/>
+                    <m:MaterialCardContent ui:field="cardContent" addStyleNames="no-padding"/>
+
+                    <m:MaterialCardReveal>
+                        <m:MaterialCardTitle text="Area Chart" iconType="CLOSE" iconPosition="RIGHT" textColor="black"/>
+                    </m:MaterialCardReveal>
+
+                    <m:MaterialCardAction>
+                        <m:MaterialLink target="_blank" href="https://github.com/GwtMaterialDesign/gwt-material-demo/blob/master/src/main/java/gwt/material/design/demo/client/ui/charts/MaterialAreaChart.ui.xml" text="UI Binder" textColor="blue"  />
+                        <m:MaterialLink target="_blank" href="https://github.com/GwtMaterialDesign/gwt-material-demo/blob/master/src/main/java/gwt/material/design/demo/client/ui/charts/MaterialAreaChart.java" text="Java"  textColor="blue"  />
+                    </m:MaterialCardAction>
+                </m:MaterialCard>
+            </m:MaterialColumn>
+
+
+        </m:MaterialColumn>
+        <m:MaterialColumn m:id="tab2" grid="s12">
+            <g:HTMLPanel ui:field="chartDetailsFollowers" />
+        </m:MaterialColumn>
+    </m:MaterialRow>
 
 </ui:UiBinder>
