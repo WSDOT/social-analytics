@@ -7,7 +7,7 @@ import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
 import com.google.gwt.user.client.ui.SimplePanel;
-import gov.wa.wsdot.apps.analytics.client.activities.main.AnalyticsPlace;
+import gov.wa.wsdot.apps.analytics.client.activities.twitter.AnalyticsPlace;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -18,7 +18,7 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public class SocialAnalytics implements EntryPoint {
 
-  private Place defaultPlace = new AnalyticsPlace("main");
+  private Place defaultPlace = new AnalyticsPlace("twitter");
   private SimplePanel appWidget = new SimplePanel();
 
   @Override
@@ -28,7 +28,7 @@ public class SocialAnalytics implements EntryPoint {
       EventBus eventBus = clientFactory.getEventBus();
       PlaceController placeController = clientFactory.getPlaceController();
 
-      // Start ActivityManager for the main widget with our ActivityMapper
+      // Start ActivityManager for the twitter widget with our ActivityMapper
       ActivityMapper activityMapper = new AppActivityMapper(clientFactory);
       ActivityManager activityManager = new ActivityManager(activityMapper, eventBus);
       activityManager.setDisplay(appWidget);

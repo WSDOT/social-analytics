@@ -3,8 +3,8 @@ package gov.wa.wsdot.apps.analytics.client;
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.place.shared.Place;
-import gov.wa.wsdot.apps.analytics.client.activities.main.AnalyticsActivity;
-import gov.wa.wsdot.apps.analytics.client.activities.main.AnalyticsPlace;
+import gov.wa.wsdot.apps.analytics.client.activities.twitter.AnalyticsActivity;
+import gov.wa.wsdot.apps.analytics.client.activities.twitter.AnalyticsPlace;
 
 public class AppActivityMapper implements ActivityMapper {
     private ClientFactory clientFactory;

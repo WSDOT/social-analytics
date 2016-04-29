@@ -1,4 +1,4 @@
-package gov.wa.wsdot.apps.analytics.client.activities.main;
+package gov.wa.wsdot.apps.analytics.client.activities.twitter;
 
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceTokenizer;

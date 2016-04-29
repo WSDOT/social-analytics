@@ -1,0 +1,57 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+             xmlns:g="urn:import:com.google.gwt.user.client.ui"
+             xmlns:m="urn:import:gwt.material.design.client.ui"
+             xmlns:my="urn:import:gov.wa.wsdot.apps.analytics.client.activities.twitter.view.summary">
+
+    <ui:with field="res" type="gov.wa.wsdot.apps.analytics.client.resources.Resources" />
+
+    <g:HTMLPanel>
+
+        <m:MaterialNavBar backgroundColor="blue" width="100%">
+            <m:MaterialNavBrand href="http://wwwi.wsdot.wa.gov" textColor="white" float="LEFT">WSDOT Social Analytics</m:MaterialNavBrand>
+            <m:MaterialNavSection float="RIGHT">
+                <m:MaterialLink ui:field="btnSearch" iconType="SEARCH" iconColor="white" float="RIGHT"/>
+            </m:MaterialNavSection>
+        </m:MaterialNavBar>
+
+        <g:HTMLPanel styleName="{res.css.wrapper}">
+
+            <div class="{res.css.main}" style="padding: 30px;">
+
+                <g:HorizontalPanel>
+
+                    <!-- Activator -->
+                    <m:MaterialButton ui:field="account" text="Account" iconType="ARROW_DROP_DOWN" iconPosition="RIGHT" textColor="white" backgroundColor="blue" activates="accounts"/>
+                    <!-- My Drop Down -->
+                    <m:MaterialDropDown activator="accounts" constrainWidth="true">
+                        <m:MaterialLink text="@wsdot" />
+                        <m:MaterialLink text="@wsdot_traffic " />
+                    </m:MaterialDropDown>
+
+                    <m:MaterialDatePicker ui:field="dpStart" placeholder="Start Date"/>
+
+                    <m:MaterialDatePicker ui:field="dpEnd" placeholder="End Date"/>
+
+                    <g:HTMLPanel>
+
+                    <m:MaterialButton ui:field="submitDateButton" text="submit" waves="LIGHT" backgroundColor="blue" textColor="white"/>
+                    </g:HTMLPanel>
+
+                </g:HorizontalPanel>
+
+                <g:VerticalPanel>
+
+
+                    <my:SummaryChart ui:field="summaryChart"/>
+
+
+                </g:VerticalPanel>
+
+            </div>
+            <div class="{res.css.clearLeft}"></div>
+        </g:HTMLPanel>
+
+    </g:HTMLPanel>
+
+</ui:UiBinder>
