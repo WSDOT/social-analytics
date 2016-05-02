@@ -9,6 +9,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 import gov.wa.wsdot.apps.analytics.client.ClientFactory;
+import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.sentiment.SentimentPieChart;
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.summary.SummaryChart;
 import gwt.material.design.client.ui.*;
 
@@ -38,6 +39,9 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
     @UiField(provided = true)
     SummaryChart summaryChart;
 
+    @UiField(provided = true)
+    SentimentPieChart sentimentPieChart;
+
     private String[] accounts =
                   {"BerthaDigsSR99",
                    "GoodToGoWSDOT",
@@ -56,6 +60,8 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
     public AnalyticsViewImpl(ClientFactory clientFactory) {
 
         summaryChart = new SummaryChart(clientFactory.getEventBus());
+        sentimentPieChart = new SentimentPieChart(clientFactory.getEventBus());
+
         initWidget(uiBinder.createAndBindUi(this));
 
         accountPicker.setItemSelected(3, true);
