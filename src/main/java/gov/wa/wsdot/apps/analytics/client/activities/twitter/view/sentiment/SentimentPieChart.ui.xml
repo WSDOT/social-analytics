@@ -7,6 +7,10 @@
         width: 50%;
         }
 
+        .overflow{
+            overflow: hidden;
+        }
+
         .block{
         display: block;
         padding: 20px;
@@ -26,7 +30,7 @@
             <m:MaterialPreLoader ui:field="sentimentLoader" size="BIG" addStyleNames="{style.loader}">
                 <m:MaterialSpinner color="blue-only"/>
             </m:MaterialPreLoader>
-            <m:MaterialCardContent ui:field="cardContent" addStyleNames="no-padding"/>
+            <m:MaterialCardContent ui:field="cardContent" addStyleNames="no-padding {style.overflow}"/>
 
             <m:MaterialCardAction>
                 <m:MaterialLabel text="Sentiment analysis aims to determine the attitude of a tweet with respect to some topic relating to WSDOT or the overall attitude towards WSDOT as a brand."/>

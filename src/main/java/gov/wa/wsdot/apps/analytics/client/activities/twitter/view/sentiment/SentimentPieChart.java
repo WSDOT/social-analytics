@@ -74,6 +74,8 @@ public class SentimentPieChart extends Composite {
     }
 
     public static void updateChart(final String dateRange, final String account) {
+        cardContent.clear();
+
         String url = "";
         String screenName = account;
 
