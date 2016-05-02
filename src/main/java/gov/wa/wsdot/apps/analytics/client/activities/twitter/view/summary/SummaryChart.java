@@ -3,11 +3,13 @@ package gov.wa.wsdot.apps.analytics.client.activities.twitter.view.summary;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.jsonp.client.JsonpRequestBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
@@ -21,14 +23,10 @@ import com.googlecode.gwt.charts.client.corechart.AreaChart;
 import com.googlecode.gwt.charts.client.corechart.AreaChartOptions;
 import com.googlecode.gwt.charts.client.options.*;
 import gov.wa.wsdot.apps.analytics.client.activities.events.DateSubmitEvent;
-import gov.wa.wsdot.apps.analytics.client.resources.Resources;
 import gov.wa.wsdot.apps.analytics.shared.FollowerSummary;
 import gov.wa.wsdot.apps.analytics.shared.TweetSummary;
 import gov.wa.wsdot.apps.analytics.util.Consts;
-import gwt.material.design.client.ui.MaterialCardAction;
-import gwt.material.design.client.ui.MaterialCardContent;
-import gwt.material.design.client.ui.MaterialPreLoader;
-import gwt.material.design.client.ui.MaterialToast;
+import gwt.material.design.client.ui.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -46,33 +44,50 @@ public class SummaryChart extends Composite{
             UiBinder<Widget, SummaryChart> {
     }
 
-
+    @UiField
+    static
+    MaterialRow tabs;
 
     @UiField
     static
-    HTMLPanel chartDetailsFollowers;
+    MaterialLink tweetsTab;
 
     @UiField
     static
-    MaterialCardAction labels;
+    MaterialLink followersTab;
 
     @UiField
     static
-    MaterialPreLoader loader;
+    MaterialCardAction tweetLabel;
 
     @UiField
     static
-    MaterialCardContent cardContent;
+    MaterialPreLoader tweetsLoader;
 
-    private static AreaChart chart;
+    @UiField
+    static
+    MaterialPreLoader followersLoader;
+
+    @UiField
+    static
+    MaterialCardContent tweetContent;
+
+    @UiField
+    static
+    MaterialCardContent followerContent;
+
+    private static AreaChart tweetsChart;
+    private static AreaChart followersChart;
+
+    private static String dateRange = "";
+    private static String account = "wsdot";
+
+    private static int currentTab = 0;
 
     private static final String JSON_URL = Consts.HOST_URL + "/summary";
     static JsArray<TweetSummary> tweetSummary;
     static JsArray<FollowerSummary> followerSummary;
     static ArrayList<String> dateArrayList = new ArrayList<String>();
-
-    private HTMLPanel sectionHeaderHTMLPanel;
-    private static Image mentionsLoading = new Image(Resources.INSTANCE.ajaxLoaderGIF());
 
     private static String defaultDateRange = "";
 
@@ -81,25 +96,43 @@ public class SummaryChart extends Composite{
         eventBinder.bindEventHandlers(this, eventBus);
         initWidget(uiBinder.createAndBindUi(this));
 
-        updateTweetsChart(defaultDateRange);
-        //updateChartFollowers(defaultDateRange);
+        updateTweetsChart(defaultDateRange, "wsdot");
     }
-
-
 
     @EventHandler
     void onDateSubmit(DateSubmitEvent event){
-        updateTweetsChart(event.getDateRange());
-        //updateChartFollowers(dateRange);
+
+        dateRange = event.getDateRange();
+        account = event.getAccount();
+
+        if (currentTab == 0) {
+            updateTweetsChart(event.getDateRange(), event.getAccount());
+        } else {
+            updateChartFollowers(event.getDateRange(), event.getAccount());
+        }
     }
 
-    public static void updateTweetsChart(String dateRange) {
-        cardContent.clear();
-        labels.clear();
-        loader.setVisible(true);
+    @UiHandler("tweetsTab")
+    protected void onTweetsTabClick(ClickEvent e){
+        updateTweetsChart(dateRange, account);
+        currentTab = 0;
+    }
+
+
+    @UiHandler("followersTab")
+    protected void onFollowerTabClick(ClickEvent e){
+        updateChartFollowers(dateRange, account);;
+        currentTab = 1;
+    }
+
+    public static void updateTweetsChart(String dateRange, String account) {
+        tweetContent.clear();
+        tweetLabel.clear();
+        tweetLabel.setVisible(true);
+        tweetsLoader.setVisible(true);
 
         String url = "";
-        String screenName = "wsdot";//AccountsView.accounts.getValue(AccountsView.accounts.getSelectedIndex());
+        String screenName = account;
 
         if (screenName.equals("wsdot") && dateRange.equals("")) {
             url = JSON_URL;
@@ -107,7 +140,7 @@ public class SummaryChart extends Composite{
             url = JSON_URL + "/" + screenName + dateRange;
         }
 
-        mentionsLoading.setVisible(true);
+
 
         JsonpRequestBuilder jsonp = new JsonpRequestBuilder();
         // Set timeout for 30 seconds (30000 milliseconds)
@@ -117,7 +150,7 @@ public class SummaryChart extends Composite{
             @Override
             public void onFailure(Throwable caught) {
                 Window.alert("Failure: " + caught.getMessage());
-                mentionsLoading.setVisible(false);
+                tweetsLoader.setVisible(false);
             }
 
             @Override
@@ -125,32 +158,77 @@ public class SummaryChart extends Composite{
                 // Create a callback to be called when the visualization API
                 // has been loaded.
                 tweetSummary = result.getTweetSummary();
-
                 // Create the API Loader
                 ChartLoader chartLoader = new ChartLoader(ChartPackage.CORECHART);
                 chartLoader.loadApi(new Runnable() {
-
                     @Override
                     public void run() {
-
-                        cardContent.add(getChart());
+                        tweetContent.add(getTweetsChart());
                         drawTweetsChart(tweetSummary);
-                        loader.setVisible(false);
+                        tweetsLoader.setVisible(false);
                     }
                 });
-
-
-
             }
         });
     }
 
+    public static void updateChartFollowers(String dateRange, String account) {
 
-    private static Widget getChart() {
-        if (chart == null) {
-            chart = new AreaChart();
+        followerContent.clear();
+        followersLoader.setVisible(true);
+
+        String screenName = account;
+        String url = "";
+
+        if (screenName.equals("all") && dateRange.equals("")) {
+            url = JSON_URL + "/followers/" + screenName;
+        } else {
+            url = JSON_URL + "/followers/" + screenName + dateRange;
         }
-        return chart;
+
+        JsonpRequestBuilder jsonp = new JsonpRequestBuilder();
+        // Set timeout for 30 seconds (30000 milliseconds)
+        jsonp.setTimeout(30000);
+        jsonp.requestObject(url, new AsyncCallback<FollowerSummary>() {
+
+            @Override
+            public void onFailure(Throwable caught) {
+                Window.alert("Failure: " + caught.getMessage());
+                followersLoader.setVisible(false);
+            }
+
+            @Override
+            public void onSuccess(FollowerSummary result) {
+                // Create a callback to be called when the visualization API
+                // has been loaded.
+                followerSummary = result.getFollowerSummary();
+
+                // Create the API Loader
+                ChartLoader chartLoader = new ChartLoader(ChartPackage.CORECHART);
+                chartLoader.loadApi(new Runnable() {
+                    @Override
+                    public void run() {
+                        followerContent.add(getFollowersChart());
+                        drawFollowersChart(followerSummary);
+                        followersLoader.setVisible(false);
+                    }
+                });
+            }
+        });
+    }
+
+    private static Widget getTweetsChart() {
+        if (tweetsChart == null) {
+            tweetsChart = new AreaChart();
+        }
+        return tweetsChart;
+    }
+
+    private static Widget getFollowersChart() {
+        if (followersChart == null) {
+            followersChart = new AreaChart();
+        }
+        return followersChart;
     }
 
 
@@ -158,8 +236,9 @@ public class SummaryChart extends Composite{
 
         DataTable data = DataTable.create();
         data.addColumn(ColumnType.STRING, "Date");
-        data.addColumn(ColumnType.NUMBER, "Mentions");
         data.addColumn(ColumnType.NUMBER, "Tweets");
+        data.addColumn(ColumnType.NUMBER, "Mentions");
+
 
         data.addRows(tweetSummary.length());
 
@@ -174,12 +253,13 @@ public class SummaryChart extends Composite{
             data.setValue(i, 0, fmt.format(new Date((long) tweetSummary.get(i).getId())));
             data.setValue(i, 1, tweetSummary.get(i).getValue().getMentions());
             data.setValue(i, 2, tweetSummary.get(i).getValue().getStatuses());
-            numberOfMentions += tweetSummary.get(i).getValue().getMentions();
             numberOfStatuses += tweetSummary.get(i).getValue().getStatuses();
-        }
+            numberOfMentions += tweetSummary.get(i).getValue().getMentions();
 
-        labels.add(new Label("Mentions: " + numberOfMentions));
-        labels.add(new Label("Tweets: " + numberOfStatuses));
+        }
+        tweetLabel.add(new Label("Tweets: " + numberOfStatuses));
+        tweetLabel.add(new Label("Mentions: " + numberOfMentions));
+
 
         // Set options
         //Grid Lines
@@ -199,7 +279,6 @@ public class SummaryChart extends Composite{
 
         // Set options
         AreaChartOptions options = AreaChartOptions.create();
-        options.setIsStacked(true);
         options.setAreaOpacity(1);
         options.setVAxis(vAxis);
         options.setHAxis(hAxis);
@@ -207,8 +286,51 @@ public class SummaryChart extends Composite{
         options.setColors("B2DFDB", "4DB6AC");
 
         // Draw the chart
-        chart.draw(data, options);
+        tweetsChart.draw(data, options);
     }
 
+
+    private static void drawFollowersChart(JsArray<FollowerSummary> followerSummary) {
+
+        DataTable data = DataTable.create();
+        data.addColumn(ColumnType.STRING, "Date");
+        data.addColumn(ColumnType.NUMBER, "Followers");
+        data.addRows(followerSummary.length());
+        int j = followerSummary.length();
+
+        DateTimeFormat fmt = DateTimeFormat.getFormat("MMM d");
+
+        for (int i = 0; i < j; i++) {
+            data.setValue(i, 0, fmt.format(new Date((long) followerSummary.get(i).getId())));
+            data.setValue(i, 1, followerSummary.get(i).getValue());
+        }
+
+        // Set options
+        //Grid Lines
+        Gridlines lines = Gridlines.create();
+        lines.setColor("fff");
+
+        // Text Positions X and Y Axis
+        HAxis hAxis = HAxis.create();
+        hAxis.setSlantedText(true);
+        VAxis vAxis = VAxis.create();
+        vAxis.setGridlines(lines);
+        hAxis.setGridlines(lines);
+        // Legend
+        Legend legend = Legend.create();
+        legend.setPosition(LegendPosition.TOP);
+        legend.setAligment(LegendAlignment.END);
+
+        // Set options
+        AreaChartOptions options = AreaChartOptions.create();
+        options.setAreaOpacity(1);
+        options.setVAxis(vAxis);
+        options.setHAxis(hAxis);
+        options.setLegend(legend);
+        options.setColors("B2DFDB");
+
+        // Draw the chart
+        followersChart.draw(data, options);
+    }
 
 }

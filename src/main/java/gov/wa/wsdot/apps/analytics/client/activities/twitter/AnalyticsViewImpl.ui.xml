@@ -2,7 +2,18 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
              xmlns:g="urn:import:com.google.gwt.user.client.ui"
              xmlns:m="urn:import:gwt.material.design.client.ui"
+             xmlns:m.html="urn:import:gwt.material.design.client.ui.html"
              xmlns:my="urn:import:gov.wa.wsdot.apps.analytics.client.activities.twitter.view.summary">
+
+
+    <ui:style>
+
+
+        .submit {
+            bottom: 0;
+        }
+
+    </ui:style>
 
     <ui:with field="res" type="gov.wa.wsdot.apps.analytics.client.resources.Resources" />
 
@@ -21,13 +32,19 @@
 
                 <g:HorizontalPanel>
 
-                    <!-- Activator -->
-                    <m:MaterialButton ui:field="account" backgroundColor="teal lighten-2" text="Account" iconType="ARROW_DROP_DOWN" iconPosition="RIGHT" textColor="white" activates="accounts"/>
-                    <!-- My Drop Down -->
-                    <m:MaterialDropDown activator="accounts" constrainWidth="true">
-                        <m:MaterialLink text="@wsdot" />
-                        <m:MaterialLink text="@wsdot_traffic " />
-                    </m:MaterialDropDown>
+                    <m:MaterialListBox ui:field="accountPicker" width="80%">
+                        <m.html:Option text="@BerthaDigsSR99"/>
+                        <m.html:Option text="@GoodToGoWSDOT"/>
+                        <m.html:Option text="@SnoqualmiePass"/>
+                        <m.html:Option text="@wsdot"/>
+                        <m.html:Option text="@wsdot_520"/>
+                        <m.html:Option text="@WSDOT_East"/>
+                        <m.html:Option text="@wsdot_north"/>
+                        <m.html:Option text="@wsdot_sw"/>
+                        <m.html:Option text="@wsdot_tacoma"/>
+                        <m.html:Option text="@wsdot_traffic"/>
+                        <m.html:Option text="@wsferries"/>
+                    </m:MaterialListBox>
 
                     <m:MaterialDatePicker ui:field="dpStart"  placeholder="Start Date"/>
 
@@ -35,7 +52,7 @@
 
                     <g:HTMLPanel>
 
-                    <m:MaterialButton ui:field="submitDateButton" text="submit" waves="LIGHT" backgroundColor="teal lighten-2" textColor="white"/>
+                    <m:MaterialButton ui:field="submitDateButton" addStyleNames="{style.submit}" text="apply date" waves="LIGHT" backgroundColor="teal lighten-2" textColor="white"/>
                     </g:HTMLPanel>
 
                 </g:HorizontalPanel>

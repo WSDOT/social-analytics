@@ -2,7 +2,7 @@ package gov.wa.wsdot.apps.analytics.client.activities.twitter;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -10,10 +10,9 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 import gov.wa.wsdot.apps.analytics.client.ClientFactory;
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.summary.SummaryChart;
-import gwt.material.design.client.ui.MaterialButton;
-import gwt.material.design.client.ui.MaterialDatePicker;
-import gwt.material.design.client.ui.MaterialLink;
-import gwt.material.design.client.ui.MaterialToast;
+import gwt.material.design.client.ui.*;
+
+import java.util.Date;
 
 
 public class AnalyticsViewImpl extends Composite implements AnalyticsView{
@@ -31,13 +30,26 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
     MaterialDatePicker dpEnd;
 
     @UiField
-    MaterialButton account;
+    MaterialListBox accountPicker;
 
     @UiField
     MaterialButton submitDateButton;
 
     @UiField(provided = true)
     SummaryChart summaryChart;
+
+    private String[] accounts =
+                  {"BerthaDigsSR99",
+                   "GoodToGoWSDOT",
+                   "SnoqualmiePass",
+                   "wsdot",
+                   "wsdot_520",
+                   "WSDOT_East",
+                   "wsdot_north",
+                   "wsdot_sw",
+                   "wsdot_tacoma",
+                   "wsdot_traffic",
+                   "wsferries"};
 
     private Presenter presenter;
 
@@ -46,6 +58,10 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
         summaryChart = new SummaryChart(clientFactory.getEventBus());
         initWidget(uiBinder.createAndBindUi(this));
 
+        accountPicker.setItemSelected(3, true);
+
+        dpStart.setDate(new Date());
+        dpEnd.setDate(new Date());
     }
 
 
@@ -55,10 +71,14 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
     }
 
 
+    @UiHandler("accountPicker")
+    protected void onSelect(ValueChangeEvent<String> e){
+        presenter.onDateSubmit(dpStart.getDate(), dpEnd.getDate(), accounts[accountPicker.getSelectedIndex()]);
+    }
 
     @UiHandler("submitDateButton")
     protected void onClick(ClickEvent click){
-        presenter.onDateSubmit(dpStart.getDate(), dpEnd.getDate(), "@wsdot");
+        presenter.onDateSubmit(dpStart.getDate(), dpEnd.getDate(), accounts[accountPicker.getSelectedIndex()]);
     }
 }
 
