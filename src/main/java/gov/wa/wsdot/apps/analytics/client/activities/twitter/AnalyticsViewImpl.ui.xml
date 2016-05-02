@@ -8,7 +8,7 @@
 
     <g:HTMLPanel>
 
-        <m:MaterialNavBar backgroundColor="blue" width="100%">
+        <m:MaterialNavBar backgroundColor="teal lighten-2" width="100%">
             <m:MaterialNavBrand href="http://wwwi.wsdot.wa.gov" textColor="white" float="LEFT">WSDOT Social Analytics</m:MaterialNavBrand>
             <m:MaterialNavSection float="RIGHT">
                 <m:MaterialLink ui:field="btnSearch" iconType="SEARCH" iconColor="white" float="RIGHT"/>
@@ -22,20 +22,20 @@
                 <g:HorizontalPanel>
 
                     <!-- Activator -->
-                    <m:MaterialButton ui:field="account" text="Account" iconType="ARROW_DROP_DOWN" iconPosition="RIGHT" textColor="white" backgroundColor="blue" activates="accounts"/>
+                    <m:MaterialButton ui:field="account" backgroundColor="teal lighten-2" text="Account" iconType="ARROW_DROP_DOWN" iconPosition="RIGHT" textColor="white" activates="accounts"/>
                     <!-- My Drop Down -->
                     <m:MaterialDropDown activator="accounts" constrainWidth="true">
                         <m:MaterialLink text="@wsdot" />
                         <m:MaterialLink text="@wsdot_traffic " />
                     </m:MaterialDropDown>
 
-                    <m:MaterialDatePicker ui:field="dpStart" placeholder="Start Date"/>
+                    <m:MaterialDatePicker ui:field="dpStart"  placeholder="Start Date"/>
 
                     <m:MaterialDatePicker ui:field="dpEnd" placeholder="End Date"/>
 
                     <g:HTMLPanel>
 
-                    <m:MaterialButton ui:field="submitDateButton" text="submit" waves="LIGHT" backgroundColor="blue" textColor="white"/>
+                    <m:MaterialButton ui:field="submitDateButton" text="submit" waves="LIGHT" backgroundColor="teal lighten-2" textColor="white"/>
                     </g:HTMLPanel>
 
                 </g:HorizontalPanel>

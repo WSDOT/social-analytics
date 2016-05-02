@@ -2,15 +2,10 @@ package gov.wa.wsdot.apps.analytics.client.activities.twitter.view.summary;
 
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
-import com.google.gwt.core.client.JsDate;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.jsonp.client.JsonpRequestBuilder;
-import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
@@ -24,7 +19,6 @@ import com.googlecode.gwt.charts.client.ColumnType;
 import com.googlecode.gwt.charts.client.DataTable;
 import com.googlecode.gwt.charts.client.corechart.AreaChart;
 import com.googlecode.gwt.charts.client.corechart.AreaChartOptions;
-import com.googlecode.gwt.charts.client.corechart.PieChart;
 import com.googlecode.gwt.charts.client.options.*;
 import gov.wa.wsdot.apps.analytics.client.activities.events.DateSubmitEvent;
 import gov.wa.wsdot.apps.analytics.client.resources.Resources;
@@ -33,7 +27,7 @@ import gov.wa.wsdot.apps.analytics.shared.TweetSummary;
 import gov.wa.wsdot.apps.analytics.util.Consts;
 import gwt.material.design.client.ui.MaterialCardAction;
 import gwt.material.design.client.ui.MaterialCardContent;
-import gwt.material.design.client.ui.MaterialRow;
+import gwt.material.design.client.ui.MaterialPreLoader;
 import gwt.material.design.client.ui.MaterialToast;
 
 import java.util.ArrayList;
@@ -64,6 +58,10 @@ public class SummaryChart extends Composite{
 
     @UiField
     static
+    MaterialPreLoader loader;
+
+    @UiField
+    static
     MaterialCardContent cardContent;
 
     private static AreaChart chart;
@@ -83,7 +81,7 @@ public class SummaryChart extends Composite{
         eventBinder.bindEventHandlers(this, eventBus);
         initWidget(uiBinder.createAndBindUi(this));
 
-        updateChart(defaultDateRange);
+        updateTweetsChart(defaultDateRange);
         //updateChartFollowers(defaultDateRange);
     }
 
@@ -91,12 +89,15 @@ public class SummaryChart extends Composite{
 
     @EventHandler
     void onDateSubmit(DateSubmitEvent event){
-        MaterialToast.fireToast("Loading chart");
-        updateChart(event.getDateRange());
+        updateTweetsChart(event.getDateRange());
         //updateChartFollowers(dateRange);
     }
 
-    public static void updateChart(String dateRange) {
+    public static void updateTweetsChart(String dateRange) {
+        cardContent.clear();
+        labels.clear();
+        loader.setVisible(true);
+
         String url = "";
         String screenName = "wsdot";//AccountsView.accounts.getValue(AccountsView.accounts.getSelectedIndex());
 
@@ -131,9 +132,10 @@ public class SummaryChart extends Composite{
 
                     @Override
                     public void run() {
-                        cardContent.clear();
+
                         cardContent.add(getChart());
-                        drawChart(tweetSummary);
+                        drawTweetsChart(tweetSummary);
+                        loader.setVisible(false);
                     }
                 });
 
@@ -152,8 +154,7 @@ public class SummaryChart extends Composite{
     }
 
 
-    private static void drawChart(JsArray<TweetSummary> tweetSummary) {
-
+    private static void drawTweetsChart(JsArray<TweetSummary> tweetSummary) {
 
         DataTable data = DataTable.create();
         data.addColumn(ColumnType.STRING, "Date");
@@ -177,9 +178,8 @@ public class SummaryChart extends Composite{
             numberOfStatuses += tweetSummary.get(i).getValue().getStatuses();
         }
 
-        labels.clear();
         labels.add(new Label("Mentions: " + numberOfMentions));
-        labels.add(new Label("Statuses: " + numberOfStatuses));
+        labels.add(new Label("Tweets: " + numberOfStatuses));
 
         // Set options
         //Grid Lines
@@ -204,9 +204,7 @@ public class SummaryChart extends Composite{
         options.setVAxis(vAxis);
         options.setHAxis(hAxis);
         options.setLegend(legend);
-        options.setColors("2196f3", "bbdefb");
-
-
+        options.setColors("B2DFDB", "4DB6AC");
 
         // Draw the chart
         chart.draw(data, options);
