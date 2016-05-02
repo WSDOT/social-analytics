@@ -76,5 +76,6 @@ public interface Resources extends ClientBundle {
 		  String sectionHeader();
 		  String sectionHeaderRight();
 		  String labelTest();
+		  String tweetIcon();
 	  }	
 }

@@ -108,10 +108,16 @@ img { border:0px; }
 */
 
 .tweetBox {
-	border-radius: 10px;
-	margin: 10px 0px 10px 0px;
-	padding: 10px 12px 17px 12px;
-	border: 1px solid #ccc;
+	float:left;
+	padding:0px;
+}
+
+.tweetIcon {
+    float:left;
+    width:1000px;
+    height:100px;
+    padding: 5px;
+
 }
 
 .leftnavbox ol { list-style:decimal;margin:0em 0em 0em 2em;padding-left:0em; }

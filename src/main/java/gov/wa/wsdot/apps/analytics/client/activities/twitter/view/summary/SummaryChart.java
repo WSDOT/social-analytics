@@ -236,8 +236,9 @@ public class SummaryChart extends Composite{
 
         DataTable data = DataTable.create();
         data.addColumn(ColumnType.STRING, "Date");
-        data.addColumn(ColumnType.NUMBER, "Tweets");
         data.addColumn(ColumnType.NUMBER, "Mentions");
+        data.addColumn(ColumnType.NUMBER, "Tweets");
+
 
 
         data.addRows(tweetSummary.length());
@@ -257,8 +258,8 @@ public class SummaryChart extends Composite{
             numberOfMentions += tweetSummary.get(i).getValue().getMentions();
 
         }
-        tweetLabel.add(new Label("Tweets: " + numberOfStatuses));
         tweetLabel.add(new Label("Mentions: " + numberOfMentions));
+        tweetLabel.add(new Label("Tweets: " + numberOfStatuses));
 
 
         // Set options

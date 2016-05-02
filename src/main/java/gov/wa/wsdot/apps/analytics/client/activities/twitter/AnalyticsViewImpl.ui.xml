@@ -4,16 +4,8 @@
              xmlns:m="urn:import:gwt.material.design.client.ui"
              xmlns:m.html="urn:import:gwt.material.design.client.ui.html"
              xmlns:views.summary="urn:import:gov.wa.wsdot.apps.analytics.client.activities.twitter.view.summary"
-             xmlns:views.sentiment="urn:import:gov.wa.wsdot.apps.analytics.client.activities.twitter.view.sentiment">
-
-    <ui:style>
-
-
-        .submit {
-            bottom: 0;
-        }
-
-    </ui:style>
+             xmlns:views.sentiment="urn:import:gov.wa.wsdot.apps.analytics.client.activities.twitter.view.sentiment"
+             xmlns:views.tweets="urn:import:gov.wa.wsdot.apps.analytics.client.activities.twitter.view.tweets">
 
     <ui:with field="res" type="gov.wa.wsdot.apps.analytics.client.resources.Resources" />
 
@@ -52,18 +44,26 @@
 
                     <g:HTMLPanel>
 
-                    <m:MaterialButton ui:field="submitDateButton" addStyleNames="{style.submit}" text="apply date" waves="LIGHT" backgroundColor="teal lighten-2" textColor="white"/>
+                    <m:MaterialButton ui:field="submitDateButton" text="apply date" waves="LIGHT" backgroundColor="teal lighten-2" textColor="white"/>
                     </g:HTMLPanel>
 
                 </g:HorizontalPanel>
 
-                <g:VerticalPanel>
+                <g:HorizontalPanel>
 
-                    <views.summary:SummaryChart ui:field="summaryChart"/>
+                    <g:VerticalPanel>
+                        <views.summary:SummaryChart ui:field="summaryChart"/>
+                        <views.sentiment:SentimentPieChart ui:field="sentimentPieChart"/>
 
-                    <views.sentiment:SentimentPieChart ui:field="sentimentPieChart"/>
 
-                </g:VerticalPanel>
+                    </g:VerticalPanel>
+
+                    <g:VerticalPanel>
+                        <views.tweets:TweetsView ui:field="tweets"/>
+
+                    </g:VerticalPanel>
+
+                </g:HorizontalPanel>
 
             </div>
             <div class="{res.css.clearLeft}"></div>

@@ -7,12 +7,16 @@
 
 
         .tabs {
-            width: 50%;
+            width: 90%;
         }
 
         .block{
             display: block;
             padding: 20px;
+        }
+
+        .overflow {
+            overflow: hidden;
         }
 
         .loader {
@@ -44,7 +48,7 @@
                     <m:MaterialPreLoader ui:field="tweetsLoader" size="BIG" addStyleNames="{style.loader}">
                         <m:MaterialSpinner color="blue-only"/>
                     </m:MaterialPreLoader>
-                    <m:MaterialCardContent ui:field="tweetContent" addStyleNames="no-padding"/>
+                    <m:MaterialCardContent ui:field="tweetContent" addStyleNames="no-padding {style.overflow}"/>
                     <m:MaterialCardAction ui:field="tweetLabel"/>
 
 
@@ -62,8 +66,8 @@
                     <m:MaterialPreLoader ui:field="followersLoader" size="BIG" addStyleNames="{style.loader}">
                         <m:MaterialSpinner color="blue-only"/>
                     </m:MaterialPreLoader>
-                    <m:MaterialCardContent ui:field="followerContent" addStyleNames="no-padding"/>
-                    <m:MaterialCardAction ui:field="followerLabel"/>
+                    <m:MaterialCardContent ui:field="followerContent" addStyleNames="no-padding {style.overflow}"/>
+
                 </m:MaterialCard>
             </m:MaterialColumn>
 
