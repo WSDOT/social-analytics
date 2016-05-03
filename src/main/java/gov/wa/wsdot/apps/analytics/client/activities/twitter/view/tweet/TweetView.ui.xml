@@ -13,5 +13,21 @@
             <m:MaterialLink ui:field="sentiment"/>
             <m:MaterialLink ui:field="updated" textColor="blue"/>
         </m:MaterialCardAction>
+
+        <m:MaterialRow>
+            <m:MaterialColumn grid="s11">
+                <m:MaterialCard  backgroundColor="blue-grey lighten-5" ui:field="sentimentDialog" visibility="HIDDEN" visible="false">
+
+
+                    <m:MaterialCardAction>
+                        <m:MaterialLink ui:field="positive" iconType="SENTIMENT_SATISFIED" textColor="teal accent-4"/>
+                        <m:MaterialLink ui:field="neutral" iconType="SENTIMENT_NEUTRAL" textColor="black"/>
+                        <m:MaterialLink ui:field="negative" iconType="SENTIMENT_DISSATISFIED" textColor="deep-orange"/>
+                        <m:MaterialButton ui:field="btnClose" text="Cancel" type="FLAT"/>
+                    </m:MaterialCardAction>
+                </m:MaterialCard>
+            </m:MaterialColumn>
+        </m:MaterialRow>
+
     </m:MaterialCard>
 </ui:UiBinder>

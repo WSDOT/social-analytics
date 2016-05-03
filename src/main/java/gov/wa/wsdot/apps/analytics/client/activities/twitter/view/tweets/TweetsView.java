@@ -134,12 +134,14 @@ public class TweetsView extends Composite {
                 }
             } catch (Exception e) {} // Image preview is nice, but if it fails...oh well.
 
+            String id = asArrayOfMentionData.get(i).getIdStr();
+
             if (asArrayOfMentionData.get(i).getSentiment().equals("positive")) {
-                tweet = new TweetView(screenName, updatedText, createdAt, link, mediaUrl, IconType.SENTIMENT_SATISFIED);
+                tweet = new TweetView(id, screenName, updatedText, createdAt, link, mediaUrl, IconType.SENTIMENT_SATISFIED);
             } else if (asArrayOfMentionData.get(i).getSentiment().equals("negative")) {
-                tweet = new TweetView(screenName, updatedText, createdAt, link, mediaUrl, IconType.SENTIMENT_DISSATISFIED);
+                tweet = new TweetView(id, screenName, updatedText, createdAt, link, mediaUrl, IconType.SENTIMENT_DISSATISFIED);
             } else {
-                tweet = new TweetView(screenName, updatedText, createdAt, link, mediaUrl, IconType.SENTIMENT_NEUTRAL);
+                tweet = new TweetView(id, screenName, updatedText, createdAt, link, mediaUrl, IconType.SENTIMENT_NEUTRAL);
             }
 
             tweetsList.add(tweet);
