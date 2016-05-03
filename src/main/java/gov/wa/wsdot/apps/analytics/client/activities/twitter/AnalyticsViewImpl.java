@@ -64,10 +64,9 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
     @UiField(provided = true)
     TweetsView tweets;
 
-
-
     private String[] accounts =
-                  {"BerthaDigsSR99",
+                  {"all",
+                   "BerthaDigsSR99",
                    "GoodToGoWSDOT",
                    "SnoqualmiePass",
                    "wsdot",
@@ -90,7 +89,7 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
 
         initWidget(uiBinder.createAndBindUi(this));
 
-        accountPicker.setItemSelected(3, true);
+        accountPicker.setItemSelected(4, true);
 
         dpStart.setDate(new Date());
         dpEnd.setDate(new Date());

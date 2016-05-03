@@ -6,9 +6,6 @@
     <ui:style>
 
 
-        .tabs {
-            width: 90%;
-        }
 
         .block{
             display: block;
@@ -28,7 +25,7 @@
 
     </ui:style>
 
-    <m:MaterialRow ui:field="tabs" styleName="{style.tabs}">
+    <m:MaterialRow ui:field="tabs">
         <m:MaterialColumn grid="s12">
             <m:MaterialTab ui:field="tab" backgroundColor="teal lighten-2" indicatorColor="yellow">
                 <m:MaterialTabItem waves="LIGHT" grid="s4">
@@ -42,7 +39,6 @@
 
         <m:MaterialColumn  m:id="tab1" grid="s12">
 
-            <m:MaterialColumn grid="s12 m6 l4">
                 <m:MaterialCard>
                     <m:MaterialCardTitle text="Tweets And Mentions" textColor="black" addStyleNames="{style.block}"/>
                     <m:MaterialPreLoader ui:field="tweetsLoader" size="BIG" addStyleNames="{style.loader}">
@@ -53,14 +49,11 @@
 
 
                 </m:MaterialCard>
-            </m:MaterialColumn>
 
 
         </m:MaterialColumn>
         <m:MaterialColumn  m:id="tab2" grid="s12">
 
-
-            <m:MaterialColumn grid="s12 m6 l4">
                 <m:MaterialCard>
                     <m:MaterialCardTitle text="Followers" textColor="black" addStyleNames="{style.block}"/>
                     <m:MaterialPreLoader ui:field="followersLoader" size="BIG" addStyleNames="{style.loader}">
@@ -69,10 +62,6 @@
                     <m:MaterialCardContent ui:field="followerContent" addStyleNames="no-padding {style.overflow}"/>
 
                 </m:MaterialCard>
-            </m:MaterialColumn>
-
-
-
 
         </m:MaterialColumn>
     </m:MaterialRow>

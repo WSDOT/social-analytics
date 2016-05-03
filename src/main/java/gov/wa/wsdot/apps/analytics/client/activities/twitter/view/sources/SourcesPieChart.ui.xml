@@ -3,9 +3,6 @@
              xmlns:m="urn:import:gwt.material.design.client.ui">
     <ui:style>
 
-        .tabs {
-        width: 90%;
-        }
 
         .overflow{
         overflow: hidden;
@@ -23,8 +20,8 @@
         margin-bottom: 25px;
         }
     </ui:style>
-
-    <m:MaterialColumn grid="s12 m6 l4" addStyleNames="{style.tabs}">
+    <m:MaterialRow ui:field="tabs">
+    <m:MaterialColumn grid="s12">
         <m:MaterialCard>
             <m:MaterialCardTitle text="Mention Sources" textColor="black" addStyleNames="{style.block}"/>
             <m:MaterialPreLoader ui:field="sourcesLoader" size="BIG" addStyleNames="{style.loader}">
@@ -36,7 +33,7 @@
                 <m:MaterialLabel text="Tweets are primarily posted from the Twitter Web site, however, they may also be posted from third-party applications. When Tweets come from a third-party application, the name of the source is included in the data feed."/>
             </m:MaterialCardAction>
         </m:MaterialCard>
-
     </m:MaterialColumn>
+    </m:MaterialRow>
 
 </ui:UiBinder>
