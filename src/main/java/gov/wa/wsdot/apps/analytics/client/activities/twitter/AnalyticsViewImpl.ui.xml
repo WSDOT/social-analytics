@@ -5,7 +5,8 @@
              xmlns:m.html="urn:import:gwt.material.design.client.ui.html"
              xmlns:views.summary="urn:import:gov.wa.wsdot.apps.analytics.client.activities.twitter.view.summary"
              xmlns:views.sentiment="urn:import:gov.wa.wsdot.apps.analytics.client.activities.twitter.view.sentiment"
-             xmlns:views.tweets="urn:import:gov.wa.wsdot.apps.analytics.client.activities.twitter.view.tweets">
+             xmlns:views.tweets="urn:import:gov.wa.wsdot.apps.analytics.client.activities.twitter.view.tweets"
+             xmlns:views.sources="urn:import:gov.wa.wsdot.apps.analytics.client.activities.twitter.view.sources">
 
     <ui:with field="res" type="gov.wa.wsdot.apps.analytics.client.resources.Resources" />
 
@@ -54,7 +55,7 @@
                     <g:VerticalPanel>
                         <views.summary:SummaryChart ui:field="summaryChart"/>
                         <views.sentiment:SentimentPieChart ui:field="sentimentPieChart"/>
-
+                        <views.sources:SourcesPieChart ui:field="sourcesPieChart"/>
 
                     </g:VerticalPanel>
 

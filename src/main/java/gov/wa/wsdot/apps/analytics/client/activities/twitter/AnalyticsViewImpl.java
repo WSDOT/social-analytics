@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 import gov.wa.wsdot.apps.analytics.client.ClientFactory;
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.sentiment.SentimentPieChart;
+import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.sources.SourcesPieChart;
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.summary.SummaryChart;
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.tweets.TweetsView;
 import gwt.material.design.client.ui.*;
@@ -44,6 +45,9 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
     SentimentPieChart sentimentPieChart;
 
     @UiField(provided = true)
+    SourcesPieChart sourcesPieChart;
+
+    @UiField(provided = true)
     TweetsView tweets;
 
     private String[] accounts =
@@ -66,6 +70,7 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
         tweets = new TweetsView(clientFactory.getEventBus());
         summaryChart = new SummaryChart(clientFactory.getEventBus());
         sentimentPieChart = new SentimentPieChart(clientFactory.getEventBus());
+        sourcesPieChart = new SourcesPieChart(clientFactory.getEventBus());
 
         initWidget(uiBinder.createAndBindUi(this));
 
