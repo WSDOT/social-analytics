@@ -2,6 +2,8 @@ package gov.wa.wsdot.apps.analytics.client.activities.twitter;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -27,6 +29,18 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
     }
 
     @UiField
+    MaterialNavBar navBar;
+
+    @UiField
+    MaterialLink btnSearch;
+
+    @UiField
+    MaterialNavBar navBarSearch;
+
+    @UiField
+    MaterialSearch tweetSearch;
+
+    @UiField
     MaterialDatePicker dpStart;
 
     @UiField
@@ -49,6 +63,8 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
 
     @UiField(provided = true)
     TweetsView tweets;
+
+
 
     private String[] accounts =
                   {"BerthaDigsSR99",
@@ -78,7 +94,17 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
 
         dpStart.setDate(new Date());
         dpEnd.setDate(new Date());
+
+        // Add Close Handler
+        tweetSearch.addCloseHandler(new CloseHandler<String>() {
+            @Override
+            public void onClose(CloseEvent<String> event) {
+                navBar.setVisible(true);
+                navBarSearch.setVisible(false);
+            }
+        });
     }
+
 
 
     @Override
@@ -86,6 +112,11 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
         this.presenter = p;
     }
 
+    @UiHandler("btnSearch")
+    void onSearch(ClickEvent e){
+        navBar.setVisible(false);
+        navBarSearch.setVisible(true);
+    }
 
     @UiHandler("accountPicker")
     protected void onSelect(ValueChangeEvent<String> e){
