@@ -17,9 +17,12 @@ import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.binder.EventBinder;
 import com.google.web.bindery.event.shared.binder.EventHandler;
 import gov.wa.wsdot.apps.analytics.client.activities.events.DateSubmitEvent;
+import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.tweet.TweetView;
 import gov.wa.wsdot.apps.analytics.client.resources.Resources;
 import gov.wa.wsdot.apps.analytics.shared.Mention;
 import gov.wa.wsdot.apps.analytics.util.Consts;
+import gwt.material.design.client.constants.Axis;
+import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.*;
 
 import java.util.Date;
@@ -61,7 +64,7 @@ public class TweetsView extends Composite {
 
     @EventHandler
     void onDateSubmit(DateSubmitEvent event){
-        updateTweets(new Date(), event.getAccount());
+        updateTweets(event.getEndDate(), event.getAccount());
     }
 
 
@@ -112,57 +115,42 @@ public class TweetsView extends Composite {
         String text;
         String updatedText;
         String screenName;
-        String profileImage;
+        String mediaUrl;
 
         for (int i = 0; i < j; i++) {
-
-            StringBuilder html = new StringBuilder();
-            text = asArrayOfMentionData.get(i).getText();
-            updatedText = text.replaceAll(urlPattern, "<a href=\"$1\" target=\"_blank\">$1</a>");
-            updatedText = updatedText.replaceAll(atPattern, "<a href=\"http://twitter.com/#!/$1\" target=\"_blank\">@$1</a>");
-            updatedText = updatedText.replaceAll(hashPattern, "<a href=\"http://twitter.com/#!/search?q=%23$1\" target=\"_blank\">#$1</a>");
-
-            profileImage = (asArrayOfMentionData.get(i).getProfileImageUrl() != null) ?
-                    asArrayOfMentionData.get(i).getProfileImageUrl() :
-                    asArrayOfMentionData.get(i).getUser().getProfileImageUrl();
 
             screenName = (asArrayOfMentionData.get(i).getFromUser() != null) ?
                     asArrayOfMentionData.get(i).getFromUser() :
                     asArrayOfMentionData.get(i).getUser().getScreenName();
 
-            html.append("<div style=\"float:left;width:48px;height:48px;\"><img class=\"tweet-image\" height=\"48\" width=\"48\" src=\""+ profileImage +"\"></div>");
-            html.append("<div style=\"margin-left: 55px; width: 359px; word-wrap: break-word;\"><b><a href=\"http://twitter.com/#!/" + screenName + "\" target=\"_blank\">" + screenName + "</a></b><br />");
-            html.append(updatedText + "<br />");
+            TweetView tweet;
+
+            text = asArrayOfMentionData.get(i).getText();
+            updatedText = text.replaceAll(urlPattern, "<a href=\"$1\" target=\"_blank\">$1</a>");
+            updatedText = updatedText.replaceAll(atPattern, "<a href=\"http://twitter.com/#!/$1\" target=\"_blank\">@$1</a>");
+            updatedText = updatedText.replaceAll(hashPattern, "<a href=\"http://twitter.com/#!/search?q=%23$1\" target=\"_blank\">#$1</a>");
+
+            String createdAt = "<a href=\"http://twitter.com/#!/" + screenName + "/status/" + asArrayOfMentionData.get(i).getIdStr() + "\" target=\"_blank\">" + dateTimeFormat2.format(dateTimeFormat.parse(asArrayOfMentionData.get(i).getCreatedAt())) + "</a></div>";
+
+            mediaUrl = null;
 
             try {
                 for (int k = 0; k < asArrayOfMentionData.get(i).getEntities().getMedia().length(); k++) {
-                    html.append("<div style=\"padding:10px 0 5px 0;\"><img src=\"" + asArrayOfMentionData.get(i).getEntities().getMedia().get(k).getMediaUrl() + ":small\" style=\"border-radius: 5px;\"></div>");
+                    mediaUrl =  asArrayOfMentionData.get(i).getEntities().getMedia().get(k).getMediaUrl();
                 }
             } catch (Exception e) {} // Image preview is nice, but if it fails...oh well.
 
-            html.append("<a href=\"http://twitter.com/#!/" + screenName + "/status/" + asArrayOfMentionData.get(i).getIdStr() + "\" target=\"_blank\">" + dateTimeFormat2.format(dateTimeFormat.parse(asArrayOfMentionData.get(i).getCreatedAt())) + "</a></div>");
-            html.append("<div style=\"clear:both;\"></div>");
-
-            final String id = asArrayOfMentionData.get(i).getIdStr();
-            final HTMLPanel tweetsHTMLPanel = new HTMLPanel(html.toString());
-
             if (asArrayOfMentionData.get(i).getSentiment().equals("positive")) {
-                tweetsHTMLPanel.addStyleName("positive");
+                tweet = new TweetView(screenName, updatedText, createdAt, mediaUrl, IconType.SENTIMENT_SATISFIED);
             } else if (asArrayOfMentionData.get(i).getSentiment().equals("negative")) {
-                tweetsHTMLPanel.addStyleName("negative");
+                tweet = new TweetView(screenName, updatedText, createdAt, mediaUrl, IconType.SENTIMENT_DISSATISFIED);
             } else {
-                tweetsHTMLPanel.addStyleName("neutral");
+                tweet = new TweetView(screenName, updatedText, createdAt, mediaUrl, IconType.SENTIMENT_NEUTRAL);
             }
-
-            MaterialCard tweet = new MaterialCard();
-            tweet.setPadding(15.0);
-            tweet.add(tweetsHTMLPanel);
 
 
             tweetsList.add(tweet);
 
         }
     }
-
-
 }

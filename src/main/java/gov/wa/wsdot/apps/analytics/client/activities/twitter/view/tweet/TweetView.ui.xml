@@ -1,0 +1,17 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+             xmlns:m="urn:import:gwt.material.design.client.ui">
+    <m:MaterialCard ui:field="tweet" backgroundColor="white">
+        <m:MaterialCardImage waves="LIGHT">
+            <m:MaterialImage ui:field="image"/>
+        </m:MaterialCardImage>
+        <m:MaterialCardContent textColor="black">
+            <m:MaterialLabel ui:field="title" text="Title of your card" fontSize="1.5em"/>
+            <m:MaterialLabel ui:field="content"/>
+        </m:MaterialCardContent>
+        <m:MaterialCardAction>
+            <m:MaterialLink ui:field="sentiment"/>
+            <m:MaterialLink ui:field="updated" textColor="black"/>
+        </m:MaterialCardAction>
+    </m:MaterialCard>
+</ui:UiBinder>

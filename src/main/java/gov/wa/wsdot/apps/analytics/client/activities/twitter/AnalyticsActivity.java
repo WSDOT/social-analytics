@@ -44,7 +44,7 @@ public class AnalyticsActivity extends AbstractActivity implements AnalyticsView
             String toDate = fmt.format(endDate);
             String dateRange = fromDate + toDate;
 
-            clientFactory.getEventBus().fireEvent(new DateSubmitEvent(dateRange, account));
+            clientFactory.getEventBus().fireEvent(new DateSubmitEvent(dateRange, endDate, account));
 
             /*
             //dateRangeLoading.setVisible(true);

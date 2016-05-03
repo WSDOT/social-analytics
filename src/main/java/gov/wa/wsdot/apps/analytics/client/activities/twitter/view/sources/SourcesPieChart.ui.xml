@@ -26,14 +26,14 @@
 
     <m:MaterialColumn grid="s12 m6 l4" addStyleNames="{style.tabs}">
         <m:MaterialCard>
-            <m:MaterialCardTitle text="Mention Sentiment Analysis" textColor="black" addStyleNames="{style.block}"/>
-            <m:MaterialPreLoader ui:field="sentimentLoader" size="BIG" addStyleNames="{style.loader}">
+            <m:MaterialCardTitle text="Mention Sources" textColor="black" addStyleNames="{style.block}"/>
+            <m:MaterialPreLoader ui:field="sourcesLoader" size="BIG" addStyleNames="{style.loader}">
                 <m:MaterialSpinner color="blue-only"/>
             </m:MaterialPreLoader>
             <m:MaterialCardContent ui:field="cardContent" addStyleNames="no-padding {style.overflow}"/>
 
             <m:MaterialCardAction>
-                <m:MaterialLabel text="Sentiment analysis aims to determine the attitude of a tweet with respect to some topic relating to WSDOT or the overall attitude towards WSDOT as a brand."/>
+                <m:MaterialLabel text="Tweets are primarily posted from the Twitter Web site, however, they may also be posted from third-party applications. When Tweets come from a third-party application, the name of the source is included in the data feed."/>
             </m:MaterialCardAction>
         </m:MaterialCard>
 
