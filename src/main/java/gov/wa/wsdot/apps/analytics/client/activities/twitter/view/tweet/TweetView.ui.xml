@@ -11,7 +11,7 @@
         </m:MaterialCardContent>
         <m:MaterialCardAction>
             <m:MaterialLink ui:field="sentiment"/>
-            <m:MaterialLink ui:field="updated" textColor="black"/>
+            <m:MaterialLink ui:field="updated" textColor="blue"/>
         </m:MaterialCardAction>
     </m:MaterialCard>
 </ui:UiBinder>

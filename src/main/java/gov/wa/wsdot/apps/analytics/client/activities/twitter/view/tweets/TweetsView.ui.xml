@@ -15,10 +15,6 @@
     </ui:style>
 
     <g:HTMLPanel>
-
-        <m:MaterialRow backgroundColor="teal lighten-2">
-            <m:MaterialColumn grid="s12"> <g:HTMLPanel><m.html:Span textColor="white" addStyleNames="flow-text"> Mentions </m.html:Span> </g:HTMLPanel></m:MaterialColumn>
-        </m:MaterialRow>
         <m:MaterialPreLoader ui:field="tweetsLoader" size="BIG" addStyleNames="{style.loader}">
             <m:MaterialSpinner color="blue-only"/>
         </m:MaterialPreLoader>

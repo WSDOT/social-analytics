@@ -1,16 +1,11 @@
 package gov.wa.wsdot.apps.analytics.client.activities.twitter.view.tweets;
 
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.jsonp.client.JsonpRequestBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 import com.google.web.bindery.event.shared.EventBus;
@@ -18,10 +13,8 @@ import com.google.web.bindery.event.shared.binder.EventBinder;
 import com.google.web.bindery.event.shared.binder.EventHandler;
 import gov.wa.wsdot.apps.analytics.client.activities.events.DateSubmitEvent;
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.tweet.TweetView;
-import gov.wa.wsdot.apps.analytics.client.resources.Resources;
 import gov.wa.wsdot.apps.analytics.shared.Mention;
 import gov.wa.wsdot.apps.analytics.util.Consts;
-import gwt.material.design.client.constants.Axis;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.*;
 
@@ -38,7 +31,6 @@ public class TweetsView extends Composite {
     interface TweetsViewUiBinder extends
             UiBinder<Widget, TweetsView> {
     }
-
 
     @UiField
     static
@@ -130,7 +122,9 @@ public class TweetsView extends Composite {
             updatedText = updatedText.replaceAll(atPattern, "<a href=\"http://twitter.com/#!/$1\" target=\"_blank\">@$1</a>");
             updatedText = updatedText.replaceAll(hashPattern, "<a href=\"http://twitter.com/#!/search?q=%23$1\" target=\"_blank\">#$1</a>");
 
-            String createdAt = "<a href=\"http://twitter.com/#!/" + screenName + "/status/" + asArrayOfMentionData.get(i).getIdStr() + "\" target=\"_blank\">" + dateTimeFormat2.format(dateTimeFormat.parse(asArrayOfMentionData.get(i).getCreatedAt())) + "</a></div>";
+            String createdAt = dateTimeFormat2.format(dateTimeFormat.parse(asArrayOfMentionData.get(i).getCreatedAt()));
+
+            String link = "http://twitter.com/#!/" + screenName + "/status/" + asArrayOfMentionData.get(i).getIdStr();
 
             mediaUrl = null;
 
@@ -141,16 +135,14 @@ public class TweetsView extends Composite {
             } catch (Exception e) {} // Image preview is nice, but if it fails...oh well.
 
             if (asArrayOfMentionData.get(i).getSentiment().equals("positive")) {
-                tweet = new TweetView(screenName, updatedText, createdAt, mediaUrl, IconType.SENTIMENT_SATISFIED);
+                tweet = new TweetView(screenName, updatedText, createdAt, link, mediaUrl, IconType.SENTIMENT_SATISFIED);
             } else if (asArrayOfMentionData.get(i).getSentiment().equals("negative")) {
-                tweet = new TweetView(screenName, updatedText, createdAt, mediaUrl, IconType.SENTIMENT_DISSATISFIED);
+                tweet = new TweetView(screenName, updatedText, createdAt, link, mediaUrl, IconType.SENTIMENT_DISSATISFIED);
             } else {
-                tweet = new TweetView(screenName, updatedText, createdAt, mediaUrl, IconType.SENTIMENT_NEUTRAL);
+                tweet = new TweetView(screenName, updatedText, createdAt, link, mediaUrl, IconType.SENTIMENT_NEUTRAL);
             }
 
-
             tweetsList.add(tweet);
-
         }
     }
 }
