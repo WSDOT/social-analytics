@@ -2,9 +2,13 @@ package gov.wa.wsdot.apps.analytics.client.activities.twitter;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.http.client.URL;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -15,9 +19,11 @@ import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.sentiment.Sent
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.sources.SourcesPieChart;
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.summary.SummaryChart;
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.tweets.TweetsView;
+import gwt.material.design.client.base.SearchObject;
 import gwt.material.design.client.ui.*;
 
 import java.util.Date;
+import java.util.List;
 
 
 public class AnalyticsViewImpl extends Composite implements AnalyticsView{
@@ -105,7 +111,6 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
     }
 
 
-
     @Override
     public void setPresenter(Presenter p){
         this.presenter = p;
@@ -117,6 +122,18 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
         navBarSearch.setVisible(true);
     }
 
+    @UiHandler("tweetSearch")
+    void onSearch(ValueChangeEvent<String> e){
+        navBar.setVisible(true);
+        navBarSearch.setVisible(false);
+        presenter.onSearch(dpEnd.getDate(), tweetSearch.getValue());
+    }
+
+    @UiHandler("tweetSearch")
+    void onKeyUp(KeyUpEvent e){
+        presenter.getSuggestions(tweetSearch.getValue());
+    }
+
     @UiHandler("accountPicker")
     protected void onSelect(ValueChangeEvent<String> e){
         presenter.onDateSubmit(dpStart.getDate(), dpEnd.getDate(), accounts[accountPicker.getSelectedIndex()]);
@@ -125,6 +142,10 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
     @UiHandler("submitDateButton")
     protected void onClick(ClickEvent click){
         presenter.onDateSubmit(dpStart.getDate(), dpEnd.getDate(), accounts[accountPicker.getSelectedIndex()]);
+    }
+
+    public void updateSuggestions(List<SearchObject> suggestions){
+        tweetSearch.setListSearches(suggestions);
     }
 }
 

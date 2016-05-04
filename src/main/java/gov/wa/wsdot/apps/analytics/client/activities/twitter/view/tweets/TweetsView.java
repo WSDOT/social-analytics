@@ -6,12 +6,14 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.jsonp.client.JsonpRequestBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.binder.EventBinder;
 import com.google.web.bindery.event.shared.binder.EventHandler;
 import gov.wa.wsdot.apps.analytics.client.activities.events.DateSubmitEvent;
+import gov.wa.wsdot.apps.analytics.client.activities.events.SearchEvent;
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.tweet.TweetView;
 import gov.wa.wsdot.apps.analytics.shared.Mention;
 import gov.wa.wsdot.apps.analytics.util.Consts;
@@ -59,6 +61,33 @@ public class TweetsView extends Composite {
         updateTweets(event.getEndDate(), event.getAccount());
     }
 
+    @EventHandler
+    void onSearch(SearchEvent event) {
+        String url = Consts.HOST_URL + "/search/" + event.getSearchText();
+
+        tweetsLoader.setVisible(true);
+
+        JsonpRequestBuilder jsonp = new JsonpRequestBuilder();
+        // Set timeout for 30 seconds (30000 milliseconds)
+        jsonp.setTimeout(30000);
+        jsonp.requestObject(url, new AsyncCallback<Mention>() {
+
+            @Override
+            public void onFailure(Throwable caught) {
+                Window.alert("Failure: " + caught.getMessage());
+                tweetsLoader.setVisible(false);
+            }
+
+            @Override
+            public void onSuccess(Mention mention) {
+                if (mention.getMentions() != null) {
+                    tweetsList.clear();
+                    updateReplies(mention.getMentions());
+                }
+            }
+
+        });
+    }
 
     public static void updateTweets(Date day, String account){
 
@@ -147,4 +176,8 @@ public class TweetsView extends Composite {
             tweetsList.add(tweet);
         }
     }
+
+
+
+
 }

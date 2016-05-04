@@ -12,17 +12,17 @@
 
     <g:HTMLPanel>
 
-        <m:MaterialNavBar ui:field="navBar" backgroundColor="teal lighten-2" width="100%">
-            <m:MaterialNavBrand href="http://wwwi.wsdot.wa.gov" textColor="white" float="LEFT">WSDOT Social Analytics</m:MaterialNavBrand>
-            <m:MaterialNavSection float="RIGHT">
-                <m:MaterialLink ui:field="btnSearch" iconType="SEARCH" iconColor="white" float="RIGHT"/>
+        <m:MaterialNavBar ui:field="navBar" backgroundColor="teal lighten-2" width="100%" type="FIXED" >
+            <m:MaterialNavBrand href="http://wwwi.wsdot.wa.gov" textColor="white" float="LEFT">Social Analytics</m:MaterialNavBrand>
+            <m:MaterialNavSection float="LEFT">
+                <m:MaterialLink ui:field="btnSearch" iconType="SEARCH" iconColor="white" float="LEFT"/>
             </m:MaterialNavSection>
         </m:MaterialNavBar>
 
 
         <!-- NavBar Search -->
         <m:MaterialNavBar ui:field="navBarSearch" backgroundColor="teal lighten-2" width="100%" visible="false">
-            <m:MaterialSearch ui:field="tweetSearch" placeholder="Search Tweets" backgroundColor="white" iconColor="black" active="true" grid="l3" shadow="1"/>
+            <m:MaterialSearch ui:field="tweetSearch"  padding="20" placeholder="Search Tweets" backgroundColor="white" iconColor="black" active="true" grid="l3" shadow="1"/>
         </m:MaterialNavBar>
 
 

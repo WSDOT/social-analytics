@@ -15,16 +15,12 @@
     </ui:style>
 
     <g:HTMLPanel>
-        <m:MaterialPreLoader ui:field="tweetsLoader" size="BIG" addStyleNames="{style.loader}">
+        <m:MaterialPreLoader ui:field="tweetsLoader" padding="10" size="BIG" addStyleNames="{style.loader}">
             <m:MaterialSpinner color="blue-only"/>
         </m:MaterialPreLoader>
         <g:HTMLPanel ui:field="tweetsList">
-
             <g:HTMLPanel ui:field="tweetDetails" />
-
         </g:HTMLPanel>
-
     </g:HTMLPanel>
-
 
 </ui:UiBinder>
