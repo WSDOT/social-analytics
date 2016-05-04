@@ -31,7 +31,7 @@
             <div class="{res.css.main}" style="padding: 30px;">
 
                 <m:MaterialRow>
-                    <m:MaterialColumn grid="s3">
+                    <m:MaterialColumn grid="s12 m3">
                         <m:MaterialListBox ui:field="accountPicker" width="80%">
                             <m.html:Option text="All"/>
                             <m.html:Option text="@BerthaDigsSR99"/>
@@ -48,15 +48,15 @@
                         </m:MaterialListBox>
                     </m:MaterialColumn>
 
-                    <m:MaterialColumn grid="s3">
+                    <m:MaterialColumn grid="s4 m3">
                         <m:MaterialDatePicker ui:field="dpStart"  placeholder="Start Date"/>
                     </m:MaterialColumn>
 
-                    <m:MaterialColumn grid="s3">
+                    <m:MaterialColumn grid="s4 m3">
                         <m:MaterialDatePicker ui:field="dpEnd" placeholder="End Date"/>
                     </m:MaterialColumn>
 
-                    <m:MaterialColumn grid="s3">
+                    <m:MaterialColumn grid="s4 m3">
                     <m:MaterialButton ui:field="submitDateButton" text="apply date" waves="LIGHT" backgroundColor="teal lighten-2" textColor="white"/>
                     </m:MaterialColumn>
 
@@ -65,13 +65,14 @@
 
                     <m:MaterialRow>
 
-                        <m:MaterialColumn grid="s7">
-                                <views.summary:SummaryChart ui:field="summaryChart"/>
-                                <views.sentiment:SentimentPieChart ui:field="sentimentPieChart"/>
-                                <views.sources:SourcesPieChart ui:field="sourcesPieChart"/>
+                        <m:MaterialColumn grid="s12 m6">
+                            <views.summary:SummaryChart ui:field="summaryChart"/>
+                            <views.sentiment:SentimentPieChart ui:field="sentimentPieChart"/>
+                            <views.sources:SourcesPieChart ui:field="sourcesPieChart"/>
                         </m:MaterialColumn>
 
-                        <m:MaterialColumn grid="s5">
+                        <m:MaterialColumn grid="s12 m6">
+                                <m:MaterialLabel backgroundColor="teal lighten-2" padding="10" text="Mentions" textColor="white" fontSize="1.5em"/>
                                 <views.tweets:TweetsView ui:field="tweets"/>
                         </m:MaterialColumn>
 

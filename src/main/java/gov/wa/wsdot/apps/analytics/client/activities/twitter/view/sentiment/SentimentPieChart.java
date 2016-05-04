@@ -9,6 +9,7 @@ import com.googlecode.gwt.charts.client.corechart.PieChart;
 import com.googlecode.gwt.charts.client.corechart.PieChartOptions;
 import com.googlecode.gwt.charts.client.event.SelectEvent;
 import com.googlecode.gwt.charts.client.event.SelectHandler;
+import com.googlecode.gwt.charts.client.options.ChartArea;
 import com.googlecode.gwt.charts.client.options.Legend;
 import com.googlecode.gwt.charts.client.options.LegendAlignment;
 import com.googlecode.gwt.charts.client.options.LegendPosition;
@@ -144,14 +145,16 @@ public class SentimentPieChart extends Composite {
             data.setValue(i, 1, sentimentSummary.get(i).getValue());
         }
 
-        // Legend
         Legend legend = Legend.create();
-        legend.setPosition(LegendPosition.TOP);
-        legend.setAligment(LegendAlignment.END);
+        legend.setPosition(LegendPosition.NONE);
 
         PieChartOptions options = PieChartOptions.create();
         options.setWidth(500);
         options.setHeight(400);
+        ChartArea area = ChartArea.create();
+        area.setTop(50);
+        area.setLeft(25);
+        options.setChartArea(area);
         options.setLegend(legend);
         options.setColors("BDBDBD", "26A69A", "FF6E40");
 

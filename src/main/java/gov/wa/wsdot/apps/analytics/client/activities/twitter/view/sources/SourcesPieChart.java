@@ -17,6 +17,10 @@ import com.googlecode.gwt.charts.client.ColumnType;
 import com.googlecode.gwt.charts.client.DataTable;
 import com.googlecode.gwt.charts.client.corechart.PieChart;
 import com.googlecode.gwt.charts.client.corechart.PieChartOptions;
+import com.googlecode.gwt.charts.client.options.ChartArea;
+import com.googlecode.gwt.charts.client.options.Legend;
+import com.googlecode.gwt.charts.client.options.LegendAlignment;
+import com.googlecode.gwt.charts.client.options.LegendPosition;
 import gov.wa.wsdot.apps.analytics.client.activities.events.DateSubmitEvent;
 import gov.wa.wsdot.apps.analytics.shared.SourceSummary;
 import gov.wa.wsdot.apps.analytics.util.Consts;
@@ -135,10 +139,17 @@ public class SourcesPieChart extends Composite{
             data.setValue(i, 1, sourcesSummary.get(i).getValue());
         }
 
+        Legend legend = Legend.create();
+        legend.setPosition(LegendPosition.NONE);
+
         PieChartOptions options = PieChartOptions.create();
         options.setWidth(500);
         options.setHeight(400);
-
+        ChartArea area = ChartArea.create();
+        area.setTop(50);
+        area.setLeft(25);
+        options.setChartArea(area);
+        options.setLegend(legend);
         options.setColors("00796b", "00897b", "009688", "26a69a", "4db6ac", "80cbc4", "b2dfdb");
 
         pieChart.draw(data, options);
