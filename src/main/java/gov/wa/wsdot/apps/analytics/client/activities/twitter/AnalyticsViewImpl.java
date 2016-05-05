@@ -15,6 +15,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 import gov.wa.wsdot.apps.analytics.client.ClientFactory;
+import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.search.SearchView;
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.sentiment.SentimentPieChart;
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.sources.SourcesPieChart;
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.summary.SummaryChart;
@@ -36,15 +37,6 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
 
     @UiField
     MaterialNavBar navBar;
-
-    @UiField
-    MaterialLink btnSearch;
-
-    @UiField
-    MaterialNavBar navBarSearch;
-
-    @UiField
-    MaterialSearch tweetSearch;
 
     @UiField
     MaterialDatePicker dpStart;
@@ -70,6 +62,9 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
     @UiField(provided = true)
     TweetsView tweets;
 
+    @UiField(provided = true)
+    SearchView searchResults;
+
     private String[] accounts =
                   {"all",
                    "BerthaDigsSR99",
@@ -89,6 +84,7 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
     public AnalyticsViewImpl(ClientFactory clientFactory) {
 
         tweets = new TweetsView(clientFactory.getEventBus());
+        searchResults = new SearchView(clientFactory.getEventBus());
         summaryChart = new SummaryChart(clientFactory.getEventBus());
         sentimentPieChart = new SentimentPieChart(clientFactory.getEventBus());
         sourcesPieChart = new SourcesPieChart(clientFactory.getEventBus());
@@ -100,14 +96,7 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
         dpStart.setDate(new Date());
         dpEnd.setDate(new Date());
 
-        // Add Close Handler
-        tweetSearch.addCloseHandler(new CloseHandler<String>() {
-            @Override
-            public void onClose(CloseEvent<String> event) {
-                navBar.setVisible(true);
-                navBarSearch.setVisible(false);
-            }
-        });
+
     }
 
 
@@ -116,23 +105,6 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
         this.presenter = p;
     }
 
-    @UiHandler("btnSearch")
-    void onSearch(ClickEvent e){
-        navBar.setVisible(false);
-        navBarSearch.setVisible(true);
-    }
-
-    @UiHandler("tweetSearch")
-    void onSearch(ValueChangeEvent<String> e){
-        navBar.setVisible(true);
-        navBarSearch.setVisible(false);
-        presenter.onSearch(dpEnd.getDate(), tweetSearch.getValue());
-    }
-
-    @UiHandler("tweetSearch")
-    void onKeyUp(KeyUpEvent e){
-        presenter.getSuggestions(tweetSearch.getValue());
-    }
 
     @UiHandler("accountPicker")
     protected void onSelect(ValueChangeEvent<String> e){
@@ -144,8 +116,5 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
         presenter.onDateSubmit(dpStart.getDate(), dpEnd.getDate(), accounts[accountPicker.getSelectedIndex()]);
     }
 
-    public void updateSuggestions(List<SearchObject> suggestions){
-        tweetSearch.setListSearches(suggestions);
-    }
 }
 

@@ -14,13 +14,16 @@
         }
     </ui:style>
 
+
     <g:HTMLPanel>
-        <m:MaterialPreLoader ui:field="tweetsLoader" padding="10" size="BIG" addStyleNames="{style.loader}">
-            <m:MaterialSpinner color="blue-only"/>
-        </m:MaterialPreLoader>
         <g:HTMLPanel ui:field="tweetsList">
             <g:HTMLPanel ui:field="tweetDetails" />
         </g:HTMLPanel>
+        <m:MaterialButton ui:field="moreTweetsBtn" text="more" waves="LIGHT" backgroundColor="teal lighten-2" textColor="white" visible="false"/>
+        <m:MaterialPreLoader ui:field="tweetsLoader" size="BIG" addStyleNames="{style.loader}">
+            <m:MaterialSpinner color="blue-only"/>
+        </m:MaterialPreLoader>
     </g:HTMLPanel>
+
 
 </ui:UiBinder>

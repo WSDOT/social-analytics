@@ -6,8 +6,8 @@
             <m:MaterialImage ui:field="image"/>
         </m:MaterialCardImage>
         <m:MaterialCardContent textColor="black">
-            <m:MaterialLabel ui:field="title" text="Title of your card" fontSize="1.5em"/>
-            <m:MaterialLabel ui:field="content"/>
+            <m:MaterialLabel ui:field="title" fontSize="1.5em"/>
+            <m:MaterialLabel ui:field="content" truncate='false'/>
         </m:MaterialCardContent>
         <m:MaterialCardAction>
             <m:MaterialLink ui:field="sentiment"/>

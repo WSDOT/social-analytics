@@ -11,14 +11,9 @@ public interface AnalyticsView extends IsWidget {
 
     void setPresenter(Presenter presenter);
 
-    void updateSuggestions(List<SearchObject> suggestions);
-
     public interface Presenter {
+
         public void onDateSubmit(Date start, Date end, String account);
-
-        public void onSearch(Date searchDate, String searchText);
-
-        public void getSuggestions(String serachText);
 
         public EventBus getEventBus();
     }

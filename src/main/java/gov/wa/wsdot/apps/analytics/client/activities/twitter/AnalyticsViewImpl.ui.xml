@@ -6,27 +6,16 @@
              xmlns:views.summary="urn:import:gov.wa.wsdot.apps.analytics.client.activities.twitter.view.summary"
              xmlns:views.sentiment="urn:import:gov.wa.wsdot.apps.analytics.client.activities.twitter.view.sentiment"
              xmlns:views.tweets="urn:import:gov.wa.wsdot.apps.analytics.client.activities.twitter.view.tweets"
-             xmlns:views.sources="urn:import:gov.wa.wsdot.apps.analytics.client.activities.twitter.view.sources">
+             xmlns:views.sources="urn:import:gov.wa.wsdot.apps.analytics.client.activities.twitter.view.sources"
+             xmlns:views.search="urn:import:gov.wa.wsdot.apps.analytics.client.activities.twitter.view.search">
 
     <ui:with field="res" type="gov.wa.wsdot.apps.analytics.client.resources.Resources" />
 
     <g:HTMLPanel>
 
         <m:MaterialNavBar ui:field="navBar" backgroundColor="teal lighten-2" width="100%" type="FIXED" >
-            <m:MaterialNavBrand href="http://wwwi.wsdot.wa.gov" textColor="white" float="LEFT">Social Analytics</m:MaterialNavBrand>
-            <m:MaterialNavSection float="LEFT">
-                <m:MaterialLink ui:field="btnSearch" iconType="SEARCH" iconColor="white" float="LEFT"/>
-            </m:MaterialNavSection>
+            <m:MaterialNavBrand textColor="white" float="LEFT">WSDOT Social Analytics</m:MaterialNavBrand>
         </m:MaterialNavBar>
-
-
-        <!-- NavBar Search -->
-        <m:MaterialNavBar ui:field="navBarSearch" backgroundColor="teal lighten-2" width="100%" visible="false">
-            <m:MaterialSearch ui:field="tweetSearch"  padding="20" placeholder="Search Tweets" backgroundColor="white" iconColor="black" active="true" grid="l3" shadow="1"/>
-        </m:MaterialNavBar>
-
-
-        <g:HTMLPanel styleName="{res.css.wrapper}">
 
             <div class="{res.css.main}" style="padding: 30px;">
 
@@ -56,8 +45,8 @@
                         <m:MaterialDatePicker ui:field="dpEnd" placeholder="End Date"/>
                     </m:MaterialColumn>
 
-                    <m:MaterialColumn grid="s4 m3">
-                    <m:MaterialButton ui:field="submitDateButton" text="apply date" waves="LIGHT" backgroundColor="teal lighten-2" textColor="white"/>
+                    <m:MaterialColumn grid="s4 m3"  paddingTop="20">
+                    <m:MaterialButton ui:field="submitDateButton" text="apply date" waves="LIGHT" backgroundColor="teal lighten-2" textColor="white" />
                     </m:MaterialColumn>
 
                 </m:MaterialRow>
@@ -72,16 +61,38 @@
                         </m:MaterialColumn>
 
                         <m:MaterialColumn grid="s12 m6">
-                                <m:MaterialLabel backgroundColor="teal lighten-2" padding="10" text="Mentions" textColor="white" fontSize="1.5em"/>
-                                <views.tweets:TweetsView ui:field="tweets"/>
+
+                            <m:MaterialRow ui:field="tweetsTabs">
+                            <m:MaterialColumn grid="s12">
+                                <m:MaterialTab ui:field="tab" backgroundColor="teal lighten-2" indicatorColor="yellow">
+                                    <m:MaterialTabItem waves="LIGHT" grid="s4">
+                                        <m:MaterialLink ui:field="mentionsTab" text="Mentions" href="#mentions" textColor="white"/>
+                                    </m:MaterialTabItem>
+                                    <m:MaterialTabItem waves="LIGHT" grid="s4">
+                                        <m:MaterialLink ui:field="searchTab" text="Search" href="#search" textColor="white"/>
+                                    </m:MaterialTabItem>
+                                </m:MaterialTab>
+                            </m:MaterialColumn>
+                                <m:MaterialColumn  m:id="mentions" grid="s12">
+
+                                    <views.tweets:TweetsView ui:field="tweets"/>
+
+                                </m:MaterialColumn>
+                                <m:MaterialColumn  m:id="search" grid="s12">
+
+                                    <views.search:SearchView ui:field="searchResults"/>
+
+                                </m:MaterialColumn>
+
+                            </m:MaterialRow>
+
                         </m:MaterialColumn>
 
                     </m:MaterialRow>
 
             </div>
-            <div class="{res.css.clearLeft}"></div>
+
         </g:HTMLPanel>
 
-    </g:HTMLPanel>
 
 </ui:UiBinder>

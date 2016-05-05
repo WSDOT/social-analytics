@@ -10,15 +10,9 @@ import java.util.Date;
 public class SearchEvent extends GenericEvent {
 
     private final String searchText;
-    private final Date searchDate;
 
-    public SearchEvent(Date date, String text) {
+    public SearchEvent(String text) {
         this.searchText = text;
-        this.searchDate = date;
-    }
-
-    public Date getDate() {
-        return this.searchDate;
     }
 
     public String getSearchText() {

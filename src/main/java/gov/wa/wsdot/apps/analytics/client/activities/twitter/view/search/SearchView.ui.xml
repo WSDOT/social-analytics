@@ -1,0 +1,38 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+             xmlns:m="urn:import:gwt.material.design.client.ui"
+             xmlns:g="urn:import:com.google.gwt.user.client.ui">
+
+    <ui:style>
+        .loader {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 25px;
+        }
+    </ui:style>
+
+    <g:HTMLPanel>
+
+        <m:MaterialRow>
+            <m:MaterialColumn grid="s10">
+        <m:MaterialTextBox ui:field="tweetSearch" placeholder="Search All Accounts" iconType="SEARCH" iconColor="black"/>
+            </m:MaterialColumn>
+            <m:MaterialColumn grid="s2">
+            <m:MaterialIcon ui:field="clearSearch" iconType="CLEAR"  iconColor="black" paddingTop="20"/>
+        </m:MaterialColumn>
+        </m:MaterialRow>
+
+
+
+        <g:HTMLPanel ui:field="searchList">
+            <g:HTMLPanel ui:field="searchDetails"/>
+        </g:HTMLPanel>
+
+        <m:MaterialButton ui:field="moreSearchBtn" text="more" waves="LIGHT" backgroundColor="teal lighten-2" textColor="white" visible="false"/>
+
+        <m:MaterialPreLoader ui:field="searchLoader" size="BIG" addStyleNames="{style.loader}" visible="false">
+            <m:MaterialSpinner color="blue-only"/>
+        </m:MaterialPreLoader>
+    </g:HTMLPanel>
+</ui:UiBinder>
