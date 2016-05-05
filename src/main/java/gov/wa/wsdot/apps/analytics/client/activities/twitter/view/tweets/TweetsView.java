@@ -62,6 +62,7 @@ public class TweetsView extends Composite {
     @EventHandler
     void onDateSubmit(DateSubmitEvent event){
         DateTimeFormat fmt = DateTimeFormat.getFormat("/yyyy/M/d");
+        pageNum = 1;
         currentAccount = event.getAccount();
         currentDate = fmt.format(event.getEndDate());
         updateTweets(event.getEndDate(), event.getAccount());
