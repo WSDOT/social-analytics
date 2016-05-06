@@ -176,10 +176,6 @@ public class SearchView extends Composite{
         for (int i = 0; i < j; i++) {
 
 
-            MaterialToast.fireToast("retweet " + String.valueOf(asArrayOfMentionData.get(i).getRetweet()));
-            MaterialToast.fireToast("fav " + String.valueOf(asArrayOfMentionData.get(i).getFavorited()));
-
-
             screenName = (asArrayOfMentionData.get(i).getFromUser() != null) ?
                     asArrayOfMentionData.get(i).getFromUser() :
                     asArrayOfMentionData.get(i).getUser().getScreenName();

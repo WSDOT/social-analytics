@@ -94,7 +94,6 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
         sourcesPieChart = new SourcesPieChart(clientFactory.getEventBus());
         ranking = new RankingView(clientFactory.getEventBus());
 
-
         initWidget(uiBinder.createAndBindUi(this));
 
         accountPicker.setItemSelected(4, true);

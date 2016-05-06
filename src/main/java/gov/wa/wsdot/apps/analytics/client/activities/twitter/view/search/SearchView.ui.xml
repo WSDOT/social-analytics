@@ -24,7 +24,6 @@
         </m:MaterialRow>
 
 
-
         <g:HTMLPanel ui:field="searchList">
             <g:HTMLPanel ui:field="searchDetails"/>
         </g:HTMLPanel>

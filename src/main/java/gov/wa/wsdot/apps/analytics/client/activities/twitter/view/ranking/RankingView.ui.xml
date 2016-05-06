@@ -23,30 +23,37 @@
         }
 
     </ui:style>
-
+<g:HTMLPanel>
     <m:MaterialRow>
         <m:MaterialColumn grid="s12">
             <m:MaterialTab ui:field="tab" backgroundColor="teal lighten-2" indicatorColor="yellow">
+
                 <m:MaterialTabItem waves="LIGHT" grid="s4">
-                    <m:MaterialLink ui:field="retweetTab" text="most retweeted" href="#topRetweets" textColor="white"/>
+                    <m:MaterialLink ui:field="likeTab" text="Popular Tweets" href="#best" textColor="white"/>
                 </m:MaterialTabItem>
                 <m:MaterialTabItem waves="LIGHT" grid="s4">
-                    <m:MaterialLink ui:field="favoritesTab" text="most Liked" href="#topLikes" textColor="white"/>
+                    <m:MaterialLink ui:field="retweetTab" text="Unpopular Tweets" href="#worst" textColor="white"/>
                 </m:MaterialTabItem>
             </m:MaterialTab>
         </m:MaterialColumn>
-        <m:MaterialColumn m:id="topLikes"  grid="s12">
-            <m:MaterialPreLoader ui:field="likesLoader" size="BIG" addStyleNames="{style.loader}" visible="false">
-                <m:MaterialSpinner color="blue-only"/>
-            </m:MaterialPreLoader>
+        <m:MaterialColumn m:id="best"  grid="s12">
+            <m:MaterialLabel ui:field="mostLikesLabel" backgroundColor="teal lighten-2" textColor="white" padding="5" marginTop="10" width="100%" text="Most Likes" fontSize="1.5em"/>
             <g:HTMLPanel ui:field="mostLiked"/>
-        </m:MaterialColumn>
-        <m:MaterialColumn  m:id="topRetweets" grid="s12">
-            <m:MaterialPreLoader ui:field="retweetLoader" size="BIG" addStyleNames="{style.loader}" visible="false">
-                <m:MaterialSpinner color="blue-only"/>
-            </m:MaterialPreLoader>
+            <m:MaterialLabel ui:field="mostRetweetsLabel" backgroundColor="teal lighten-2" textColor="white" padding="5" marginTop="10" width="100%"  text="Most Retweets" fontSize="1.5em"/>
             <g:HTMLPanel ui:field="mostRetweet"/>
         </m:MaterialColumn>
+        <m:MaterialColumn  m:id="worst" grid="s12">
+            <m:MaterialLabel ui:field="leastLikesLabel" backgroundColor="teal lighten-2" textColor="white" padding="5" marginTop="10" width="100%"  text="Least Likes" fontSize="1.5em"/>
+            <g:HTMLPanel ui:field="leastLiked"/>
+            <m:MaterialLabel ui:field="leastRetweetsLabel" backgroundColor="teal lighten-2" textColor="white" padding="5" marginTop="10" width="100%"  text="Least Retweets" fontSize="1.5em"/>
+            <g:HTMLPanel ui:field="leastRetweet"/>
+        </m:MaterialColumn>
+
 
     </m:MaterialRow>
+
+    <m:MaterialPreLoader ui:field="loader" size="BIG" addStyleNames="{style.loader}" visible="false">
+        <m:MaterialSpinner color="blue-only"/>
+    </m:MaterialPreLoader>
+</g:HTMLPanel>
 </ui:UiBinder>

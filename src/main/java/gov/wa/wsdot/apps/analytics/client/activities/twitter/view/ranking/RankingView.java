@@ -23,11 +23,8 @@ import gwt.material.design.client.ui.*;
 
 import java.util.Date;
 
-/**
- * Created by simsl on 5/5/16.
- */
-public class RankingView extends Composite{
 
+public class RankingView extends Composite{
 
     interface MyEventBinder extends EventBinder<RankingView> {}
     private final MyEventBinder eventBinder = GWT.create(MyEventBinder.class);
@@ -41,11 +38,7 @@ public class RankingView extends Composite{
 
     @UiField
     static
-    MaterialPreLoader retweetLoader;
-
-    @UiField
-    static
-    MaterialPreLoader likesLoader;
+    MaterialPreLoader loader;
 
     @UiField
     static
@@ -54,37 +47,55 @@ public class RankingView extends Composite{
     @UiField
     static
     HTMLPanel mostLiked;
+    @UiField
+    static
+    HTMLPanel leastRetweet;
+
+    @UiField
+    static
+    HTMLPanel leastLiked;
+
+    @UiField
+    static
+    MaterialLink retweetTab;
+
+    @UiField
+    static
+    MaterialLink likeTab;
+
 
     private static String defaultAccount = "wsdot";
 
     public RankingView(EventBus eventBus) {
         eventBinder.bindEventHandlers(this, eventBus);
         initWidget(uiBinder.createAndBindUi(this));
-        getTopRetweets(defaultAccount, new Date(), new Date());
-        getTopLikes(defaultAccount, new Date(), new Date());
+
+        getRetweets(defaultAccount, new Date(), new Date(), mostRetweet, "best");
+        getLikes(defaultAccount, new Date(), new Date(), mostLiked, "best");
+        getRetweets(defaultAccount, new Date(), new Date(), leastRetweet, "worst");
+        getLikes(defaultAccount, new Date(), new Date(), leastLiked, "worst");
     }
 
     @EventHandler
     void onDateSubmit(DateSubmitEvent event){
-        DateTimeFormat fmt = DateTimeFormat.getFormat("/yyyy/M/d");
-
-        getTopRetweets(event.getAccount(), event.getStartDate(), event.getEndDate());
-        getTopLikes(event.getAccount(), event.getStartDate(), event.getEndDate());
-
+        getRetweets(event.getAccount(), event.getStartDate(), event.getEndDate(), mostRetweet, "best");
+        getLikes(event.getAccount(), event.getStartDate(), event.getEndDate(), mostLiked, "best");
+        getRetweets(event.getAccount(), event.getStartDate(), event.getEndDate(), leastRetweet, "worst");
+        getLikes(event.getAccount(), event.getStartDate(), event.getEndDate(), leastLiked, "worst");
     }
 
-    public static void getTopRetweets(String account, Date start, Date end){
+    public static void getRetweets(String account, Date start, Date end, final HTMLPanel list, final String listType){
 
-        mostRetweet.clear();
+        list.clear();
 
         DateTimeFormat fmt = DateTimeFormat.getFormat("/yyyy/M/d");
         String startDate = fmt.format(start);
         String endDate = fmt.format(end);
         String screenName = account;
 
-        String url = Consts.HOST_URL + "/summary/statuses/retweets/" + screenName + startDate + endDate;
+        String url = Consts.HOST_URL + "/summary/statuses/retweets/" + listType + "/" + screenName + startDate + endDate;
 
-        retweetLoader.setVisible(true);
+        loader.setVisible(true);
 
         JsonpRequestBuilder jsonp = new JsonpRequestBuilder();
         // Set timeout for 30 seconds (30000 milliseconds)
@@ -94,32 +105,27 @@ public class RankingView extends Composite{
             @Override
             public void onFailure(Throwable caught) {
                 MaterialToast.fireToast("Failure: " + caught.getMessage());
-                retweetLoader.setVisible(false);
+                loader.setVisible(false);
             }
 
             @Override
             public void onSuccess(Mention mention) {
                 if (mention.getMentions() != null) {
-                    updateRetweetList(mention.getMentions());
-                    retweetLoader.setVisible(false);
+                    updateRetweetList(mention.getMentions(), list);
+                    loader.setVisible(false);
                 }
             }
         });
     }
 
-    public static void updateRetweetList(JsArray<Mention> asArrayOfMentionData) {
+    public static void updateRetweetList(JsArray<Mention> asArrayOfMentionData,  HTMLPanel list) {
 
         int j = asArrayOfMentionData.length();
         DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
         DateTimeFormat dateTimeFormat2 = DateTimeFormat.getFormat("MMMM dd, yyyy h:mm:ss a");
 
-        String urlPattern = "(https?:\\/\\/[-a-zA-Z0-9._~:\\/?#@!$&\'()*+,;=%]+)";
-        String atPattern = "@+([_a-zA-Z0-9-]+)";
-        String hashPattern = "#+([_a-zA-Z0-9-]+)";
         String text;
-        String updatedText;
         String screenName;
-        String mediaUrl;
 
         for (int i = 0; i < j; i++) {
 
@@ -151,23 +157,23 @@ public class RankingView extends Composite{
 
             tweet.setPadding(10.0);
 
-            mostRetweet.add(tweet);
+            list.add(tweet);
 
         }
     }
 
-    public static void getTopLikes(String account, Date start, Date end){
+    public static void getLikes(String account, Date start, Date end, final HTMLPanel list, String listType){
 
-        mostLiked.clear();
+        list.clear();
 
         DateTimeFormat fmt = DateTimeFormat.getFormat("/yyyy/M/d");
         String startDate = fmt.format(start);
         String endDate = fmt.format(end);
         String screenName = account;
 
-        String url = Consts.HOST_URL + "/summary/statuses/favorites/" + screenName + startDate + endDate;
+        String url = Consts.HOST_URL + "/summary/statuses/favorites/" + listType + "/" + screenName + startDate + endDate;
 
-        likesLoader.setVisible(true);
+        loader.setVisible(true);
 
         JsonpRequestBuilder jsonp = new JsonpRequestBuilder();
         // Set timeout for 30 seconds (30000 milliseconds)
@@ -177,32 +183,27 @@ public class RankingView extends Composite{
             @Override
             public void onFailure(Throwable caught) {
                 MaterialToast.fireToast("Failure: " + caught.getMessage());
-                likesLoader.setVisible(false);
+                loader.setVisible(false);
             }
 
             @Override
             public void onSuccess(Mention mention) {
                 if (mention.getMentions() != null) {
-                    updateLikesList(mention.getMentions());
-                    likesLoader.setVisible(false);
+                    updateLikesList(mention.getMentions(), list);
+                    loader.setVisible(false);
                 }
             }
         });
     }
 
-    public static void updateLikesList(JsArray<Mention> asArrayOfMentionData) {
+    public static void updateLikesList(JsArray<Mention> asArrayOfMentionData, HTMLPanel list) {
 
         int j = asArrayOfMentionData.length();
         DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
         DateTimeFormat dateTimeFormat2 = DateTimeFormat.getFormat("MMMM dd, yyyy h:mm:ss a");
 
-        String urlPattern = "(https?:\\/\\/[-a-zA-Z0-9._~:\\/?#@!$&\'()*+,;=%]+)";
-        String atPattern = "@+([_a-zA-Z0-9-]+)";
-        String hashPattern = "#+([_a-zA-Z0-9-]+)";
         String text;
-        String updatedText;
         String screenName;
-        String mediaUrl;
 
         for (int i = 0; i < j; i++) {
 
@@ -233,13 +234,9 @@ public class RankingView extends Composite{
             });
 
             tweet.add(updated);
-
             tweet.setPadding(10.0);
-
             tweetCard.add(tweet);
-
-            mostLiked.add(tweetCard);
-
+            list.add(tweetCard);
         }
     }
 }
