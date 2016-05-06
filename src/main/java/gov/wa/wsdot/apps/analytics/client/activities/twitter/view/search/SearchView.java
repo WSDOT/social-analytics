@@ -2,6 +2,7 @@ package gov.wa.wsdot.apps.analytics.client.activities.twitter.view.search;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -25,30 +26,22 @@ import gov.wa.wsdot.apps.analytics.shared.Words;
 import gov.wa.wsdot.apps.analytics.util.Consts;
 import gwt.material.design.client.base.SearchObject;
 import gwt.material.design.client.constants.IconType;
-import gwt.material.design.client.ui.MaterialButton;
-import gwt.material.design.client.ui.MaterialIcon;
-import gwt.material.design.client.ui.MaterialPreLoader;
-import gwt.material.design.client.ui.MaterialTextBox;
+import gwt.material.design.client.ui.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class SearchView extends Composite{
 
     interface MyEventBinder extends EventBinder<SearchView> {}
     private final MyEventBinder eventBinder = GWT.create(MyEventBinder.class);
 
-    private static TweetsViewUiBinder uiBinder = GWT
-            .create(TweetsViewUiBinder.class);
+    private static SearchViewUiBinder uiBinder = GWT
+            .create(SearchViewUiBinder.class);
 
-    interface TweetsViewUiBinder extends
+    interface SearchViewUiBinder extends
             UiBinder<Widget, SearchView> {
     }
-
-
-    //@UiField
-    //MaterialNavBar navBarSearch;
 
     @UiField
     MaterialTextBox tweetSearch;
@@ -68,6 +61,23 @@ public class SearchView extends Composite{
     static
     MaterialButton moreSearchBtn;
 
+    @UiField
+    static
+    MaterialModal advSearch;
+
+    @UiField
+    static
+    MaterialListBox searchAccountPicker;
+
+    @UiField
+    static
+    MaterialLink advSearchLink;
+
+    @UiField
+    static
+    MaterialButton closeAdvSearch;
+
+
     private static final String JSON_URL_SUGGESTION = Consts.HOST_URL + "/search/suggest/";
     private static int pageNum = 1;
     private static String searchText = "";
@@ -77,7 +87,17 @@ public class SearchView extends Composite{
         eventBinder.bindEventHandlers(this, eventBus);
         initWidget(uiBinder.createAndBindUi(this));
         this.eventBus = eventBus;
+    }
 
+    @UiHandler("advSearchLink")
+    void onAdvSearch(ClickEvent e){
+        advSearch.openModal();
+    }
+
+
+    @UiHandler("closeAdvSearch")
+    void onCloseAdvSearch(ClickEvent e){
+        advSearch.closeModal();
     }
 
     @UiHandler("tweetSearch")
@@ -124,7 +144,6 @@ public class SearchView extends Composite{
         });
     }
 
-
     void onSearch(String text) {
 
         searchText = text;
@@ -156,7 +175,6 @@ public class SearchView extends Composite{
         });
     }
 
-
     public static void updateSearch(JsArray<Mention> asArrayOfMentionData) {
 
         int j = asArrayOfMentionData.length();
@@ -172,7 +190,6 @@ public class SearchView extends Composite{
         String mediaUrl;
 
         for (int i = 0; i < j; i++) {
-
 
             screenName = (asArrayOfMentionData.get(i).getFromUser() != null) ?
                     asArrayOfMentionData.get(i).getFromUser() :
@@ -206,7 +223,6 @@ public class SearchView extends Composite{
             } else {
                 tweet = new TweetView(id, screenName, updatedText, createdAt, link, mediaUrl, IconType.SENTIMENT_NEUTRAL);
             }
-
             searchList.add(tweet);
         }
 
@@ -215,8 +231,6 @@ public class SearchView extends Composite{
         } else {
             moreSearchBtn.setVisible(true);
         }
-
-
     }
 
     public void getSuggestions(String searchText) {

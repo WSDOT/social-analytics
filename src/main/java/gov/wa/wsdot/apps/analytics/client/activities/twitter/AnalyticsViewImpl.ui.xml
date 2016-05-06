@@ -23,7 +23,7 @@
                 <m:MaterialRow>
                     <m:MaterialColumn grid="s12 m3">
                         <m:MaterialListBox ui:field="accountPicker" width="80%">
-                            <m.html:Option text="All"/>
+                            <m.html:Option text="All Accounts"/>
                             <m.html:Option text="@BerthaDigsSR99"/>
                             <m.html:Option text="@GoodToGoWSDOT"/>
                             <m.html:Option text="@SnoqualmiePass"/>

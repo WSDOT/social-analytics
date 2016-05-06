@@ -1,7 +1,8 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
              xmlns:m="urn:import:gwt.material.design.client.ui"
-             xmlns:g="urn:import:com.google.gwt.user.client.ui">
+             xmlns:g="urn:import:com.google.gwt.user.client.ui"
+             xmlns:m.html="urn:import:gwt.material.design.client.ui.html">
 
     <ui:style>
         .loader {
@@ -13,6 +14,60 @@
     </ui:style>
 
     <g:HTMLPanel>
+        <m:MaterialModal ui:field="advSearch" type="DEFAULT" dismissable="true" inDuration="500" outDuration="500">
+            <m:MaterialModalContent>
+                <m:MaterialTitle title="Advanced Search" />
+
+
+                <m:MaterialRow>
+                    <m:MaterialColumn grid="s6">
+                        <m:MaterialLabel text="Account:"/>
+                        <m:MaterialListBox ui:field="searchAccountPicker">
+                            <m.html:Option text="All"/>
+                            <m.html:Option text="@BerthaDigsSR99"/>
+                            <m.html:Option text="@GoodToGoWSDOT"/>
+                            <m.html:Option text="@SnoqualmiePass"/>
+                            <m.html:Option text="@wsdot"/>
+                            <m.html:Option text="@wsdot_520"/>
+                            <m.html:Option text="@WSDOT_East"/>
+                            <m.html:Option text="@wsdot_north"/>
+                            <m.html:Option text="@wsdot_sw"/>
+                            <m.html:Option text="@wsdot_tacoma"/>
+                            <m.html:Option text="@wsdot_traffic"/>
+                            <m.html:Option text="@wsferries"/>
+                        </m:MaterialListBox>
+                    </m:MaterialColumn>
+
+                    <m:MaterialColumn grid="s7" paddingTop="20">
+                        <m:MaterialLabel text="Search for:"/>
+                        <m:MaterialRadioButton ui:field="rbBoth" name="tweets" text="Tweets and Mentions" grid="s12" value="true"/>
+                        <m:MaterialRadioButton ui:field="rbTweets" name="tweets" text="Tweets" grid="s12"/>
+                        <m:MaterialRadioButton ui:field="rbMentions" name="tweets" text="Mentions" grid="s12"/>
+                    </m:MaterialColumn>
+
+                    <m:MaterialColumn grid="s6">
+                        <m:MaterialDatePicker ui:field="searchdpStart"  placeholder="Start Date (not required)"/>
+                    </m:MaterialColumn>
+
+                    <m:MaterialColumn grid="s6">
+                        <m:MaterialDatePicker ui:field="searchdpEnd" placeholder="End Date (not required)"/>
+                    </m:MaterialColumn>
+                </m:MaterialRow>
+
+                <m:MaterialRow>
+                    <m:MaterialColumn grid="s12">
+                        <m:MaterialTextBox placeholder="Search Term" />
+                    </m:MaterialColumn>
+                </m:MaterialRow>
+
+
+            </m:MaterialModalContent>
+            <m:MaterialModalFooter>
+                <m:MaterialButton text="Search" float="LEFT" marginRight="10"/>
+                <m:MaterialButton text="Export Search to CSV" float="LEFT"/>
+                <m:MaterialButton ui:field="closeAdvSearch" text="Close" type="FLAT"/>
+            </m:MaterialModalFooter>
+        </m:MaterialModal>
 
         <m:MaterialRow>
             <m:MaterialColumn grid="s10">
@@ -23,6 +78,7 @@
         </m:MaterialColumn>
         </m:MaterialRow>
 
+        <m:MaterialLink ui:field="advSearchLink" text="advanced search"/>
 
         <g:HTMLPanel ui:field="searchList">
             <g:HTMLPanel ui:field="searchDetails"/>
