@@ -38,7 +38,6 @@
         </m:MaterialColumn>
 
         <m:MaterialColumn  m:id="tweetgraphtab" grid="s12">
-
                 <m:MaterialCard>
                     <m:MaterialCardTitle text="Tweets And Mentions" textColor="black" addStyleNames="{style.block}"/>
                     <m:MaterialPreLoader ui:field="tweetsLoader" size="BIG" addStyleNames="{style.loader}">
@@ -46,8 +45,6 @@
                     </m:MaterialPreLoader>
                     <m:MaterialCardContent ui:field="tweetContent" addStyleNames="no-padding {style.overflow}"/>
                     <m:MaterialCardAction ui:field="tweetLabel"/>
-
-
                 </m:MaterialCard>
 
 
@@ -60,7 +57,12 @@
                         <m:MaterialSpinner color="blue-only"/>
                     </m:MaterialPreLoader>
                     <m:MaterialCardContent ui:field="followerContent" addStyleNames="no-padding {style.overflow}"/>
-
+                    <m:MaterialCardAction>
+                        <m:MaterialRow>
+                            <m:MaterialIcon ui:field="followersIcon" grid="s1"/>
+                            <m:MaterialLabel ui:field="followersLabel" grid="s11"/>
+                        </m:MaterialRow>
+                    </m:MaterialCardAction>
                 </m:MaterialCard>
 
         </m:MaterialColumn>

@@ -15,6 +15,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 import gov.wa.wsdot.apps.analytics.client.ClientFactory;
+import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.ranking.RankingView;
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.search.SearchView;
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.sentiment.SentimentPieChart;
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.sources.SourcesPieChart;
@@ -65,6 +66,9 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
     @UiField(provided = true)
     SearchView searchResults;
 
+    @UiField(provided = true)
+    RankingView ranking;
+
     private String[] accounts =
                   {"all",
                    "BerthaDigsSR99",
@@ -88,6 +92,8 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
         summaryChart = new SummaryChart(clientFactory.getEventBus());
         sentimentPieChart = new SentimentPieChart(clientFactory.getEventBus());
         sourcesPieChart = new SourcesPieChart(clientFactory.getEventBus());
+        ranking = new RankingView(clientFactory.getEventBus());
+
 
         initWidget(uiBinder.createAndBindUi(this));
 
@@ -96,9 +102,7 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
         dpStart.setDate(new Date());
         dpEnd.setDate(new Date());
 
-
     }
-
 
     @Override
     public void setPresenter(Presenter p){

@@ -26,6 +26,7 @@ import gov.wa.wsdot.apps.analytics.client.activities.events.DateSubmitEvent;
 import gov.wa.wsdot.apps.analytics.shared.FollowerSummary;
 import gov.wa.wsdot.apps.analytics.shared.TweetSummary;
 import gov.wa.wsdot.apps.analytics.util.Consts;
+import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.*;
 
 import java.util.ArrayList;
@@ -59,6 +60,14 @@ public class SummaryChart extends Composite{
     @UiField
     static
     MaterialCardAction tweetLabel;
+
+    @UiField
+    static
+    MaterialLabel followersLabel;
+
+    @UiField
+    static
+    MaterialIcon followersIcon;
 
     @UiField
     static
@@ -140,8 +149,6 @@ public class SummaryChart extends Composite{
             url = JSON_URL + "/" + screenName + dateRange;
         }
 
-
-
         JsonpRequestBuilder jsonp = new JsonpRequestBuilder();
         // Set timeout for 30 seconds (30000 milliseconds)
         jsonp.setTimeout(30000);
@@ -176,6 +183,8 @@ public class SummaryChart extends Composite{
 
         followerContent.clear();
         followersLoader.setVisible(true);
+        followersLabel.clear();
+        followersLabel.setVisible(true);
 
         String screenName = account;
         String url = "";
@@ -211,6 +220,7 @@ public class SummaryChart extends Composite{
                         followerContent.add(getFollowersChart());
                         drawFollowersChart(followerSummary);
                         followersLoader.setVisible(false);
+                        followersLabel.setVisible(true);
                     }
                 });
             }
@@ -239,8 +249,6 @@ public class SummaryChart extends Composite{
         data.addColumn(ColumnType.NUMBER, "Mentions");
         data.addColumn(ColumnType.NUMBER, "Tweets");
 
-
-
         data.addRows(tweetSummary.length());
 
         DateTimeFormat fmt = DateTimeFormat.getFormat("MMM d");
@@ -258,9 +266,9 @@ public class SummaryChart extends Composite{
             numberOfMentions += tweetSummary.get(i).getValue().getMentions();
 
         }
-        tweetLabel.add(new Label("Mentions: " + numberOfMentions));
-        tweetLabel.add(new Label("Tweets: " + numberOfStatuses));
 
+        //tweetLabel.add(new Label("Mentions: " + numberOfMentions));
+        //tweetLabel.add(new Label("Tweets: " + numberOfStatuses));
 
         // Set options
         //Grid Lines
@@ -305,6 +313,20 @@ public class SummaryChart extends Composite{
             data.setValue(i, 0, fmt.format(new Date((long) followerSummary.get(i).getId())));
             data.setValue(i, 1, followerSummary.get(i).getValue());
         }
+
+        int startFollowers = followerSummary.get(0).getValue();
+        int endFollowers = followerSummary.get(j-1).getValue();
+
+        float change = ((float)100 * (((float)endFollowers - (float)startFollowers) / (float)startFollowers));
+
+        change = Math.round(change * 100)/(float)100;
+
+        followersIcon.setIconType((change > 0 ? IconType.ARROW_UPWARD : IconType.ARROW_DOWNWARD) );
+        followersIcon.setIconColor((change > 0 ? "teal" : "deep-orange accent-2"));
+
+        followersLabel.setText(Math.abs(change) + "% " + (change > 0 ? "increase" : "decrease") + " in followers from "
+                + fmt.format(new Date((long) followerSummary.get(0).getId()))
+                + " to " + fmt.format(new Date((long) followerSummary.get(j-1).getId())));
 
         // Set options
         //Grid Lines

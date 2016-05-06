@@ -41,4 +41,6 @@ public class Mention extends JavaScriptObject {
 	public final native Entities getEntities() /*-{ return this.entities }-*/;
 	public final native JsArray<Mention> getMentions() /*-{ return this }-*/;
 	public final native User getUser() /*-{ return this.user }-*/;
+	public final native int getRetweet() /*-{ return this.retweet_count }-*/;
+	public final native int getFavorited() /*-{ return this.favorite_count }-*/;
 }

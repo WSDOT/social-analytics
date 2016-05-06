@@ -159,8 +159,6 @@ public class SearchView extends Composite{
     }
 
 
-
-
     public static void updateSearch(JsArray<Mention> asArrayOfMentionData) {
 
         int j = asArrayOfMentionData.length();
@@ -176,6 +174,11 @@ public class SearchView extends Composite{
         String mediaUrl;
 
         for (int i = 0; i < j; i++) {
+
+
+            MaterialToast.fireToast("retweet " + String.valueOf(asArrayOfMentionData.get(i).getRetweet()));
+            MaterialToast.fireToast("fav " + String.valueOf(asArrayOfMentionData.get(i).getFavorited()));
+
 
             screenName = (asArrayOfMentionData.get(i).getFromUser() != null) ?
                     asArrayOfMentionData.get(i).getFromUser() :

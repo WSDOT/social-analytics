@@ -7,7 +7,8 @@
              xmlns:views.sentiment="urn:import:gov.wa.wsdot.apps.analytics.client.activities.twitter.view.sentiment"
              xmlns:views.tweets="urn:import:gov.wa.wsdot.apps.analytics.client.activities.twitter.view.tweets"
              xmlns:views.sources="urn:import:gov.wa.wsdot.apps.analytics.client.activities.twitter.view.sources"
-             xmlns:views.search="urn:import:gov.wa.wsdot.apps.analytics.client.activities.twitter.view.search">
+             xmlns:views.search="urn:import:gov.wa.wsdot.apps.analytics.client.activities.twitter.view.search"
+             xmlns:views.ranking="urn:import:gov.wa.wsdot.apps.analytics.client.activities.twitter.view.ranking">
 
     <ui:with field="res" type="gov.wa.wsdot.apps.analytics.client.resources.Resources" />
 
@@ -49,18 +50,23 @@
                     <m:MaterialButton ui:field="submitDateButton" text="apply date" waves="LIGHT" backgroundColor="teal lighten-2" textColor="white" />
                     </m:MaterialColumn>
 
-                </m:MaterialRow>
 
+                </m:MaterialRow>
 
                     <m:MaterialRow>
 
-                        <m:MaterialColumn grid="s12 m6">
+                        <m:MaterialColumn grid="s12 l4 m12">
+                            <views.ranking:RankingView ui:field="ranking"/>
+                        </m:MaterialColumn>
+
+
+                        <m:MaterialColumn grid="s12 l4 m6">
                             <views.summary:SummaryChart ui:field="summaryChart"/>
                             <views.sentiment:SentimentPieChart ui:field="sentimentPieChart"/>
                             <views.sources:SourcesPieChart ui:field="sourcesPieChart"/>
                         </m:MaterialColumn>
 
-                        <m:MaterialColumn grid="s12 m6">
+                        <m:MaterialColumn grid="s12 l4 m6">
 
                             <m:MaterialRow ui:field="tweetsTabs">
                             <m:MaterialColumn grid="s12">
@@ -87,6 +93,8 @@
                             </m:MaterialRow>
 
                         </m:MaterialColumn>
+
+
 
                     </m:MaterialRow>
 

@@ -1,0 +1,52 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+             xmlns:m="urn:import:gwt.material.design.client.ui"
+             xmlns:g="urn:import:com.google.gwt.user.client.ui">
+    <ui:style>
+
+
+
+        .block{
+        display: block;
+        padding: 20px;
+        }
+
+        .overflow {
+        overflow: hidden;
+        }
+
+        .loader {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 25px;
+        }
+
+    </ui:style>
+
+    <m:MaterialRow>
+        <m:MaterialColumn grid="s12">
+            <m:MaterialTab ui:field="tab" backgroundColor="teal lighten-2" indicatorColor="yellow">
+                <m:MaterialTabItem waves="LIGHT" grid="s4">
+                    <m:MaterialLink ui:field="retweetTab" text="most retweeted" href="#topRetweets" textColor="white"/>
+                </m:MaterialTabItem>
+                <m:MaterialTabItem waves="LIGHT" grid="s4">
+                    <m:MaterialLink ui:field="favoritesTab" text="most Liked" href="#topLikes" textColor="white"/>
+                </m:MaterialTabItem>
+            </m:MaterialTab>
+        </m:MaterialColumn>
+        <m:MaterialColumn m:id="topLikes"  grid="s12">
+            <m:MaterialPreLoader ui:field="likesLoader" size="BIG" addStyleNames="{style.loader}" visible="false">
+                <m:MaterialSpinner color="blue-only"/>
+            </m:MaterialPreLoader>
+            <g:HTMLPanel ui:field="mostLiked"/>
+        </m:MaterialColumn>
+        <m:MaterialColumn  m:id="topRetweets" grid="s12">
+            <m:MaterialPreLoader ui:field="retweetLoader" size="BIG" addStyleNames="{style.loader}" visible="false">
+                <m:MaterialSpinner color="blue-only"/>
+            </m:MaterialPreLoader>
+            <g:HTMLPanel ui:field="mostRetweet"/>
+        </m:MaterialColumn>
+
+    </m:MaterialRow>
+</ui:UiBinder>

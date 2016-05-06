@@ -1,23 +1,22 @@
 package gov.wa.wsdot.apps.analytics.client.activities.events;
 
-import com.google.gwt.event.shared.GwtEvent;
 import com.google.web.bindery.event.shared.binder.GenericEvent;
 
 import java.util.Date;
 
-/**
- * Created by simsl on 4/29/16.
- */
+
 public class DateSubmitEvent extends GenericEvent {
 
 
     private final String dateRange;
     private final String account;
+    private final Date startDate;
     private final Date endDate;
 
-    public DateSubmitEvent(String dateRange, Date endDate, String account) {
+    public DateSubmitEvent(String dateRange, Date startDate, Date endDate, String account) {
         this.dateRange = dateRange;
         this.account = account;
+        this.startDate = startDate;
         this.endDate = endDate;
     }
 
@@ -28,6 +27,8 @@ public class DateSubmitEvent extends GenericEvent {
     public String getAccount() {
         return this.account;
     }
+
+    public Date getStartDate(){ return this.startDate;}
 
     public Date getEndDate(){ return this.endDate;}
 }
