@@ -19,7 +19,6 @@ import com.googlecode.gwt.charts.client.corechart.PieChart;
 import com.googlecode.gwt.charts.client.corechart.PieChartOptions;
 import com.googlecode.gwt.charts.client.options.ChartArea;
 import com.googlecode.gwt.charts.client.options.Legend;
-import com.googlecode.gwt.charts.client.options.LegendAlignment;
 import com.googlecode.gwt.charts.client.options.LegendPosition;
 import gov.wa.wsdot.apps.analytics.client.activities.events.DateSubmitEvent;
 import gov.wa.wsdot.apps.analytics.shared.SourceSummary;
@@ -28,7 +27,11 @@ import gwt.material.design.client.ui.MaterialCardContent;
 import gwt.material.design.client.ui.MaterialPreLoader;
 import gwt.material.design.client.ui.MaterialToast;
 
-
+/**
+ * Custom widget for displaying tweet sources data.
+ *
+ * Listens for DateSubmitEvents
+ */
 public class SourcesPieChart extends Composite{
     interface MyEventBinder extends EventBinder<SourcesPieChart> {}
     private final MyEventBinder eventBinder = GWT.create(MyEventBinder.class);
@@ -48,7 +51,6 @@ public class SourcesPieChart extends Composite{
     static
     MaterialPreLoader sourcesLoader;
 
-
     private static final String JSON_URL = Consts.HOST_URL + "/mentions/source";
     static JsArray<SourceSummary> sourceSummary;
 
@@ -67,8 +69,11 @@ public class SourcesPieChart extends Composite{
         updateChart(event.getDateRange(), event.getAccount());
     }
 
-
-
+    /**
+     * Requests data from the server
+     * @param dateRange
+     * @param account
+     */
     public static void updateChart(final String dateRange, final String account) {
         cardContent.clear();
 
@@ -118,13 +123,10 @@ public class SourcesPieChart extends Composite{
         });
     }
 
-    private static Widget getPieChart() {
-        if (pieChart == null) {
-            pieChart = new PieChart();
-        }
-        return pieChart;
-    }
-
+    /**
+     * Updates the pue chart with new data
+     * @param sourcesSummary
+     */
     private static void drawPieChart(JsArray<SourceSummary> sourcesSummary) {
 
         DataTable data = DataTable.create();
@@ -153,6 +155,12 @@ public class SourcesPieChart extends Composite{
         options.setColors("00796b", "00897b", "009688", "26a69a", "4db6ac", "80cbc4", "b2dfdb");
 
         pieChart.draw(data, options);
+    }
 
+    private static Widget getPieChart() {
+        if (pieChart == null) {
+            pieChart = new PieChart();
+        }
+        return pieChart;
     }
 }

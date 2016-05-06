@@ -12,7 +12,9 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.event.shared.binder.EventBinder;
 import com.google.web.bindery.event.shared.binder.EventHandler;
 import com.googlecode.gwt.charts.client.ChartLoader;
@@ -32,7 +34,12 @@ import gwt.material.design.client.ui.*;
 import java.util.ArrayList;
 import java.util.Date;
 
-
+/**
+ * Custom widget that creates two charts in tabs.
+ * A chart of tweet/mention counts data and a chart of followers counts.
+ *
+ * Listens for a DateSubmitEvent
+ */
 public class SummaryChart extends Composite{
 
     interface MyEventBinder extends EventBinder<SummaryChart> {}
@@ -91,8 +98,6 @@ public class SummaryChart extends Composite{
     private static String dateRange = "";
     private static String account = "wsdot";
 
-    private static int currentTab = 0;
-
     private static final String JSON_URL = Consts.HOST_URL + "/summary";
     static JsArray<TweetSummary> tweetSummary;
     static JsArray<FollowerSummary> followerSummary;
@@ -114,26 +119,27 @@ public class SummaryChart extends Composite{
         dateRange = event.getDateRange();
         account = event.getAccount();
 
-        if (currentTab == 0) {
-            updateTweetsChart(event.getDateRange(), event.getAccount());
-        } else {
-            updateChartFollowers(event.getDateRange(), event.getAccount());
-        }
+        updateTweetsChart(event.getDateRange(), event.getAccount());
+        updateChartFollowers(event.getDateRange(), event.getAccount());
+
     }
 
     @UiHandler("tweetsTab")
     protected void onTweetsTabClick(ClickEvent e){
         updateTweetsChart(dateRange, account);
-        currentTab = 0;
     }
 
 
     @UiHandler("followersTab")
     protected void onFollowerTabClick(ClickEvent e){
         updateChartFollowers(dateRange, account);;
-        currentTab = 1;
     }
 
+    /**
+     * Requests tweet and mention counts from server for a given date range and account.
+     * @param dateRange
+     * @param account : Can be "All"
+     */
     public static void updateTweetsChart(String dateRange, String account) {
         tweetContent.clear();
         tweetLabel.clear();
@@ -179,6 +185,13 @@ public class SummaryChart extends Composite{
         });
     }
 
+    /**
+     *
+     * Requests follower counts from server for a given date range and account.
+     *
+     * @param dateRange
+     * @param account : Can be "all"
+     */
     public static void updateChartFollowers(String dateRange, String account) {
 
         followerContent.clear();
@@ -227,21 +240,10 @@ public class SummaryChart extends Composite{
         });
     }
 
-    private static Widget getTweetsChart() {
-        if (tweetsChart == null) {
-            tweetsChart = new AreaChart();
-        }
-        return tweetsChart;
-    }
-
-    private static Widget getFollowersChart() {
-        if (followersChart == null) {
-            followersChart = new AreaChart();
-        }
-        return followersChart;
-    }
-
-
+    /**
+     * Creates a chart with the data from tweetSummary
+     * @param tweetSummary : returned data from server
+     */
     private static void drawTweetsChart(JsArray<TweetSummary> tweetSummary) {
 
         DataTable data = DataTable.create();
@@ -267,8 +269,8 @@ public class SummaryChart extends Composite{
 
         }
 
-        //tweetLabel.add(new Label("Mentions: " + numberOfMentions));
-        //tweetLabel.add(new Label("Tweets: " + numberOfStatuses));
+        tweetLabel.add(new Label("Mentions: " + numberOfMentions));
+        tweetLabel.add(new Label("Tweets: " + numberOfStatuses));
 
         // Set options
         //Grid Lines
@@ -298,7 +300,10 @@ public class SummaryChart extends Composite{
         tweetsChart.draw(data, options);
     }
 
-
+    /**
+     * Creates a chart with the data from followerSummary
+     * @param followerSummary : returned data from server
+     */
     private static void drawFollowersChart(JsArray<FollowerSummary> followerSummary) {
 
         DataTable data = DataTable.create();
@@ -354,6 +359,20 @@ public class SummaryChart extends Composite{
 
         // Draw the chart
         followersChart.draw(data, options);
+    }
+
+    private static Widget getTweetsChart() {
+        if (tweetsChart == null) {
+            tweetsChart = new AreaChart();
+        }
+        return tweetsChart;
+    }
+
+    private static Widget getFollowersChart() {
+        if (followersChart == null) {
+            followersChart = new AreaChart();
+        }
+        return followersChart;
     }
 
 }

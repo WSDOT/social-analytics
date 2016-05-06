@@ -2,13 +2,7 @@ package gov.wa.wsdot.apps.analytics.client.activities.twitter;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.http.client.URL;
-import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -21,11 +15,12 @@ import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.sentiment.Sent
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.sources.SourcesPieChart;
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.summary.SummaryChart;
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.tweets.TweetsView;
-import gwt.material.design.client.base.SearchObject;
-import gwt.material.design.client.ui.*;
+import gwt.material.design.client.ui.MaterialButton;
+import gwt.material.design.client.ui.MaterialDatePicker;
+import gwt.material.design.client.ui.MaterialListBox;
+import gwt.material.design.client.ui.MaterialNavBar;
 
 import java.util.Date;
-import java.util.List;
 
 
 public class AnalyticsViewImpl extends Composite implements AnalyticsView{
@@ -107,7 +102,6 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
     public void setPresenter(Presenter p){
         this.presenter = p;
     }
-
 
     @UiHandler("accountPicker")
     protected void onSelect(ValueChangeEvent<String> e){

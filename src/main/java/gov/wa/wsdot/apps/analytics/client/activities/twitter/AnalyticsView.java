@@ -2,10 +2,8 @@ package gov.wa.wsdot.apps.analytics.client.activities.twitter;
 
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.IsWidget;
-import gwt.material.design.client.base.SearchObject;
 
 import java.util.Date;
-import java.util.List;
 
 public interface AnalyticsView extends IsWidget {
 

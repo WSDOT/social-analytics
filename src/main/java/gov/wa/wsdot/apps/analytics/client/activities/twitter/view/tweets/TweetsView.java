@@ -10,20 +10,28 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.binder.EventBinder;
 import com.google.web.bindery.event.shared.binder.EventHandler;
 import gov.wa.wsdot.apps.analytics.client.activities.events.DateSubmitEvent;
-import gov.wa.wsdot.apps.analytics.client.activities.events.SearchEvent;
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.tweet.TweetView;
 import gov.wa.wsdot.apps.analytics.shared.Mention;
 import gov.wa.wsdot.apps.analytics.util.Consts;
 import gwt.material.design.client.constants.IconType;
-import gwt.material.design.client.ui.*;
+import gwt.material.design.client.ui.MaterialButton;
+import gwt.material.design.client.ui.MaterialPreLoader;
+import gwt.material.design.client.ui.MaterialToast;
 
 import java.util.Date;
 
+/**
+ *  A widget for displaying a list of tweets from an account on a specific day.
+ *  Requests tweets from server 10 at a time.
+ *  Listens for the DateSubmitEvent
+ */
 public class TweetsView extends Composite {
 
     interface MyEventBinder extends EventBinder<TweetsView> {}
@@ -48,9 +56,11 @@ public class TweetsView extends Composite {
     static
     MaterialButton moreTweetsBtn;
 
-    private static int pageNum = 1;
+    // Following 3 values used for loading more tweets
     private static String currentAccount = "wsdot";
     private static String currentDate;
+    private static int pageNum = 1;
+
     private static String defaultAccount = "wsdot";
 
     public TweetsView(EventBus eventBus) {
@@ -68,6 +78,10 @@ public class TweetsView extends Composite {
         updateTweets(event.getEndDate(), event.getAccount());
     }
 
+    /**
+     * Loads in the next set of 10 tweets using the values of currentAccount, currentDate and pageNum.
+     * @param e
+     */
     @UiHandler("moreTweetsBtn")
     public void onMore(ClickEvent e){
 
@@ -90,13 +104,19 @@ public class TweetsView extends Composite {
             @Override
             public void onSuccess(Mention mention) {
                 if (mention.getMentions() != null) {
-                    updateReplies(mention.getMentions());
+                    updateTweetsList(mention.getMentions());
                     tweetsLoader.setVisible(false);
                 }
             }
         });
     }
 
+    /**
+     * Updates the list of tweets through a jsonp request.
+     *
+     * @param day : the day which we want tweets from
+     * @param account : The account, can be "All" for all accounts
+     */
     public static void updateTweets(Date day, String account){
 
         tweetsList.clear();
@@ -123,14 +143,19 @@ public class TweetsView extends Composite {
             @Override
             public void onSuccess(Mention mention) {
                 if (mention.getMentions() != null) {
-                    updateReplies(mention.getMentions());
+                    updateTweetsList(mention.getMentions());
                     tweetsLoader.setVisible(false);
                 }
             }
         });
     }
 
-    public static void updateReplies(JsArray<Mention> asArrayOfMentionData) {
+    /**
+     * Constructs the UI from the data returned from the server.
+     *
+     * @param asArrayOfMentionData : data from server.
+     */
+    public static void updateTweetsList(JsArray<Mention> asArrayOfMentionData) {
 
         int j = asArrayOfMentionData.length();
         DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
@@ -182,6 +207,8 @@ public class TweetsView extends Composite {
             tweetsList.add(tweet);
         }
 
+        // Check if we are at the end.
+        // NOTE: if the num of tweets is a factor of 10 the "more" button will still display at the end.
         if (j < 10){
             moreTweetsBtn.setVisible(false);
         } else {

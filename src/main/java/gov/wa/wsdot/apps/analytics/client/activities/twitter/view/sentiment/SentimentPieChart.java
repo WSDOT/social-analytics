@@ -1,40 +1,37 @@
 package gov.wa.wsdot.apps.analytics.client.activities.twitter.view.sentiment;
 
-import com.google.gwt.event.shared.EventBus;
-import com.google.web.bindery.event.shared.binder.EventBinder;
-import com.google.web.bindery.event.shared.binder.EventHandler;
-import com.googlecode.gwt.charts.client.*;
-import com.googlecode.gwt.charts.client.corechart.AreaChart;
-import com.googlecode.gwt.charts.client.corechart.PieChart;
-import com.googlecode.gwt.charts.client.corechart.PieChartOptions;
-import com.googlecode.gwt.charts.client.event.SelectEvent;
-import com.googlecode.gwt.charts.client.event.SelectHandler;
-import com.googlecode.gwt.charts.client.options.ChartArea;
-import com.googlecode.gwt.charts.client.options.Legend;
-import com.googlecode.gwt.charts.client.options.LegendAlignment;
-import com.googlecode.gwt.charts.client.options.LegendPosition;
-import gov.wa.wsdot.apps.analytics.client.activities.events.DateSubmitEvent;
-import gov.wa.wsdot.apps.analytics.client.resources.Resources;
-import gov.wa.wsdot.apps.analytics.shared.Mention;
-import gov.wa.wsdot.apps.analytics.shared.SentimentSummary;
-import gov.wa.wsdot.apps.analytics.util.Consts;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.jsonp.client.JsonpRequestBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DisclosurePanel;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.web.bindery.event.shared.binder.EventBinder;
+import com.google.web.bindery.event.shared.binder.EventHandler;
+import com.googlecode.gwt.charts.client.ChartLoader;
+import com.googlecode.gwt.charts.client.ChartPackage;
+import com.googlecode.gwt.charts.client.ColumnType;
+import com.googlecode.gwt.charts.client.DataTable;
+import com.googlecode.gwt.charts.client.corechart.PieChart;
+import com.googlecode.gwt.charts.client.corechart.PieChartOptions;
+import com.googlecode.gwt.charts.client.options.ChartArea;
+import com.googlecode.gwt.charts.client.options.Legend;
+import com.googlecode.gwt.charts.client.options.LegendPosition;
+import gov.wa.wsdot.apps.analytics.client.activities.events.DateSubmitEvent;
+import gov.wa.wsdot.apps.analytics.shared.SentimentSummary;
+import gov.wa.wsdot.apps.analytics.util.Consts;
 import gwt.material.design.client.ui.MaterialCardContent;
 import gwt.material.design.client.ui.MaterialPreLoader;
 
+/**
+ * Custom widget for displaying tweet sentiment data.
+ *
+ * Listens for DateSubmitEvents
+ */
 public class SentimentPieChart extends Composite {
 
     interface MyEventBinder extends EventBinder<SentimentPieChart> {}
@@ -74,6 +71,11 @@ public class SentimentPieChart extends Composite {
         updateChart(event.getDateRange(), event.getAccount());
     }
 
+    /**
+     * Requests data from the server
+     * @param dateRange
+     * @param account
+     */
     public static void updateChart(final String dateRange, final String account) {
         cardContent.clear();
 
@@ -115,22 +117,14 @@ public class SentimentPieChart extends Composite {
                         sentimentLoader.setVisible(false);
                     }
                 });
-
-
             }
-
         });
-
     }
 
-    private static Widget getPieChart() {
-        if (pieChart == null) {
-            pieChart = new PieChart();
-        }
-        return pieChart;
-    }
-
-
+    /**
+     * Updates the pue chart with new data
+     * @param sentimentSummary
+     */
     private static void drawPieChart(JsArray<SentimentSummary> sentimentSummary) {
 
         DataTable data = DataTable.create();
@@ -159,7 +153,12 @@ public class SentimentPieChart extends Composite {
         options.setColors("BDBDBD", "26A69A", "FF6E40");
 
         pieChart.draw(data, options);
-
     }
 
+    private static Widget getPieChart() {
+        if (pieChart == null) {
+            pieChart = new PieChart();
+        }
+        return pieChart;
+    }
 }

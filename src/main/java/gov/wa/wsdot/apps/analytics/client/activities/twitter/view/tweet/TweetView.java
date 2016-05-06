@@ -17,7 +17,12 @@ import gwt.material.design.addins.client.pathanimator.MaterialPathAnimator;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.*;
 
-
+/**
+ *  A custom view for a tweet. Uses a MaterialCard as a base. Besides displaying content for the tweet has logic for
+ *  editing a tweets sentiment value.
+ *
+ *  Is used by TweetsView
+ */
 public class TweetView extends Composite {
 
     private static TweetViewUiBinder uiBinder = GWT
