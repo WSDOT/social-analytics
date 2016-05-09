@@ -1,0 +1,63 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+             xmlns:m="urn:import:gwt.material.design.client.ui"
+             xmlns:g="urn:import:com.google.gwt.user.client.ui"
+             xmlns:m.html="urn:import:gwt.material.design.client.ui.html">
+
+    <g:HTMLPanel>
+        <m:MaterialModal ui:field="advSearch" type="DEFAULT" dismissable="true" inDuration="500" outDuration="500">
+            <m:MaterialModalContent>
+                <m:MaterialTitle title="Advanced Search" />
+                <m:MaterialRow>
+                    <m:MaterialColumn grid="s6">
+                        <m:MaterialLabel text="Account:"/>
+                        <m:MaterialListBox ui:field="searchAccountPicker">
+                            <m.html:Option text="All"/>
+                            <m.html:Option text="BerthaDigsSR99"/>
+                            <m.html:Option text="GoodToGoWSDOT"/>
+                            <m.html:Option text="SnoqualmiePass"/>
+                            <m.html:Option text="wsdot"/>
+                            <m.html:Option text="wsdot_520"/>
+                            <m.html:Option text="WSDOT_East"/>
+                            <m.html:Option text="wsdot_north"/>
+                            <m.html:Option text="wsdot_sw"/>
+                            <m.html:Option text="wsdot_tacoma"/>
+                            <m.html:Option text="wsdot_traffic"/>
+                            <m.html:Option text="wsferries"/>
+                        </m:MaterialListBox>
+                    </m:MaterialColumn>
+
+                    <m:MaterialColumn grid="s7" paddingTop="20">
+                        <m:MaterialLabel text="Search for:"/>
+                        <m:MaterialListBox ui:field="searchTypePicker">
+                            <m.html:Option text="Tweets" value="1"/>
+                            <m.html:Option text="Mentions" value="2"/>
+                        </m:MaterialListBox>
+                    </m:MaterialColumn>
+
+                    <m:MaterialColumn grid="s6">
+                        <m:MaterialDatePicker ui:field="searchdpStart"  placeholder="Start Date (optional)"/>
+                    </m:MaterialColumn>
+
+                    <m:MaterialColumn grid="s6">
+                        <m:MaterialDatePicker ui:field="searchdpEnd" placeholder="End Date (optional)"/>
+                    </m:MaterialColumn>
+                </m:MaterialRow>
+
+                <m:MaterialRow>
+                    <m:MaterialColumn grid="s12">
+                        <m:MaterialTextBox ui:field="advSearchTextBox" placeholder="Search Term" />
+                    </m:MaterialColumn>
+                </m:MaterialRow>
+
+
+            </m:MaterialModalContent>
+            <m:MaterialModalFooter>
+                <m:MaterialButton ui:field="searchBtn" text="Search" float="LEFT" marginRight="10"/>
+                <m:MaterialButton ui:field="exportBtn" text="Export Search to CSV" float="LEFT"/>
+                <m:MaterialButton ui:field="closeAdvSearchBtn" text="Close" type="FLAT"/>
+                <m:MaterialButton ui:field="clearAdvSearchBtn" text="Clear" type="FLAT"/>
+            </m:MaterialModalFooter>
+        </m:MaterialModal>
+        </g:HTMLPanel>
+    </ui:UiBinder>

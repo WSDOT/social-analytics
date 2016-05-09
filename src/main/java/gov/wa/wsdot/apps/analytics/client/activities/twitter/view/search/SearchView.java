@@ -20,6 +20,8 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.binder.EventBinder;
+import com.google.web.bindery.event.shared.binder.EventHandler;
+import gov.wa.wsdot.apps.analytics.client.activities.events.SearchEvent;
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.tweet.TweetView;
 import gov.wa.wsdot.apps.analytics.shared.Mention;
 import gov.wa.wsdot.apps.analytics.shared.Words;
@@ -63,46 +65,38 @@ public class SearchView extends Composite{
 
     @UiField
     static
-    MaterialModal advSearch;
-
-    @UiField
-    static
-    MaterialListBox searchAccountPicker;
-
-    @UiField
-    static
     MaterialLink advSearchLink;
 
-    @UiField
+    @UiField(provided = true)
     static
-    MaterialButton closeAdvSearch;
-
+    AdvSearchView advSearch;
 
     private static final String JSON_URL_SUGGESTION = Consts.HOST_URL + "/search/suggest/";
     private static int pageNum = 1;
     private static String searchText = "";
+    private static String url = "";
+
     private static EventBus eventBus;
 
     public SearchView(EventBus eventBus) {
+
+        advSearch = new AdvSearchView(eventBus);
+
         eventBinder.bindEventHandlers(this, eventBus);
         initWidget(uiBinder.createAndBindUi(this));
         this.eventBus = eventBus;
     }
 
+
     @UiHandler("advSearchLink")
     void onAdvSearch(ClickEvent e){
-        advSearch.openModal();
-    }
-
-
-    @UiHandler("closeAdvSearch")
-    void onCloseAdvSearch(ClickEvent e){
-        advSearch.closeModal();
+        advSearch.open();
     }
 
     @UiHandler("tweetSearch")
     void onSearch(ValueChangeEvent<String> e){
-        onSearch(tweetSearch.getValue());
+        SearchEvent searchEvent = new SearchEvent(tweetSearch.getValue());
+        eventBus.fireEvent(searchEvent);
     }
 
     @UiHandler("tweetSearch")
@@ -119,14 +113,13 @@ public class SearchView extends Composite{
     public void onMore(ClickEvent e){
 
         pageNum++;
-        String url = Consts.HOST_URL + "/search/" + searchText + "/" + pageNum;
 
         searchLoader.setVisible(true);
 
         JsonpRequestBuilder jsonp = new JsonpRequestBuilder();
         // Set timeout for 30 seconds (30000 milliseconds)
         jsonp.setTimeout(30000);
-        jsonp.requestObject(url, new AsyncCallback<Mention>() {
+        jsonp.requestObject(url + pageNum, new AsyncCallback<Mention>() {
 
             @Override
             public void onFailure(Throwable caught) {
@@ -144,19 +137,19 @@ public class SearchView extends Composite{
         });
     }
 
-    void onSearch(String text) {
-
-        searchText = text;
+    @EventHandler
+    void onSearch(SearchEvent e) {
         pageNum = 1;
+        searchText = e.getSearchText();
 
-        String url = Consts.HOST_URL + "/search/" + text + "/1";
+        String url = getUrl(e);
 
         searchLoader.setVisible(true);
 
         JsonpRequestBuilder jsonp = new JsonpRequestBuilder();
         // Set timeout for 30 seconds (30000 milliseconds)
         jsonp.setTimeout(30000);
-        jsonp.requestObject(url, new AsyncCallback<Mention>() {
+        jsonp.requestObject(url + pageNum, new AsyncCallback<Mention>() {
 
             @Override
             public void onFailure(Throwable caught) {
@@ -173,6 +166,31 @@ public class SearchView extends Composite{
                 }
             }
         });
+    }
+
+    private static String getUrl(SearchEvent e){
+
+        url = Consts.HOST_URL + "/search/" + e.getSearchText() + "/";
+
+        if (e.getSearchType() == 0){
+            return url;
+        }
+
+        url = url + e.getAccount() + "/" + ((e.getSearchType() == 1) ? "statuses" : "mentions");
+
+        if (e.getStartDate() != null && e.getEndDate() != null){
+            url = url + e.getStartDate() + e.getEndDate() + "/";
+        }else if (e.getEndDate() != null){
+            url = url + "/0/0/0" + e.getEndDate() + "/";
+        }else if (e.getStartDate() != null){
+            url = url + e.getStartDate() + "/0/0/0/";
+        }else{
+            url = url + "/0/0/0/0/0/0/";
+        }
+
+        MaterialToast.fireToast("url: " + url + 1);
+
+        return url;
     }
 
     public static void updateSearch(JsArray<Mention> asArrayOfMentionData) {
@@ -271,6 +289,7 @@ public class SearchView extends Composite{
     public void updateSuggestions(List<SearchObject> suggestions){
         //tweetSearch.setListSearches(suggestions);
     }
+
 
 }
 

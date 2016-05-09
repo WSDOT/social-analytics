@@ -24,17 +24,17 @@
                     <m:MaterialColumn grid="s12 m3">
                         <m:MaterialListBox ui:field="accountPicker" width="80%">
                             <m.html:Option text="All Accounts"/>
-                            <m.html:Option text="@BerthaDigsSR99"/>
-                            <m.html:Option text="@GoodToGoWSDOT"/>
-                            <m.html:Option text="@SnoqualmiePass"/>
-                            <m.html:Option text="@wsdot"/>
-                            <m.html:Option text="@wsdot_520"/>
-                            <m.html:Option text="@WSDOT_East"/>
-                            <m.html:Option text="@wsdot_north"/>
-                            <m.html:Option text="@wsdot_sw"/>
-                            <m.html:Option text="@wsdot_tacoma"/>
-                            <m.html:Option text="@wsdot_traffic"/>
-                            <m.html:Option text="@wsferries"/>
+                            <m.html:Option text="BerthaDigsSR99"/>
+                            <m.html:Option text="GoodToGoWSDOT"/>
+                            <m.html:Option text="SnoqualmiePass"/>
+                            <m.html:Option text="wsdot"/>
+                            <m.html:Option text="wsdot_520"/>
+                            <m.html:Option text="WSDOT_East"/>
+                            <m.html:Option text="wsdot_north"/>
+                            <m.html:Option text="wsdot_sw"/>
+                            <m.html:Option text="wsdot_tacoma"/>
+                            <m.html:Option text="wsdot_traffic"/>
+                            <m.html:Option text="wsferries"/>
                         </m:MaterialListBox>
                     </m:MaterialColumn>
 
