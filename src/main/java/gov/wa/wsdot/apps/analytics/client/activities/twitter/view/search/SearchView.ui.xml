@@ -26,14 +26,17 @@
             <m:MaterialIcon ui:field="clearSearch" iconType="CLEAR"  iconColor="black" paddingTop="20"/>
         </m:MaterialColumn>
         </m:MaterialRow>
-
+    <m:MaterialRow>
         <m:MaterialLink ui:field="advSearchLink" text="advanced search"/>
-
+        <m:MaterialLink ui:field="exportLink" text="download all results as CSV" float="RIGHT" visible="false"/>
+    </m:MaterialRow>
         <g:HTMLPanel ui:field="searchList">
             <g:HTMLPanel ui:field="searchDetails"/>
         </g:HTMLPanel>
 
         <m:MaterialButton ui:field="moreSearchBtn" text="more" waves="LIGHT" backgroundColor="teal lighten-2" textColor="white" visible="false"/>
+
+
 
         <m:MaterialPreLoader ui:field="searchLoader" size="BIG" addStyleNames="{style.loader}" visible="false">
             <m:MaterialSpinner color="blue-only"/>

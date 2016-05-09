@@ -2,7 +2,6 @@ package gov.wa.wsdot.apps.analytics.client.activities.twitter.view.search;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
-import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -71,6 +70,10 @@ public class SearchView extends Composite{
     static
     AdvSearchView advSearch;
 
+    @UiField
+    static
+    MaterialLink exportLink;
+
     private static final String JSON_URL_SUGGESTION = Consts.HOST_URL + "/search/suggest/";
     private static int pageNum = 1;
     private static String searchText = "";
@@ -109,6 +112,13 @@ public class SearchView extends Composite{
         tweetSearch.clear();
     }
 
+
+    @UiHandler("exportLink")
+    void onExport(ClickEvent e){
+        Window.open(url, "_blank", "");
+    }
+
+
     @UiHandler("moreSearchBtn")
     public void onMore(ClickEvent e){
 
@@ -141,6 +151,9 @@ public class SearchView extends Composite{
     void onSearch(SearchEvent e) {
         pageNum = 1;
         searchText = e.getSearchText();
+        exportLink.setVisible(false);
+
+        tweetSearch.setText(e.getSearchText());
 
         String url = getUrl(e);
 
@@ -168,15 +181,21 @@ public class SearchView extends Composite{
         });
     }
 
+    /**
+     * Constructs a url for searching tweets
+     *
+     * the url has the form:
+     *
+     *  HOST_URL/search/:text/:screenName/:collection/:fromYear/:fromMonth/:fromDay/:toYear/:toMonth/:toDay/:page
+     *
+     * @param e
+     * @return
+     */
     private static String getUrl(SearchEvent e){
 
         url = Consts.HOST_URL + "/search/" + e.getSearchText() + "/";
 
-        if (e.getSearchType() == 0){
-            return url;
-        }
-
-        url = url + e.getAccount() + "/" + ((e.getSearchType() == 1) ? "statuses" : "mentions");
+        url = url + e.getAccount() + "/" + ((e.getSearchType() == 2) ? "mentions" : "statuses");
 
         if (e.getStartDate() != null && e.getEndDate() != null){
             url = url + e.getStartDate() + e.getEndDate() + "/";
@@ -188,14 +207,13 @@ public class SearchView extends Composite{
             url = url + "/0/0/0/0/0/0/";
         }
 
-        MaterialToast.fireToast("url: " + url + 1);
-
         return url;
     }
 
     public static void updateSearch(JsArray<Mention> asArrayOfMentionData) {
 
         int j = asArrayOfMentionData.length();
+
         DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
         DateTimeFormat dateTimeFormat2 = DateTimeFormat.getFormat("MMMM dd, yyyy h:mm:ss a");
 
@@ -244,6 +262,10 @@ public class SearchView extends Composite{
             searchList.add(tweet);
         }
 
+        if (j > 0){
+            exportLink.setVisible(true);
+        }
+
         if (j == 0){
             moreSearchBtn.setVisible(false);
         } else {
@@ -289,7 +311,5 @@ public class SearchView extends Composite{
     public void updateSuggestions(List<SearchObject> suggestions){
         //tweetSearch.setListSearches(suggestions);
     }
-
-
 }
 
