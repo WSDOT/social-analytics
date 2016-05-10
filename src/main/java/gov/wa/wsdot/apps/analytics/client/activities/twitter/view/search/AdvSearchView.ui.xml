@@ -9,7 +9,7 @@
             <m:MaterialModalContent>
                 <m:MaterialTitle title="Advanced Search" />
                 <m:MaterialRow>
-                    <m:MaterialColumn grid="s6">
+                    <m:MaterialColumn grid="s4">
                         <m:MaterialLabel text="Account:"/>
                         <m:MaterialListBox ui:field="searchAccountPicker">
                             <m.html:Option text="All"/>
@@ -27,7 +27,7 @@
                         </m:MaterialListBox>
                     </m:MaterialColumn>
 
-                    <m:MaterialColumn grid="s7" paddingTop="20">
+                    <m:MaterialColumn grid="s3">
                         <m:MaterialLabel text="Search for:"/>
                         <m:MaterialListBox ui:field="searchTypePicker">
                             <m.html:Option text="Tweets" value="1"/>
@@ -49,11 +49,12 @@
                         <m:MaterialTextBox ui:field="advSearchTextBox" placeholder="Search Term" />
                     </m:MaterialColumn>
                 </m:MaterialRow>
-
-
+                <m:MaterialRow>
+                <m:MaterialButton ui:field="searchBtn" text="Search"/>
+                </m:MaterialRow>
             </m:MaterialModalContent>
             <m:MaterialModalFooter>
-                <m:MaterialButton ui:field="searchBtn" text="Search" float="LEFT" />
+
                 <m:MaterialButton ui:field="closeAdvSearchBtn" text="Close" type="FLAT"/>
                 <m:MaterialButton ui:field="clearAdvSearchBtn" text="Clear" type="FLAT"/>
             </m:MaterialModalFooter>
