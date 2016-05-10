@@ -2,6 +2,7 @@ package gov.wa.wsdot.apps.analytics.client.activities.twitter.view.ranking;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -19,6 +20,7 @@ import com.google.web.bindery.event.shared.binder.EventHandler;
 import gov.wa.wsdot.apps.analytics.client.activities.events.DateSubmitEvent;
 import gov.wa.wsdot.apps.analytics.shared.Mention;
 import gov.wa.wsdot.apps.analytics.util.Consts;
+import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.*;
 
 import java.util.Date;
@@ -42,18 +44,18 @@ public class RankingView extends Composite{
 
     @UiField
     static
-    HTMLPanel mostRetweet;
+    MaterialCollection mostRetweet;
 
     @UiField
     static
-    HTMLPanel mostLiked;
+    MaterialCollection mostLiked;
     @UiField
     static
-    HTMLPanel leastRetweet;
+    MaterialCollection leastRetweet;
 
     @UiField
     static
-    HTMLPanel leastLiked;
+    MaterialCollection leastLiked;
 
     @UiField
     static
@@ -84,7 +86,7 @@ public class RankingView extends Composite{
         getLikes(event.getAccount(), event.getStartDate(), event.getEndDate(), leastLiked, "worst");
     }
 
-    public static void getRetweets(String account, Date start, Date end, final HTMLPanel list, final String listType){
+    public static void getRetweets(String account, Date start, Date end, final MaterialCollection list, final String listType){
 
         list.clear();
 
@@ -111,14 +113,14 @@ public class RankingView extends Composite{
             @Override
             public void onSuccess(Mention mention) {
                 if (mention.getMentions() != null) {
-                    updateRetweetList(mention.getMentions(), list);
+                    updateRetweetList(mention.getMentions(), list, listType);
                     loader.setVisible(false);
                 }
             }
         });
     }
 
-    public static void updateRetweetList(JsArray<Mention> asArrayOfMentionData,  HTMLPanel list) {
+    public static void updateRetweetList(JsArray<Mention> asArrayOfMentionData,  MaterialCollection list, String listType) {
 
         int j = asArrayOfMentionData.length();
         DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
@@ -127,9 +129,40 @@ public class RankingView extends Composite{
         String text;
         String screenName;
 
+        // Assemble header
+        MaterialCollectionItem header = new MaterialCollectionItem();
+
+        MaterialCollectionSecondary iconContatiner = new MaterialCollectionSecondary();
+
+        MaterialIcon likesIcon = new MaterialIcon(IconType.SYNC);
+        likesIcon.setIconColor("blue lighten-1");
+
+        MaterialIcon trendingIcon;
+
+        if (listType.equalsIgnoreCase("best")) {
+            trendingIcon = new MaterialIcon(IconType.TRENDING_UP);
+            trendingIcon.setIconColor("green");
+        }else{
+            trendingIcon = new MaterialIcon(IconType.TRENDING_DOWN);
+            trendingIcon.setIconColor("red");
+        }
+        iconContatiner.add(likesIcon);
+
+        iconContatiner.add(trendingIcon);
+        iconContatiner.setPaddingTop(8);
+
+        header.add(iconContatiner);
+
+        MaterialLabel headerText = new MaterialLabel();
+        headerText.setText("Retweets");
+        headerText.setFontSize("1.5em");
+        header.add(headerText);
+
+        list.add(header);
+
         for (int i = 0; i < j; i++) {
 
-            MaterialCard tweet = new MaterialCard();
+            MaterialCollectionItem tweet = new MaterialCollectionItem();
 
             screenName = (asArrayOfMentionData.get(i).getFromUser() != null) ?
                     asArrayOfMentionData.get(i).getFromUser() :
@@ -137,15 +170,26 @@ public class RankingView extends Composite{
 
             text = asArrayOfMentionData.get(i).getText();
 
+            final String link = "http://twitter.com/#!/" + screenName + "/status/" + asArrayOfMentionData.get(i).getIdStr();
+
+            MaterialLink tweetUser = new MaterialLink("@" + screenName);
+            tweetUser.setFontSize("1.3em");
+            tweetUser.addClickHandler(new ClickHandler() {
+                @Override
+                public void onClick(ClickEvent event) {
+                    Window.open(link, "_blank", "");
+                }
+            });
+            tweet.add(tweetUser);
+
             MaterialLabel tweetText = new MaterialLabel(text);
 
             tweet.add(tweetText);
 
             String createdAt = dateTimeFormat2.format(dateTimeFormat.parse(asArrayOfMentionData.get(i).getCreatedAt()));
 
-            final String link = "http://twitter.com/#!/" + screenName + "/status/" + asArrayOfMentionData.get(i).getIdStr();
-
             MaterialLink updated = new MaterialLink(createdAt);
+            updated.setTextColor("grey");
             updated.addClickHandler(new ClickHandler() {
                 @Override
                 public void onClick(ClickEvent event) {
@@ -155,6 +199,16 @@ public class RankingView extends Composite{
 
             tweet.add(updated);
 
+            // Add badge
+            if (listType == "best" && i == 0) {
+                MaterialIcon best = new MaterialIcon(IconType.GRADE);
+                best.setIconColor("amber");
+                best.setFloat(Style.Float.RIGHT);
+                tweet.add(best);
+            }
+
+            tweet.setShadow(0);
+
             tweet.setPadding(10.0);
 
             list.add(tweet);
@@ -162,7 +216,7 @@ public class RankingView extends Composite{
         }
     }
 
-    public static void getLikes(String account, Date start, Date end, final HTMLPanel list, String listType){
+    public static void getLikes(String account, Date start, Date end, final MaterialCollection list, final String listType){
 
         list.clear();
 
@@ -189,14 +243,14 @@ public class RankingView extends Composite{
             @Override
             public void onSuccess(Mention mention) {
                 if (mention.getMentions() != null) {
-                    updateLikesList(mention.getMentions(), list);
+                    updateLikesList(mention.getMentions(), list, listType);
                     loader.setVisible(false);
                 }
             }
         });
     }
 
-    public static void updateLikesList(JsArray<Mention> asArrayOfMentionData, HTMLPanel list) {
+    public static void updateLikesList(JsArray<Mention> asArrayOfMentionData, MaterialCollection list, String listType) {
 
         int j = asArrayOfMentionData.length();
         DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
@@ -205,11 +259,40 @@ public class RankingView extends Composite{
         String text;
         String screenName;
 
+        // Assemble header
+        MaterialCollectionItem header = new MaterialCollectionItem();
+
+        MaterialCollectionSecondary iconContatiner = new MaterialCollectionSecondary();
+
+        MaterialIcon likesIcon = new MaterialIcon(IconType.FAVORITE);
+        likesIcon.setIconColor("pink lighten-1");
+
+        MaterialIcon trendingIcon;
+
+        if (listType.equalsIgnoreCase("best")) {
+            trendingIcon = new MaterialIcon(IconType.TRENDING_UP);
+            trendingIcon.setIconColor("green");
+        }else{
+            trendingIcon = new MaterialIcon(IconType.TRENDING_DOWN);
+            trendingIcon.setIconColor("red");
+        }
+        iconContatiner.add(likesIcon);
+
+        iconContatiner.add(trendingIcon);
+        iconContatiner.setPaddingTop(8);
+
+        header.add(iconContatiner);
+
+        MaterialLabel headerText = new MaterialLabel();
+        headerText.setText("Likes");
+        headerText.setFontSize("1.5em");
+        header.add(headerText);
+
+        list.add(header);
+
         for (int i = 0; i < j; i++) {
 
-            MaterialCard tweetCard = new MaterialCard();
-
-            MaterialCardContent tweet = new MaterialCardContent();
+            MaterialCollectionItem tweet = new MaterialCollectionItem();
 
             screenName = (asArrayOfMentionData.get(i).getFromUser() != null) ?
                     asArrayOfMentionData.get(i).getFromUser() :
@@ -217,15 +300,26 @@ public class RankingView extends Composite{
 
             text = asArrayOfMentionData.get(i).getText();
 
+            final String link = "http://twitter.com/#!/" + screenName + "/status/" + asArrayOfMentionData.get(i).getIdStr();
+
+            MaterialLink tweetUser = new MaterialLink("@" + screenName);
+            tweetUser.setFontSize("1.3em");
+            tweetUser.addClickHandler(new ClickHandler() {
+                @Override
+                public void onClick(ClickEvent event) {
+                    Window.open(link, "_blank", "");
+                }
+            });
+            tweet.add(tweetUser);
+
             MaterialLabel tweetText = new MaterialLabel(text);
 
             tweet.add(tweetText);
 
             String createdAt = dateTimeFormat2.format(dateTimeFormat.parse(asArrayOfMentionData.get(i).getCreatedAt()));
 
-            final String link = "http://twitter.com/#!/" + screenName + "/status/" + asArrayOfMentionData.get(i).getIdStr();
-
             MaterialLink updated = new MaterialLink(createdAt);
+            updated.setTextColor("grey");
             updated.addClickHandler(new ClickHandler() {
                 @Override
                 public void onClick(ClickEvent event) {
@@ -234,9 +328,17 @@ public class RankingView extends Composite{
             });
 
             tweet.add(updated);
+
+            // Add badge
+            if (listType == "best" && i == 0) {
+                MaterialIcon best = new MaterialIcon(IconType.GRADE);
+                best.setIconColor("amber");
+                best.setFloat(Style.Float.RIGHT);
+                tweet.add(best);
+            }
+
             tweet.setPadding(10.0);
-            tweetCard.add(tweet);
-            list.add(tweetCard);
+            list.add(tweet);
         }
     }
 }

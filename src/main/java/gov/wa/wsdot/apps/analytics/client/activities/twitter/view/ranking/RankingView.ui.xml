@@ -36,17 +36,23 @@
                 </m:MaterialTabItem>
             </m:MaterialTab>
         </m:MaterialColumn>
+
+
         <m:MaterialColumn m:id="best"  grid="s12">
-            <m:MaterialLabel ui:field="mostLikesLabel" backgroundColor="teal lighten-2" textColor="white" padding="5" marginTop="10" width="100%" text="Most Likes" fontSize="1.5em"/>
-            <g:HTMLPanel ui:field="mostLiked"/>
-            <m:MaterialLabel ui:field="mostRetweetsLabel" backgroundColor="teal lighten-2" textColor="white" padding="5" marginTop="10" width="100%"  text="Most Retweets" fontSize="1.5em"/>
-            <g:HTMLPanel ui:field="mostRetweet"/>
+            <m:MaterialCollection ui:field="mostLiked" shadow="1">
+            </m:MaterialCollection>
+
+            <m:MaterialCollection ui:field="mostRetweet" shadow="1">
+            </m:MaterialCollection>
+
         </m:MaterialColumn>
         <m:MaterialColumn  m:id="worst" grid="s12">
-            <m:MaterialLabel ui:field="leastLikesLabel" backgroundColor="teal lighten-2" textColor="white" padding="5" marginTop="10" width="100%"  text="Least Likes" fontSize="1.5em"/>
-            <g:HTMLPanel ui:field="leastLiked"/>
-            <m:MaterialLabel ui:field="leastRetweetsLabel" backgroundColor="teal lighten-2" textColor="white" padding="5" marginTop="10" width="100%"  text="Least Retweets" fontSize="1.5em"/>
-            <g:HTMLPanel ui:field="leastRetweet"/>
+            <m:MaterialCollection ui:field="leastLiked" shadow="1">
+            </m:MaterialCollection>
+
+            <m:MaterialCollection ui:field="leastRetweet" shadow="1">
+            </m:MaterialCollection>
+
         </m:MaterialColumn>
 
 

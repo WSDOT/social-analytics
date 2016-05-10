@@ -18,7 +18,7 @@
             <m:MaterialNavBrand textColor="white" float="LEFT">WSDOT Social Analytics</m:MaterialNavBrand>
         </m:MaterialNavBar>
 
-            <div class="{res.css.main}" style="padding: 30px;">
+            <div style="padding: 30px;">
 
                 <m:MaterialRow>
                     <m:MaterialColumn grid="s12 m3">
@@ -50,25 +50,22 @@
                     <m:MaterialButton ui:field="submitDateButton" text="apply date" waves="LIGHT" backgroundColor="teal lighten-2" textColor="white" />
                     </m:MaterialColumn>
 
-
                 </m:MaterialRow>
+                <m:MaterialRow>
 
-                    <m:MaterialRow>
-
-                        <m:MaterialColumn grid="s12 l4 m12">
-                            <views.ranking:RankingView ui:field="ranking"/>
-                        </m:MaterialColumn>
-
-
-                        <m:MaterialColumn grid="s12 l4 m6">
+                    <m:MaterialColumn grid="s12 l8 m6">
+                        <m:MaterialColumn grid="s12 l6 m12">
                             <views.summary:SummaryChart ui:field="summaryChart"/>
                             <views.sentiment:SentimentPieChart ui:field="sentimentPieChart"/>
                             <views.sources:SourcesPieChart ui:field="sourcesPieChart"/>
                         </m:MaterialColumn>
+                        <m:MaterialColumn grid="s12 l6 m12">
+                            <views.ranking:RankingView ui:field="ranking"/>
+                        </m:MaterialColumn>
+                    </m:MaterialColumn>
 
-                        <m:MaterialColumn grid="s12 l4 m6">
-
-                            <m:MaterialRow ui:field="tweetsTabs">
+                    <m:MaterialColumn grid="s12 l4 m6">
+                        <m:MaterialRow ui:field="tweetsTabs">
                             <m:MaterialColumn grid="s12">
                                 <m:MaterialTab ui:field="tab" backgroundColor="teal lighten-2" indicatorColor="yellow">
                                     <m:MaterialTabItem waves="LIGHT" grid="s4">
@@ -79,24 +76,16 @@
                                     </m:MaterialTabItem>
                                 </m:MaterialTab>
                             </m:MaterialColumn>
-                                <m:MaterialColumn  m:id="mentions" grid="s12">
+                            <m:MaterialColumn  m:id="mentions" grid="s12">
+                                <views.tweets:TweetsView ui:field="tweets"/>
+                            </m:MaterialColumn>
+                            <m:MaterialColumn  m:id="search" grid="s12">
+                                <views.search:SearchView ui:field="searchResults"/>
+                            </m:MaterialColumn>
+                        </m:MaterialRow>
+                    </m:MaterialColumn>
 
-                                    <views.tweets:TweetsView ui:field="tweets"/>
-
-                                </m:MaterialColumn>
-                                <m:MaterialColumn  m:id="search" grid="s12">
-
-                                    <views.search:SearchView ui:field="searchResults"/>
-
-                                </m:MaterialColumn>
-
-                            </m:MaterialRow>
-
-                        </m:MaterialColumn>
-
-
-
-                    </m:MaterialRow>
+                </m:MaterialRow>
 
             </div>
 
