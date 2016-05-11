@@ -29,7 +29,6 @@ import gov.wa.wsdot.apps.analytics.util.Consts;
 import gwt.material.design.client.base.SearchObject;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -207,7 +206,11 @@ public class SearchView extends Composite{
      */
     private static String getUrl(SearchEvent e){
 
-        url = Consts.HOST_URL + "/search/" + e.getSearchText() + "/";
+        searchText = e.getSearchText();
+
+        searchText = URL.encodePathSegment(searchText);
+
+        url = Consts.HOST_URL + "/search/" + searchText + "/";
 
         url = url + e.getAccount() + "/" + ((e.getSearchType() == 2) ? "mentions" : "statuses");
 
