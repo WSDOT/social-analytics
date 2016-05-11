@@ -25,6 +25,7 @@ import com.googlecode.gwt.charts.client.corechart.AreaChart;
 import com.googlecode.gwt.charts.client.corechart.AreaChartOptions;
 import com.googlecode.gwt.charts.client.options.*;
 import gov.wa.wsdot.apps.analytics.client.activities.events.DateSubmitEvent;
+import gov.wa.wsdot.apps.analytics.client.resources.Resources;
 import gov.wa.wsdot.apps.analytics.shared.FollowerSummary;
 import gov.wa.wsdot.apps.analytics.shared.TweetSummary;
 import gov.wa.wsdot.apps.analytics.util.Consts;
@@ -92,6 +93,8 @@ public class SummaryChart extends Composite{
     static
     MaterialCardContent followerContent;
 
+    final Resources res;
+
     private static AreaChart tweetsChart;
     private static AreaChart followersChart;
 
@@ -107,6 +110,8 @@ public class SummaryChart extends Composite{
 
 
     public SummaryChart(EventBus eventBus){
+        res = GWT.create(Resources.class);
+        res.css().ensureInjected();
         eventBinder.bindEventHandlers(this, eventBus);
         initWidget(uiBinder.createAndBindUi(this));
 
@@ -176,6 +181,8 @@ public class SummaryChart extends Composite{
                 chartLoader.loadApi(new Runnable() {
                     @Override
                     public void run() {
+                        tweetContent.clear();
+                        tweetLabel.clear();
                         tweetContent.add(getTweetsChart());
                         drawTweetsChart(tweetSummary);
                         tweetsLoader.setVisible(false);
@@ -326,7 +333,7 @@ public class SummaryChart extends Composite{
 
         change = Math.round(change * 100)/(float)100;
 
-        followersIcon.setIconType((change > 0 ? IconType.ARROW_UPWARD : IconType.ARROW_DOWNWARD) );
+        followersIcon.setIconType((change > 0 ? IconType.TRENDING_UP : IconType.TRENDING_DOWN) );
         followersIcon.setIconColor((change > 0 ? "teal" : "deep-orange accent-2"));
 
         followersLabel.setText(Math.abs(change) + "% " + (change > 0 ? "increase" : "decrease") + " in followers from "

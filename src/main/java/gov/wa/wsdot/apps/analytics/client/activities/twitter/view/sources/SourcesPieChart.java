@@ -21,6 +21,7 @@ import com.googlecode.gwt.charts.client.options.ChartArea;
 import com.googlecode.gwt.charts.client.options.Legend;
 import com.googlecode.gwt.charts.client.options.LegendPosition;
 import gov.wa.wsdot.apps.analytics.client.activities.events.DateSubmitEvent;
+import gov.wa.wsdot.apps.analytics.client.resources.Resources;
 import gov.wa.wsdot.apps.analytics.shared.SourceSummary;
 import gov.wa.wsdot.apps.analytics.util.Consts;
 import gwt.material.design.client.ui.MaterialCardContent;
@@ -51,6 +52,8 @@ public class SourcesPieChart extends Composite{
     static
     MaterialPreLoader sourcesLoader;
 
+    final Resources res;
+
     private static final String JSON_URL = Consts.HOST_URL + "/mentions/source";
     static JsArray<SourceSummary> sourceSummary;
 
@@ -59,6 +62,8 @@ public class SourcesPieChart extends Composite{
     private static PieChart pieChart;
 
     public SourcesPieChart(EventBus eventBus) {
+        res = GWT.create(Resources.class);
+        res.css().ensureInjected();
         eventBinder.bindEventHandlers(this, eventBus);
         initWidget(uiBinder.createAndBindUi(this));
         updateChart(defaultDateRange, defaultAccount);

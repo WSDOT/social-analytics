@@ -18,13 +18,13 @@ import com.google.web.bindery.event.shared.binder.EventBinder;
 import com.google.web.bindery.event.shared.binder.EventHandler;
 import gov.wa.wsdot.apps.analytics.client.activities.events.DateSubmitEvent;
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.tweet.TweetView;
+import gov.wa.wsdot.apps.analytics.client.resources.Resources;
 import gov.wa.wsdot.apps.analytics.shared.Mention;
 import gov.wa.wsdot.apps.analytics.util.Consts;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialPreLoader;
 import gwt.material.design.client.ui.MaterialToast;
-
 import java.util.Date;
 
 /**
@@ -40,9 +40,9 @@ public class TweetsView extends Composite {
     private static TweetsViewUiBinder uiBinder = GWT
             .create(TweetsViewUiBinder.class);
 
-    interface TweetsViewUiBinder extends
-            UiBinder<Widget, TweetsView> {
-    }
+    interface TweetsViewUiBinder extends UiBinder<Widget, TweetsView> {}
+
+    final Resources res;
 
     @UiField
     static
@@ -64,6 +64,9 @@ public class TweetsView extends Composite {
     private static String defaultAccount = "wsdot";
 
     public TweetsView(EventBus eventBus) {
+
+        res = GWT.create(Resources.class);
+        res.css().ensureInjected();
         eventBinder.bindEventHandlers(this, eventBus);
         initWidget(uiBinder.createAndBindUi(this));
         updateTweets(new Date(), defaultAccount);
@@ -120,6 +123,7 @@ public class TweetsView extends Composite {
     public static void updateTweets(Date day, String account){
 
         tweetsList.clear();
+        moreTweetsBtn.setVisible(false);
 
         DateTimeFormat fmt = DateTimeFormat.getFormat("/yyyy/M/d");
         String latestDate = fmt.format(day);
@@ -203,7 +207,6 @@ public class TweetsView extends Composite {
             } else {
                 tweet = new TweetView(id, screenName, updatedText, createdAt, link, mediaUrl, IconType.SENTIMENT_NEUTRAL);
             }
-
             tweetsList.add(tweet);
         }
 

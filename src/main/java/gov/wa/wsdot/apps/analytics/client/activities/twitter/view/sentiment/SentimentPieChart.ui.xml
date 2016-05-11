@@ -1,33 +1,16 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
              xmlns:m="urn:import:gwt.material.design.client.ui">
-    <ui:style>
 
-
-        .overflow{
-        overflow: hidden;
-        }
-
-        .block{
-        display: block;
-        padding: 20px;
-        }
-
-        .loader {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        margin-bottom: 25px;
-        }
-    </ui:style>
+    <ui:with field="res" type="gov.wa.wsdot.apps.analytics.client.resources.Resources" />
 
     <m:MaterialColumn grid="s12">
         <m:MaterialCard>
-            <m:MaterialCardTitle text="Mention Sentiment" textColor="black" addStyleNames="{style.block}"/>
-            <m:MaterialPreLoader ui:field="sentimentLoader" size="BIG" addStyleNames="{style.loader}">
+            <m:MaterialCardTitle text="Mention Sentiment" textColor="black" addStyleNames="{res.css.graphBlock}"/>
+            <m:MaterialPreLoader ui:field="sentimentLoader" size="BIG" addStyleNames="{res.css.loader}">
                 <m:MaterialSpinner color="blue-only"/>
             </m:MaterialPreLoader>
-            <m:MaterialCardContent ui:field="cardContent" addStyleNames="no-padding {style.overflow}"/>
+            <m:MaterialCardContent ui:field="cardContent" addStyleNames="no-padding {res.css.overflowHidden}"/>
 
             <m:MaterialCardAction>
                 <m:MaterialLabel text="Sentiment analysis aims to determine the attitude of a tweet with respect to some topic relating to WSDOT or the overall attitude towards WSDOT as a brand."/>

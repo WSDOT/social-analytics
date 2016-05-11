@@ -26,56 +26,17 @@ import com.google.gwt.resources.client.ImageResource;
 public interface Resources extends ClientBundle {
 	public static final Resources INSTANCE = GWT.create(Resources.class);
 	
-	  @Source("GlobalStyles.css")
-	  public Styles css();
-	  
-	  @Source("bullet.gif")
-	  ImageResource bulletGIF();
-	  
-	  @Source("WSDOTacronymWhite.png")
-	  ImageResource tacronymWhiteLogoPNG();
-	  
-	  @Source("89.gif")
-	  ImageResource ajaxLoaderGIF();
-	  
-	  @Source("ajaxloader.gif")
-	  ImageResource ajaxLoader2GIF();
-	  
-	  /*
-	  @Source("positive.png")
-	  ImageResource positivePNG();
+    @Source("GlobalStyles.css")
+    public Styles css();
 
-	  @Source("negative.png")
-	  ImageResource negativePNG();
-	  */
-	  
-	  public interface Styles extends CssResource {
-		  // Classes
-		  String clearLeft();
-		  String clearRight();
-		  String clearBoth();
-		  String header();
-		  String topban();
-		  String topnav();
-		  String first();
-		  String logo();
-		  String search();
-		  String searchText();
-		  String wrapper();
-		  String leftnav();
-		  String leftnavbox();
-		  String main();
-		  String footer();
-		  String bottomnav();
-		  String ajaxLoading();
-		  String ajaxLoading2();
-		  //String positive();
-		  //String negative();
-		  //String neutral();
-		  String tweetBox();
-		  String sectionHeader();
-		  String sectionHeaderRight();
-		  String labelTest();
-		  String tweetIcon();
-	  }	
+
+    public interface Styles extends CssResource {
+        // CSS classes
+
+        String loader();
+
+        // Graph
+        String graphBlock();
+        String overflowHidden();
+    }
 }

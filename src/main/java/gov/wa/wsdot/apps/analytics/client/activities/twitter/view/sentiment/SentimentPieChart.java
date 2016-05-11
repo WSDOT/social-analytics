@@ -22,6 +22,7 @@ import com.googlecode.gwt.charts.client.options.ChartArea;
 import com.googlecode.gwt.charts.client.options.Legend;
 import com.googlecode.gwt.charts.client.options.LegendPosition;
 import gov.wa.wsdot.apps.analytics.client.activities.events.DateSubmitEvent;
+import gov.wa.wsdot.apps.analytics.client.resources.Resources;
 import gov.wa.wsdot.apps.analytics.shared.SentimentSummary;
 import gov.wa.wsdot.apps.analytics.util.Consts;
 import gwt.material.design.client.ui.MaterialCardContent;
@@ -52,6 +53,8 @@ public class SentimentPieChart extends Composite {
     static
     MaterialPreLoader sentimentLoader;
 
+    final Resources res;
+
     private static final String JSON_URL = Consts.HOST_URL + "/mentions";
     static JsArray<SentimentSummary> sentimentSummary;
     private static String defaultDateRange = "";
@@ -59,6 +62,8 @@ public class SentimentPieChart extends Composite {
     private static PieChart pieChart;
 
     public SentimentPieChart(EventBus eventBus) {
+        res = GWT.create(Resources.class);
+        res.css().ensureInjected();
         eventBinder.bindEventHandlers(this, eventBus);
         initWidget(uiBinder.createAndBindUi(this));
 

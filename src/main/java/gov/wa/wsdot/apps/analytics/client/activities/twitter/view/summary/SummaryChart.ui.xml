@@ -2,27 +2,7 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
              xmlns:m="urn:import:gwt.material.design.client.ui">
 
-    <ui:style>
-
-
-
-        .block{
-            display: block;
-            padding: 20px;
-        }
-
-        .overflow {
-            overflow: hidden;
-        }
-
-        .loader {
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            margin-bottom: 25px;
-        }
-
-    </ui:style>
+    <ui:with field="res" type="gov.wa.wsdot.apps.analytics.client.resources.Resources" />
 
     <m:MaterialRow ui:field="tabs">
         <m:MaterialColumn grid="s12">
@@ -38,11 +18,11 @@
 
         <m:MaterialColumn  m:id="tweetgraphtab" grid="s12">
                 <m:MaterialCard>
-                    <m:MaterialCardTitle text="Tweets And Mentions" textColor="black" addStyleNames="{style.block}"/>
-                    <m:MaterialPreLoader ui:field="tweetsLoader" size="BIG" addStyleNames="{style.loader}">
+                    <m:MaterialCardTitle text="Tweets And Mentions" textColor="black" addStyleNames="{res.css.graphBlock}"/>
+                    <m:MaterialPreLoader ui:field="tweetsLoader" size="BIG" addStyleNames="{res.css.loader}">
                         <m:MaterialSpinner color="blue-only"/>
                     </m:MaterialPreLoader>
-                    <m:MaterialCardContent ui:field="tweetContent" addStyleNames="no-padding {style.overflow}"/>
+                    <m:MaterialCardContent ui:field="tweetContent" addStyleNames="no-padding {res.css.overflowHidden}"/>
                     <m:MaterialCardAction ui:field="tweetLabel"/>
                 </m:MaterialCard>
 
@@ -51,11 +31,11 @@
         <m:MaterialColumn  m:id="followersgraphtab" grid="s12">
 
                 <m:MaterialCard>
-                    <m:MaterialCardTitle text="Followers" textColor="black" addStyleNames="{style.block}"/>
-                    <m:MaterialPreLoader ui:field="followersLoader" size="BIG" addStyleNames="{style.loader}">
+                    <m:MaterialCardTitle text="Followers" textColor="black" addStyleNames="{res.css.graphBlock}"/>
+                    <m:MaterialPreLoader ui:field="followersLoader" size="BIG" addStyleNames="{res.css.loader}">
                         <m:MaterialSpinner color="blue-only"/>
                     </m:MaterialPreLoader>
-                    <m:MaterialCardContent ui:field="followerContent" addStyleNames="no-padding {style.overflow}"/>
+                    <m:MaterialCardContent ui:field="followerContent" addStyleNames="no-padding {res.css.overflowHidden}"/>
                     <m:MaterialCardAction>
                         <m:MaterialRow>
                             <m:MaterialIcon ui:field="followersIcon" grid="s1"/>

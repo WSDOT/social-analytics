@@ -11,16 +11,16 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.*;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.binder.EventBinder;
 import com.google.web.bindery.event.shared.binder.EventHandler;
 import gov.wa.wsdot.apps.analytics.client.activities.events.DateSubmitEvent;
+import gov.wa.wsdot.apps.analytics.client.resources.Resources;
 import gov.wa.wsdot.apps.analytics.shared.Mention;
 import gov.wa.wsdot.apps.analytics.util.Consts;
 import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.constants.TextAlign;
 import gwt.material.design.client.ui.*;
 
 import java.util.Date;
@@ -65,10 +65,13 @@ public class RankingView extends Composite{
     static
     MaterialLink likeTab;
 
+    final Resources res;
 
     private static String defaultAccount = "wsdot";
 
     public RankingView(EventBus eventBus) {
+        res = GWT.create(Resources.class);
+        res.css().ensureInjected();
         eventBinder.bindEventHandlers(this, eventBus);
         initWidget(uiBinder.createAndBindUi(this));
 
@@ -113,6 +116,7 @@ public class RankingView extends Composite{
             @Override
             public void onSuccess(Mention mention) {
                 if (mention.getMentions() != null) {
+                    list.clear();
                     updateRetweetList(mention.getMentions(), list, listType);
                     loader.setVisible(false);
                 }
@@ -134,19 +138,20 @@ public class RankingView extends Composite{
 
         MaterialCollectionSecondary iconContatiner = new MaterialCollectionSecondary();
 
-        MaterialIcon likesIcon = new MaterialIcon(IconType.SYNC);
-        likesIcon.setIconColor("blue lighten-1");
+        MaterialIcon retweetIcon = new MaterialIcon(IconType.REPEAT);
+        retweetIcon.setIconColor("blue lighten-1");
+        retweetIcon.setFloat(Style.Float.LEFT);
+        header.add(retweetIcon);
 
         MaterialIcon trendingIcon;
 
         if (listType.equalsIgnoreCase("best")) {
-            trendingIcon = new MaterialIcon(IconType.TRENDING_UP);
+            trendingIcon = new MaterialIcon(IconType.SENTIMENT_VERY_SATISFIED);
             trendingIcon.setIconColor("green");
         }else{
-            trendingIcon = new MaterialIcon(IconType.TRENDING_DOWN);
+            trendingIcon = new MaterialIcon(IconType.SENTIMENT_VERY_DISSATISFIED);
             trendingIcon.setIconColor("red");
         }
-        iconContatiner.add(likesIcon);
 
         iconContatiner.add(trendingIcon);
         iconContatiner.setPaddingTop(8);
@@ -243,6 +248,7 @@ public class RankingView extends Composite{
             @Override
             public void onSuccess(Mention mention) {
                 if (mention.getMentions() != null) {
+                    list.clear();
                     updateLikesList(mention.getMentions(), list, listType);
                     loader.setVisible(false);
                 }
@@ -266,19 +272,21 @@ public class RankingView extends Composite{
 
         MaterialIcon likesIcon = new MaterialIcon(IconType.FAVORITE);
         likesIcon.setIconColor("pink lighten-1");
+        likesIcon.setFloat(Style.Float.LEFT);
+        header.add(likesIcon);
 
         MaterialIcon trendingIcon;
 
         if (listType.equalsIgnoreCase("best")) {
-            trendingIcon = new MaterialIcon(IconType.TRENDING_UP);
+            trendingIcon = new MaterialIcon(IconType.SENTIMENT_VERY_SATISFIED);
             trendingIcon.setIconColor("green");
         }else{
-            trendingIcon = new MaterialIcon(IconType.TRENDING_DOWN);
+            trendingIcon = new MaterialIcon(IconType.SENTIMENT_VERY_DISSATISFIED);
             trendingIcon.setIconColor("red");
         }
-        iconContatiner.add(likesIcon);
 
         iconContatiner.add(trendingIcon);
+
         iconContatiner.setPaddingTop(8);
 
         header.add(iconContatiner);

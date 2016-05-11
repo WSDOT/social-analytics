@@ -2,37 +2,19 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
              xmlns:m="urn:import:gwt.material.design.client.ui"
              xmlns:g="urn:import:com.google.gwt.user.client.ui">
-    <ui:style>
 
+    <ui:with field="res" type="gov.wa.wsdot.apps.analytics.client.resources.Resources" />
 
-
-        .block{
-        display: block;
-        padding: 20px;
-        }
-
-        .overflow {
-        overflow: hidden;
-        }
-
-        .loader {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        margin-bottom: 25px;
-        }
-
-    </ui:style>
-<g:HTMLPanel>
+    <g:HTMLPanel>
     <m:MaterialRow>
         <m:MaterialColumn grid="s12">
             <m:MaterialTab ui:field="tab" backgroundColor="teal lighten-2" indicatorColor="yellow">
 
                 <m:MaterialTabItem waves="LIGHT" grid="s4">
-                    <m:MaterialLink ui:field="likeTab" text="Popular Tweets" href="#best" textColor="white"/>
+                    <m:MaterialLink ui:field="likeTab" text="Popular" href="#best" textColor="white"/>
                 </m:MaterialTabItem>
                 <m:MaterialTabItem waves="LIGHT" grid="s4">
-                    <m:MaterialLink ui:field="retweetTab" text="Unpopular Tweets" href="#worst" textColor="white"/>
+                    <m:MaterialLink ui:field="retweetTab" text="Unpopular" href="#worst" textColor="white"/>
                 </m:MaterialTabItem>
             </m:MaterialTab>
         </m:MaterialColumn>
@@ -55,11 +37,19 @@
 
         </m:MaterialColumn>
 
+        <m:MaterialColumn  grid="s12">
+            <m:MaterialCard>
+                <m:MaterialCardContent>
+                    <m:MaterialLabel text="*disclaimer about like/retweet counts."/>
+                </m:MaterialCardContent>
+            </m:MaterialCard>
+
+        </m:MaterialColumn>
 
     </m:MaterialRow>
 
-    <m:MaterialPreLoader ui:field="loader" size="BIG" addStyleNames="{style.loader}" visible="false">
+    <m:MaterialPreLoader ui:field="loader" size="BIG" addStyleNames="{res.css.loader}" visible="false">
         <m:MaterialSpinner color="blue-only"/>
     </m:MaterialPreLoader>
-</g:HTMLPanel>
+    </g:HTMLPanel>
 </ui:UiBinder>

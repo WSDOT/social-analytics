@@ -5,14 +5,7 @@
              xmlns:m.html="urn:import:gwt.material.design.client.ui.html"
              xmlns:views.search="urn:import:gov.wa.wsdot.apps.analytics.client.activities.twitter.view.search">
 
-    <ui:style>
-        .loader {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        margin-bottom: 25px;
-        }
-    </ui:style>
+    <ui:with field="res" type="gov.wa.wsdot.apps.analytics.client.resources.Resources" />
 
     <g:HTMLPanel>
 
@@ -38,7 +31,7 @@
 
 
 
-        <m:MaterialPreLoader ui:field="searchLoader" size="BIG" addStyleNames="{style.loader}" visible="false">
+        <m:MaterialPreLoader ui:field="searchLoader" size="BIG" addStyleNames="{res.css.loader}" visible="false">
             <m:MaterialSpinner color="blue-only"/>
         </m:MaterialPreLoader>
     </g:HTMLPanel>

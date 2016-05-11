@@ -22,6 +22,7 @@ import com.google.web.bindery.event.shared.binder.EventBinder;
 import com.google.web.bindery.event.shared.binder.EventHandler;
 import gov.wa.wsdot.apps.analytics.client.activities.events.SearchEvent;
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.tweet.TweetView;
+import gov.wa.wsdot.apps.analytics.client.resources.Resources;
 import gov.wa.wsdot.apps.analytics.shared.Mention;
 import gov.wa.wsdot.apps.analytics.shared.Words;
 import gov.wa.wsdot.apps.analytics.util.Consts;
@@ -74,6 +75,8 @@ public class SearchView extends Composite{
     static
     MaterialLink exportLink;
 
+    final Resources res;
+
     private static final String JSON_URL_SUGGESTION = Consts.HOST_URL + "/search/suggest/";
     private static int pageNum = 1;
     private static String searchText = "";
@@ -84,7 +87,8 @@ public class SearchView extends Composite{
     public SearchView(EventBus eventBus) {
 
         advSearch = new AdvSearchView(eventBus);
-
+        res = GWT.create(Resources.class);
+        res.css().ensureInjected();
         eventBinder.bindEventHandlers(this, eventBus);
         initWidget(uiBinder.createAndBindUi(this));
         this.eventBus = eventBus;
