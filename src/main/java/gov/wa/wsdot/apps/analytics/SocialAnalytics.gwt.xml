@@ -24,7 +24,6 @@
   <inherits name='com.google.web.bindery.event.EventBinder'/>
   <inherits name="com.googlecode.gwt.charts.Charts"/>
   <inherits name="gwt.material.design.addins.GWTMaterialAddins"/>
-
   <!-- Specify the app entry point class.                         -->
   <entry-point class='gov.wa.wsdot.apps.analytics.client.SocialAnalytics'/>
 

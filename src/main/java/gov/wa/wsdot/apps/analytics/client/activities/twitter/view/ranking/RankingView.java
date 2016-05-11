@@ -25,7 +25,11 @@ import gwt.material.design.client.ui.*;
 
 import java.util.Date;
 
-
+/**
+ * Custom widget for displaying top 5 tweets for most/least likes and most/least retweets.
+ *
+ * Listens for DateSubmitEvents
+ */
 public class RankingView extends Composite{
 
     interface MyEventBinder extends EventBinder<RankingView> {}
@@ -130,11 +134,10 @@ public class RankingView extends Composite{
 
         // Assemble header
         MaterialCollectionItem header = new MaterialCollectionItem();
-
         MaterialCollectionSecondary iconContatiner = new MaterialCollectionSecondary();
 
         MaterialIcon retweetIcon = new MaterialIcon(IconType.REPEAT);
-        retweetIcon.setIconColor("blue lighten-1");
+        retweetIcon.setIconColor("blue-grey");
         retweetIcon.setFloat(Style.Float.LEFT);
         header.add(retweetIcon);
 
@@ -142,10 +145,10 @@ public class RankingView extends Composite{
 
         if (listType.equalsIgnoreCase("best")) {
             trendingIcon = new MaterialIcon(IconType.SENTIMENT_VERY_SATISFIED);
-            trendingIcon.setIconColor("green");
+            trendingIcon.setIconColor("teal accent-4");
         }else{
             trendingIcon = new MaterialIcon(IconType.SENTIMENT_VERY_DISSATISFIED);
-            trendingIcon.setIconColor("red");
+            trendingIcon.setIconColor("deep-orange");
         }
 
         iconContatiner.add(trendingIcon);
@@ -208,11 +211,8 @@ public class RankingView extends Composite{
             }
 
             tweet.setShadow(0);
-
             tweet.setPadding(10.0);
-
             list.add(tweet);
-
         }
     }
 
@@ -274,10 +274,10 @@ public class RankingView extends Composite{
 
         if (listType.equalsIgnoreCase("best")) {
             trendingIcon = new MaterialIcon(IconType.SENTIMENT_VERY_SATISFIED);
-            trendingIcon.setIconColor("green");
+            trendingIcon.setIconColor("teal accent-4");
         }else{
             trendingIcon = new MaterialIcon(IconType.SENTIMENT_VERY_DISSATISFIED);
-            trendingIcon.setIconColor("red");
+            trendingIcon.setIconColor("deep-orange");
         }
 
         iconContatiner.add(trendingIcon);

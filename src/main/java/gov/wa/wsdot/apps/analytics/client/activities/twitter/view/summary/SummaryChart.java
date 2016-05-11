@@ -41,6 +41,7 @@ import java.util.Date;
  * A chart of tweet/mention counts data and a chart of followers counts.
  *
  * Listens for a DateSubmitEvent
+ * Fires SetDateEvent
  */
 public class SummaryChart extends Composite{
 

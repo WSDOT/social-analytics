@@ -1,5 +1,9 @@
 @CHARSET "UTF-8";
 
+.logo {
+    padding-left: 30px; padding-top: 8px;
+}
+
 .loader {
     display: block;
     margin : auto;

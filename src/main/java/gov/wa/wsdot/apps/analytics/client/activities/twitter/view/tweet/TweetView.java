@@ -63,7 +63,7 @@ public class TweetView extends Composite {
     MaterialButton btnClose;
 
     private static final String JSON_URL = Consts.HOST_URL + "/mentions/sentiment/edit/";
-    private String id;
+    private final String id;
 
     public TweetView(String id, String titleText, String contentText, String createdAt, final String url, String imageUrl, IconType sentimentType ){
 
@@ -130,7 +130,7 @@ public class TweetView extends Composite {
 
     private void updateSentiment(final String sentimentType){
 
-        String url = JSON_URL + id + "/" + sentimentType;
+        String url = JSON_URL + this.id + "/" + sentimentType;
 
         JsonpRequestBuilder jsonp = new JsonpRequestBuilder();
         // Set timeout for 30 seconds (30000 milliseconds)

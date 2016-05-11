@@ -8,6 +8,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.event.shared.binder.EventBinder;
 import com.google.web.bindery.event.shared.binder.EventHandler;
@@ -20,6 +21,8 @@ import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.sentiment.Sent
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.sources.SourcesPieChart;
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.summary.SummaryChart;
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.tweets.TweetsView;
+import gov.wa.wsdot.apps.analytics.client.resources.Resources;
+import gov.wa.wsdot.apps.analytics.util.Consts;
 import gwt.material.design.client.ui.*;
 import org.apache.commons.lang3.time.DateUtils;
 
@@ -42,6 +45,9 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
     MaterialNavBar navBar;
 
     @UiField
+    MaterialImage logo;
+
+    @UiField
     MaterialDatePicker dpStart;
 
     @UiField
@@ -52,6 +58,7 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
 
     @UiField
     MaterialButton submitDateButton;
+
 
     @UiField(provided = true)
     SummaryChart summaryChart;
@@ -99,6 +106,8 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
         ranking = new RankingView(clientFactory.getEventBus());
 
         initWidget(uiBinder.createAndBindUi(this));
+        logo.setResource(Resources.INSTANCE.tacronymWhiteLogoPNG());
+        logo.addStyleName(Resources.INSTANCE.css().logo());
 
         accountPicker.setItemSelected(4, true);
 

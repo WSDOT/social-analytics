@@ -187,7 +187,7 @@ public class TweetsView extends Composite {
                     asArrayOfMentionData.get(i).getFromUser() :
                     asArrayOfMentionData.get(i).getUser().getScreenName();
 
-            TweetView tweet;
+            final TweetView tweet;
 
             text = asArrayOfMentionData.get(i).getText();
             updatedText = text.replaceAll(urlPattern, "<a href=\"$1\" target=\"_blank\">$1</a>");
@@ -206,7 +206,7 @@ public class TweetsView extends Composite {
                 }
             } catch (Exception e) {} // Image preview is nice, but if it fails...oh well.
 
-            String id = asArrayOfMentionData.get(i).getIdStr();
+            final String id = asArrayOfMentionData.get(i).getIdStr();
 
             if (asArrayOfMentionData.get(i).getSentiment().equals("positive")) {
                 tweet = new TweetView(id, screenName, updatedText, createdAt, link, mediaUrl, IconType.SENTIMENT_SATISFIED);

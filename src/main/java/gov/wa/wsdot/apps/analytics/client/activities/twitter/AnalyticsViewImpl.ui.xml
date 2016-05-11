@@ -15,7 +15,7 @@
     <g:HTMLPanel>
 
         <m:MaterialNavBar ui:field="navBar" backgroundColor="teal lighten-2" width="100%" type="FIXED" >
-            <m:MaterialNavBrand textColor="white" float="LEFT">WSDOT Social Analytics</m:MaterialNavBrand>
+            <m:MaterialImage ui:field="logo"/>
         </m:MaterialNavBar>
 
             <div style="padding: 30px;">

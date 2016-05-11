@@ -22,6 +22,8 @@ public final class Consts {
 
     public static final String HOST_URL = "http://127.0.0.1:3001";
 
+    public static final String APP_NAME = "Twitter Analytics";
+
     /**
      * The caller references the constants using <tt>Consts.EMPTY_STRING</tt>,
      * and so on. Thus, the caller should be prevented from constructing objects of

@@ -29,11 +29,15 @@ public interface Resources extends ClientBundle {
     @Source("GlobalStyles.css")
     public Styles css();
 
+    @Source("WSDOTacronymWhite.png")
+    ImageResource tacronymWhiteLogoPNG();
 
     public interface Styles extends CssResource {
         // CSS classes
 
         String loader();
+
+        String logo();
 
         // Graph
         String graphBlock();
