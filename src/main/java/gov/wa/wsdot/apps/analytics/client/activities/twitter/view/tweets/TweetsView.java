@@ -56,6 +56,10 @@ public class TweetsView extends Composite {
     static
     MaterialButton moreTweetsBtn;
 
+    @UiField
+    static
+    MaterialButton backToTopBtn;
+
     // Following 3 values used for loading more tweets
     private static String currentAccount = "wsdot";
     private static String currentDate;
@@ -69,7 +73,6 @@ public class TweetsView extends Composite {
         res.css().ensureInjected();
         eventBinder.bindEventHandlers(this, eventBus);
         initWidget(uiBinder.createAndBindUi(this));
-        updateTweets(new Date(), defaultAccount);
     }
 
     @EventHandler
@@ -112,6 +115,11 @@ public class TweetsView extends Composite {
                 }
             }
         });
+    }
+
+    @UiHandler("backToTopBtn")
+    protected void onBackToTop(ClickEvent e){
+        Window.scrollTo(0,0);
     }
 
     /**

@@ -66,8 +66,6 @@ public class SentimentPieChart extends Composite {
         res.css().ensureInjected();
         eventBinder.bindEventHandlers(this, eventBus);
         initWidget(uiBinder.createAndBindUi(this));
-
-        updateChart(defaultDateRange, defaultAccount);
     }
 
 

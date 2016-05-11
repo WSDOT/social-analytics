@@ -10,6 +10,8 @@
             <g:HTMLPanel ui:field="tweetDetails" />
         </g:HTMLPanel>
         <m:MaterialButton ui:field="moreTweetsBtn" text="more" waves="LIGHT" backgroundColor="teal lighten-2" textColor="white" visible="false"/>
+        <m:MaterialButton ui:field="backToTopBtn" text="back to top" waves="LIGHT" float="RIGHT" backgroundColor="teal lighten-2" textColor="white"/>
+
         <m:MaterialPreLoader ui:field="tweetsLoader" size="BIG" addStyleNames="{res.css.loader}">
             <m:MaterialSpinner color="blue-only"/>
         </m:MaterialPreLoader>

@@ -74,11 +74,6 @@ public class RankingView extends Composite{
         res.css().ensureInjected();
         eventBinder.bindEventHandlers(this, eventBus);
         initWidget(uiBinder.createAndBindUi(this));
-
-        getRetweets(defaultAccount, new Date(), new Date(), mostRetweet, "best");
-        getLikes(defaultAccount, new Date(), new Date(), mostLiked, "best");
-        getRetweets(defaultAccount, new Date(), new Date(), leastRetweet, "worst");
-        getLikes(defaultAccount, new Date(), new Date(), leastLiked, "worst");
     }
 
     @EventHandler

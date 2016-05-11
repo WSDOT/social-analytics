@@ -4,7 +4,6 @@ package gov.wa.wsdot.apps.analytics.client.activities.twitter.view.summary;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.jsonp.client.JsonpRequestBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -24,7 +23,9 @@ import com.googlecode.gwt.charts.client.DataTable;
 import com.googlecode.gwt.charts.client.corechart.AreaChart;
 import com.googlecode.gwt.charts.client.corechart.AreaChartOptions;
 import com.googlecode.gwt.charts.client.options.*;
+import gov.wa.wsdot.apps.analytics.client.ClientFactory;
 import gov.wa.wsdot.apps.analytics.client.activities.events.DateSubmitEvent;
+import gov.wa.wsdot.apps.analytics.client.activities.events.SetDateEvent;
 import gov.wa.wsdot.apps.analytics.client.resources.Resources;
 import gov.wa.wsdot.apps.analytics.shared.FollowerSummary;
 import gov.wa.wsdot.apps.analytics.shared.TweetSummary;
@@ -108,14 +109,19 @@ public class SummaryChart extends Composite{
 
     private static String defaultDateRange = "";
 
+    private static ClientFactory clientFactory;
 
-    public SummaryChart(EventBus eventBus){
+    public SummaryChart(ClientFactory clientFactory){
+
+        this.clientFactory = clientFactory;
+
         res = GWT.create(Resources.class);
         res.css().ensureInjected();
-        eventBinder.bindEventHandlers(this, eventBus);
+        eventBinder.bindEventHandlers(this, clientFactory.getEventBus());
         initWidget(uiBinder.createAndBindUi(this));
 
         updateTweetsChart(defaultDateRange, "wsdot");
+
     }
 
     @EventHandler
@@ -262,6 +268,10 @@ public class SummaryChart extends Composite{
 
         DateTimeFormat fmt = DateTimeFormat.getFormat("MMM d");
         DateTimeFormat fmt2 = DateTimeFormat.getFormat("/yyyy/M/d");
+
+        // Fire SetDateEvent to change date picker to default date from server
+        clientFactory.getEventBus().fireEvent(new SetDateEvent(new Date((long) tweetSummary.get(0).getId()),
+                new Date((long) tweetSummary.get(tweetSummary.length() - 1).getId())));
 
         int numberOfStatuses = 0;
         int numberOfMentions = 0;
