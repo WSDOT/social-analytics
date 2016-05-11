@@ -57,8 +57,6 @@ public class SentimentPieChart extends Composite {
 
     private static final String JSON_URL = Consts.HOST_URL + "/mentions";
     static JsArray<SentimentSummary> sentimentSummary;
-    private static String defaultDateRange = "";
-    private static String defaultAccount = "wsdot";
     private static PieChart pieChart;
 
     public SentimentPieChart(EventBus eventBus) {

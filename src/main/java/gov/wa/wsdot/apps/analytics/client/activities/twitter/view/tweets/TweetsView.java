@@ -58,7 +58,7 @@ public class TweetsView extends Composite {
 
     @UiField
     static
-    MaterialButton backToTopBtn;
+    MaterialButton backToTweetTopBtn;
 
     // Following 3 values used for loading more tweets
     private static String currentAccount = "wsdot";
@@ -117,7 +117,7 @@ public class TweetsView extends Composite {
         });
     }
 
-    @UiHandler("backToTopBtn")
+    @UiHandler("backToTweetTopBtn")
     protected void onBackToTop(ClickEvent e){
         Window.scrollTo(0,0);
     }

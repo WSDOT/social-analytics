@@ -65,6 +65,10 @@ public class SearchView extends Composite{
 
     @UiField
     static
+    MaterialButton backToSearchTopBtn;
+
+    @UiField
+    static
     MaterialLink advSearchLink;
 
     @UiField(provided = true)
@@ -151,9 +155,15 @@ public class SearchView extends Composite{
         });
     }
 
+    @UiHandler("backToSearchTopBtn")
+    public void onBackToTop(ClickEvent e){
+        Window.scrollTo(0,0);
+    }
+
     @EventHandler
     void onSearch(SearchEvent e) {
         pageNum = 1;
+        backToSearchTopBtn.setVisible(false);
         searchText = e.getSearchText();
         exportLink.setVisible(false);
 
@@ -217,6 +227,10 @@ public class SearchView extends Composite{
     public static void updateSearch(JsArray<Mention> asArrayOfMentionData) {
 
         int j = asArrayOfMentionData.length();
+
+        if (j > 24){
+            backToSearchTopBtn.setVisible(true);
+        }
 
         DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
         DateTimeFormat dateTimeFormat2 = DateTimeFormat.getFormat("MMMM dd, yyyy h:mm:ss a");

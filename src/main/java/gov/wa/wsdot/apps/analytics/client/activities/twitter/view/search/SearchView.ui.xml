@@ -28,8 +28,7 @@
         </g:HTMLPanel>
 
         <m:MaterialButton ui:field="moreSearchBtn" text="more" waves="LIGHT" backgroundColor="teal lighten-2" textColor="white" visible="false"/>
-
-
+        <m:MaterialButton ui:field="backToSearchTopBtn" text="back to top" waves="LIGHT" float="RIGHT" backgroundColor="teal lighten-2" textColor="white" visible="false"/>
 
         <m:MaterialPreLoader ui:field="searchLoader" size="BIG" addStyleNames="{res.css.loader}" visible="false">
             <m:MaterialSpinner color="blue-only"/>
