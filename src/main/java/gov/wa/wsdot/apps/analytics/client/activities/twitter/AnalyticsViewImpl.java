@@ -59,7 +59,6 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
     @UiField
     MaterialButton submitDateButton;
 
-
     @UiField(provided = true)
     SummaryChart summaryChart;
 

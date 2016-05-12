@@ -12,21 +12,22 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.event.shared.binder.EventBinder;
 import com.google.web.bindery.event.shared.binder.EventHandler;
-import com.googlecode.gwt.charts.client.ChartLoader;
-import com.googlecode.gwt.charts.client.ChartPackage;
-import com.googlecode.gwt.charts.client.ColumnType;
-import com.googlecode.gwt.charts.client.DataTable;
+import com.googlecode.gwt.charts.client.*;
 import com.googlecode.gwt.charts.client.corechart.PieChart;
 import com.googlecode.gwt.charts.client.corechart.PieChartOptions;
+import com.googlecode.gwt.charts.client.event.SelectEvent;
+import com.googlecode.gwt.charts.client.event.SelectHandler;
 import com.googlecode.gwt.charts.client.options.ChartArea;
 import com.googlecode.gwt.charts.client.options.Legend;
 import com.googlecode.gwt.charts.client.options.LegendPosition;
 import gov.wa.wsdot.apps.analytics.client.activities.events.DateSubmitEvent;
+import gov.wa.wsdot.apps.analytics.client.activities.events.SentimentDisplayEvent;
 import gov.wa.wsdot.apps.analytics.client.resources.Resources;
 import gov.wa.wsdot.apps.analytics.shared.SentimentSummary;
 import gov.wa.wsdot.apps.analytics.util.Consts;
 import gwt.material.design.client.ui.MaterialCardContent;
 import gwt.material.design.client.ui.MaterialPreLoader;
+import gwt.material.design.client.ui.MaterialToast;
 
 /**
  * Custom widget for displaying tweet sentiment data.
@@ -54,6 +55,7 @@ public class SentimentPieChart extends Composite {
     MaterialPreLoader sentimentLoader;
 
     final Resources res;
+    static EventBus eventBus;
 
     private static final String JSON_URL = Consts.HOST_URL + "/mentions";
     static JsArray<SentimentSummary> sentimentSummary;
@@ -62,8 +64,10 @@ public class SentimentPieChart extends Composite {
     public SentimentPieChart(EventBus eventBus) {
         res = GWT.create(Resources.class);
         res.css().ensureInjected();
+        this.eventBus = eventBus;
         eventBinder.bindEventHandlers(this, eventBus);
         initWidget(uiBinder.createAndBindUi(this));
+
     }
 
 
@@ -159,7 +163,32 @@ public class SentimentPieChart extends Composite {
     private static Widget getPieChart() {
         if (pieChart == null) {
             pieChart = new PieChart();
+            pieChart.addSelectHandler(new SelectHandler() {
+                @Override
+                public void onSelect(SelectEvent event) {
+
+                    // May be multiple selections.
+                    JsArray<Selection> selections = pieChart.getSelection();
+
+                    for (int i = 0; i < selections.length(); i++) {
+                        Selection selection = selections.get(i);
+
+                        int row = selection.getRow();
+                        // Append the name of the callback function to the JSON URL
+                        if (row == 0) {
+                            eventBus.fireEvent(new SentimentDisplayEvent("neutral"));
+                        } else if (row == 1) {
+                            eventBus.fireEvent(new SentimentDisplayEvent("positive"));
+                        } else if (row == 2) {
+                            eventBus.fireEvent(new SentimentDisplayEvent("negative"));
+                        }
+                    }
+                }
+            });
         }
         return pieChart;
     }
+
+
+
 }

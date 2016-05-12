@@ -17,6 +17,7 @@ import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.binder.EventBinder;
 import com.google.web.bindery.event.shared.binder.EventHandler;
 import gov.wa.wsdot.apps.analytics.client.activities.events.DateSubmitEvent;
+import gov.wa.wsdot.apps.analytics.client.activities.events.SentimentDisplayEvent;
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.tweet.TweetView;
 import gov.wa.wsdot.apps.analytics.client.resources.Resources;
 import gov.wa.wsdot.apps.analytics.shared.Mention;
@@ -62,7 +63,11 @@ public class TweetsView extends Composite {
 
     // Following 3 values used for loading more tweets
     private static String currentAccount = "wsdot";
-    private static String currentDate;
+    private static String startDate;
+    private static String endDate;
+
+    private static String currentUrl;
+
     private static int pageNum = 1;
 
     private static String defaultAccount = "wsdot";
@@ -80,9 +85,43 @@ public class TweetsView extends Composite {
         DateTimeFormat fmt = DateTimeFormat.getFormat("/yyyy/M/d");
         pageNum = 1;
         currentAccount = event.getAccount();
-        currentDate = fmt.format(event.getEndDate());
+        startDate = fmt.format(event.getStartDate());
+        endDate = fmt.format(event.getEndDate());
         updateTweets(event.getEndDate(), event.getAccount());
     }
+
+    @EventHandler
+    void onSentimentDisplay(SentimentDisplayEvent event){
+        pageNum = 1;
+        tweetsList.clear();
+        moreTweetsBtn.setVisible(false);
+
+        String url = Consts.HOST_URL + "/mentions/" + event.getSentiment() + "/" + currentAccount + startDate + endDate + "/";
+        currentUrl = url;
+
+        tweetsLoader.setVisible(true);
+
+        JsonpRequestBuilder jsonp = new JsonpRequestBuilder();
+        // Set timeout for 30 seconds (30000 milliseconds)
+        jsonp.setTimeout(30000);
+        jsonp.requestObject(url + pageNum, new AsyncCallback<Mention>() {
+
+            @Override
+            public void onFailure(Throwable caught) {
+                MaterialToast.fireToast("Failure: " + caught.getMessage());
+                tweetsLoader.setVisible(false);
+            }
+
+            @Override
+            public void onSuccess(Mention mention) {
+                if (mention.getMentions() != null) {
+                    updateTweetsList(mention.getMentions());
+                    tweetsLoader.setVisible(false);
+                }
+            }
+        });
+    }
+
 
     /**
      * Loads in the next set of 10 tweets using the values of currentAccount, currentDate and pageNum.
@@ -92,14 +131,13 @@ public class TweetsView extends Composite {
     public void onMore(ClickEvent e){
 
         pageNum++;
-        String url = Consts.HOST_URL + "/summary/mentions/" + currentAccount + currentDate + "/" + pageNum;
 
         tweetsLoader.setVisible(true);
 
         JsonpRequestBuilder jsonp = new JsonpRequestBuilder();
         // Set timeout for 30 seconds (30000 milliseconds)
         jsonp.setTimeout(30000);
-        jsonp.requestObject(url, new AsyncCallback<Mention>() {
+        jsonp.requestObject(currentUrl + pageNum, new AsyncCallback<Mention>() {
 
             @Override
             public void onFailure(Throwable caught) {
@@ -137,14 +175,15 @@ public class TweetsView extends Composite {
         String latestDate = fmt.format(day);
         String screenName = account;
 
-        String url = Consts.HOST_URL + "/summary/mentions/" + screenName + latestDate + "/" + pageNum;
+        String url = Consts.HOST_URL + "/summary/mentions/" + screenName + latestDate + "/";
+        currentUrl = url;
 
         tweetsLoader.setVisible(true);
 
         JsonpRequestBuilder jsonp = new JsonpRequestBuilder();
         // Set timeout for 30 seconds (30000 milliseconds)
         jsonp.setTimeout(30000);
-        jsonp.requestObject(url, new AsyncCallback<Mention>() {
+        jsonp.requestObject(url + pageNum, new AsyncCallback<Mention>() {
 
             @Override
             public void onFailure(Throwable caught) {

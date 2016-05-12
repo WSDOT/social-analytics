@@ -7,6 +7,7 @@
     <m:MaterialColumn grid="s12">
         <m:MaterialCard>
             <m:MaterialCardTitle text="Mention Sentiment" textColor="black" addStyleNames="{res.css.graphBlock}"/>
+
             <m:MaterialPreLoader ui:field="sentimentLoader" size="BIG" addStyleNames="{res.css.loader}">
                 <m:MaterialSpinner color="blue-only"/>
             </m:MaterialPreLoader>
