@@ -9,15 +9,17 @@ public class SearchEvent extends GenericEvent {
     private int searchType = 0;
     private String startDate = null;
     private String endDate = null;
+    private int mediaOnly = 0;
 
     public SearchEvent(String text) {
         this.searchText = text;
     }
 
-    public SearchEvent(String text, int type, String account, String startDate, String endDate) {
+    public SearchEvent(String text, int type, String account, int mediaOnly, String startDate, String endDate) {
         this.searchText = text;
         this.searchType = type;
         this.account = account;
+        this.mediaOnly = mediaOnly;
         this.startDate = startDate;
         this.endDate = endDate;
     }
@@ -28,6 +30,10 @@ public class SearchEvent extends GenericEvent {
 
     public String getAccount(){
         return this.account;
+    }
+
+    public int getMediaOnly() {
+        return this.mediaOnly;
     }
 
     public String getEndDate(){

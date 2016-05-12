@@ -40,7 +40,7 @@
         <m:MaterialColumn  grid="s12">
             <m:MaterialCard>
                 <m:MaterialCardContent>
-                    <m:MaterialLabel text="*disclaimer about like/retweet counts."/>
+                    <m:MaterialLabel text="Tweets are downloaded from twitter everyday at 3 a.m. Like and retweet counts are not updated after that."/>
                 </m:MaterialCardContent>
             </m:MaterialCard>
 

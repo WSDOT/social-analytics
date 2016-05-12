@@ -26,7 +26,6 @@ import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialPreLoader;
 import gwt.material.design.client.ui.MaterialToast;
-import java.util.Date;
 
 /**
  *  A widget for displaying a list of tweets from an account on a specific day.
@@ -87,7 +86,7 @@ public class TweetsView extends Composite {
         currentAccount = event.getAccount();
         startDate = fmt.format(event.getStartDate());
         endDate = fmt.format(event.getEndDate());
-        updateTweets(event.getEndDate(), event.getAccount());
+        updateTweets(startDate, endDate, event.getAccount());
     }
 
     @EventHandler
@@ -163,19 +162,19 @@ public class TweetsView extends Composite {
     /**
      * Updates the list of tweets through a jsonp request.
      *
-     * @param day : the day which we want tweets from
+     * @param startDate
+     * @param endDate
      * @param account : The account, can be "All" for all accounts
      */
-    public static void updateTweets(Date day, String account){
+    public static void updateTweets(String startDate, String endDate, String account){
 
         tweetsList.clear();
         moreTweetsBtn.setVisible(false);
 
         DateTimeFormat fmt = DateTimeFormat.getFormat("/yyyy/M/d");
-        String latestDate = fmt.format(day);
         String screenName = account;
 
-        String url = Consts.HOST_URL + "/summary/mentions/" + screenName + latestDate + "/";
+        String url = Consts.HOST_URL + "/summary/mentions/" + screenName + startDate + endDate + "/";
         currentUrl = url;
 
         tweetsLoader.setVisible(true);

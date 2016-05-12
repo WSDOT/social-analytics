@@ -35,6 +35,11 @@
                         </m:MaterialListBox>
                     </m:MaterialColumn>
 
+                    <m:MaterialColumn grid="s3" paddingTop="30" paddingLeft="30">
+                        <m:MaterialCheckBox ui:field="mediaOnly"  text="Content with media only" value="false" type="FILLED"/>
+                    </m:MaterialColumn>
+
+
                     <m:MaterialColumn grid="s6">
                         <m:MaterialDatePicker ui:field="searchdpStart"  placeholder="Start Date (optional)"/>
                     </m:MaterialColumn>
@@ -46,7 +51,7 @@
 
                 <m:MaterialRow>
                     <m:MaterialColumn grid="s12">
-                        <m:MaterialTextBox ui:field="advSearchTextBox" placeholder="Search Term" />
+                        <m:MaterialTextBox ui:field="advSearchTextBox" placeholder="Search Term (optional)" />
                     </m:MaterialColumn>
                 </m:MaterialRow>
                 <m:MaterialRow>

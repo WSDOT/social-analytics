@@ -5,6 +5,7 @@ import com.google.gwt.place.shared.WithTokenizers;
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.AnalyticsPlace;
 
 
-@WithTokenizers({AnalyticsPlace.Tokenizer.class})
+@WithTokenizers({AnalyticsPlace.AnalyticsPlaceTokenizer.class})
 public interface AppPlaceHistoryMapper extends PlaceHistoryMapper {
+
 }

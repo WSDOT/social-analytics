@@ -4,6 +4,7 @@
 
   <!-- POM file generated with GWT webAppCreator -->
   <modelVersion>4.0.0</modelVersion>
+
   <groupId>gov.wa.wsdot.apps.analytics</groupId>
   <artifactId>SocialAnalytics</artifactId>
   <packaging>war</packaging>
@@ -16,6 +17,10 @@
     <!-- Note: GWT needs at least java 1.6 -->
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
+
+    <!-- Maven -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
   </properties>
 
   <dependencyManagement>
@@ -86,7 +91,15 @@
   </dependencies>
   
   <build>
-    
+
+      <outputDirectory>${webappDirectory}/WEB-INF/classes</outputDirectory>
+
+      <resources>
+          <resource>
+              <directory>src/main/resources</directory>
+          </resource>
+      </resources>
+
     <plugins>
       
       <!-- GWT Maven Plugin-->

@@ -58,6 +58,10 @@ public class AdvSearchView extends Composite{
 
     @UiField
     static
+    MaterialCheckBox mediaOnly;
+
+    @UiField
+    static
     MaterialButton closeAdvSearchBtn;
 
     @UiField
@@ -80,31 +84,33 @@ public class AdvSearchView extends Composite{
     void onSearch(ClickEvent e){
 
         if (advSearchTextBox.getText().equalsIgnoreCase("")){
-            MaterialToast.fireToast("Search term required");
-        }else {
-
-            DateTimeFormat fmt = DateTimeFormat.getFormat("/yyyy/M/d");
-
-            String endDate = null;
-            String startDate = null;
-
-            if (searchdpStart.getDate() != null) {
-                startDate = fmt.format(searchdpStart.getDate());
-            }
-
-            if (searchdpEnd.getDate() != null) {
-                endDate = fmt.format(searchdpEnd.getDate());
-            }
-
-            String account = searchAccountPicker.getSelectedItemText();
-            int searchType = Integer.valueOf(searchTypePicker.getSelectedValue());
-            String searchTerm = advSearchTextBox.getText();
-
-            SearchEvent searchEvent = new SearchEvent(searchTerm, searchType, account, startDate, endDate);
-
-            this.eventBus.fireEvent(searchEvent);
-            advSearch.closeModal();
+            advSearchTextBox.setText(" ");
         }
+
+        DateTimeFormat fmt = DateTimeFormat.getFormat("/yyyy/M/d");
+
+        String endDate = null;
+        String startDate = null;
+
+        if (searchdpStart.getDate() != null) {
+            startDate = fmt.format(searchdpStart.getDate());
+        }
+
+        if (searchdpEnd.getDate() != null) {
+            endDate = fmt.format(searchdpEnd.getDate());
+        }
+
+        String account = searchAccountPicker.getSelectedItemText();
+        int searchType = Integer.valueOf(searchTypePicker.getSelectedValue());
+        String searchTerm = advSearchTextBox.getText();
+
+        int media = (mediaOnly.getValue() ? 1 : 0);
+
+        SearchEvent searchEvent = new SearchEvent(searchTerm, searchType, account, media, startDate, endDate);
+
+        this.eventBus.fireEvent(searchEvent);
+        advSearch.closeModal();
+
     }
 
     @UiHandler("clearAdvSearchBtn")
@@ -123,6 +129,7 @@ public class AdvSearchView extends Composite{
         searchdpEnd.clear();
         searchdpStart.clear();
         searchAccountPicker.setSelectedIndex(0);
+        mediaOnly.setValue(false);
     }
 
     public void open(){

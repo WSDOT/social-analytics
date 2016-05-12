@@ -15,7 +15,8 @@ public class AnalyticsPlace extends Place {
         return AnalyticsName;
     }
 
-    public static class Tokenizer implements PlaceTokenizer<AnalyticsPlace> {
+    public static class AnalyticsPlaceTokenizer implements PlaceTokenizer<AnalyticsPlace> {
+
         @Override
         public String getToken(AnalyticsPlace place) {
             return place.getAnalyticsName();

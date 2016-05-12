@@ -214,6 +214,8 @@ public class SearchView extends Composite{
 
         url = url + e.getAccount() + "/" + ((e.getSearchType() == 2) ? "mentions" : "statuses");
 
+        url = url + "/" + e.getMediaOnly();
+
         if (e.getStartDate() != null && e.getEndDate() != null){
             url = url + e.getStartDate() + e.getEndDate() + "/";
         }else if (e.getEndDate() != null){
@@ -264,7 +266,6 @@ public class SearchView extends Composite{
             String link = "http://twitter.com/#!/" + screenName + "/status/" + asArrayOfMentionData.get(i).getIdStr();
 
             mediaUrl = null;
-
             try {
                 for (int k = 0; k < asArrayOfMentionData.get(i).getEntities().getMedia().length(); k++) {
                     mediaUrl =  asArrayOfMentionData.get(i).getEntities().getMedia().get(k).getMediaUrl();
