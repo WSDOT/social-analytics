@@ -111,7 +111,7 @@ public class SearchView extends Composite{
 
     @UiHandler("tweetSearch")
     void onKeyUp(KeyUpEvent e){
-        getSuggestions(tweetSearch.getValue());
+        //getSuggestions(tweetSearch.getValue());
     }
 
     @UiHandler("clearSearch")
@@ -331,7 +331,7 @@ public class SearchView extends Composite{
     }
 
     public void updateSuggestions(List<SearchObject> suggestions){
-        //tweetSearch.setListSearches(suggestions);
+
     }
 }
 
