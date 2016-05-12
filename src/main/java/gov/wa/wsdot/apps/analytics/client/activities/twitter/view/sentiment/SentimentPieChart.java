@@ -188,7 +188,4 @@ public class SentimentPieChart extends Composite {
         }
         return pieChart;
     }
-
-
-
 }
