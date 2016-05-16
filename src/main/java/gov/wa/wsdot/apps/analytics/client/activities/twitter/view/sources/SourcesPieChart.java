@@ -6,6 +6,7 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.jsonp.client.JsonpRequestBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
@@ -26,7 +27,6 @@ import gov.wa.wsdot.apps.analytics.shared.SourceSummary;
 import gov.wa.wsdot.apps.analytics.util.Consts;
 import gwt.material.design.client.ui.MaterialCardContent;
 import gwt.material.design.client.ui.MaterialPreLoader;
-import gwt.material.design.client.ui.MaterialToast;
 
 /**
  * Custom widget for displaying tweet sources data.
@@ -101,7 +101,7 @@ public class SourcesPieChart extends Composite{
 
             @Override
             public void onFailure(Throwable caught) {
-                MaterialToast.fireToast("Failure: " + caught.getMessage());
+                Window.alert("Failure: " + caught.getMessage());
                 sourcesLoader.setVisible(false);
             }
 

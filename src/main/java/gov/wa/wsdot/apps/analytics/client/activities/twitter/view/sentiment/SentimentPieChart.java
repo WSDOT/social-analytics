@@ -27,7 +27,6 @@ import gov.wa.wsdot.apps.analytics.shared.SentimentSummary;
 import gov.wa.wsdot.apps.analytics.util.Consts;
 import gwt.material.design.client.ui.MaterialCardContent;
 import gwt.material.design.client.ui.MaterialPreLoader;
-import gwt.material.design.client.ui.MaterialToast;
 
 /**
  * Custom widget for displaying tweet sentiment data.

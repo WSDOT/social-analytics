@@ -25,7 +25,6 @@ import gov.wa.wsdot.apps.analytics.util.Consts;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialPreLoader;
-import gwt.material.design.client.ui.MaterialToast;
 
 /**
  *  A widget for displaying a list of tweets from an account on a specific day.
@@ -107,7 +106,7 @@ public class TweetsView extends Composite {
 
             @Override
             public void onFailure(Throwable caught) {
-                MaterialToast.fireToast("Failure: " + caught.getMessage());
+                Window.alert("Failure: " + caught.getMessage());
                 tweetsLoader.setVisible(false);
             }
 
@@ -129,14 +128,14 @@ public class TweetsView extends Composite {
     @UiHandler("moreTweetsBtn")
     public void onMore(ClickEvent e){
 
-        pageNum++;
+        int nextPage = pageNum + 1;
 
         tweetsLoader.setVisible(true);
 
         JsonpRequestBuilder jsonp = new JsonpRequestBuilder();
         // Set timeout for 30 seconds (30000 milliseconds)
         jsonp.setTimeout(30000);
-        jsonp.requestObject(currentUrl + pageNum, new AsyncCallback<Mention>() {
+        jsonp.requestObject(currentUrl + nextPage, new AsyncCallback<Mention>() {
 
             @Override
             public void onFailure(Throwable caught) {
@@ -147,6 +146,7 @@ public class TweetsView extends Composite {
             @Override
             public void onSuccess(Mention mention) {
                 if (mention.getMentions() != null) {
+                    pageNum++;
                     updateTweetsList(mention.getMentions());
                     tweetsLoader.setVisible(false);
                 }
@@ -186,7 +186,7 @@ public class TweetsView extends Composite {
 
             @Override
             public void onFailure(Throwable caught) {
-                MaterialToast.fireToast("Failure: " + caught.getMessage());
+                Window.alert("Failure: " + caught.getMessage());
                 tweetsLoader.setVisible(false);
             }
 
@@ -257,8 +257,7 @@ public class TweetsView extends Composite {
         }
 
         // Check if we are at the end.
-        // NOTE: if the num of tweets is a factor of 10 the "more" button will still display at the end.
-        if (j < 10){
+        if (j < 25){
             moreTweetsBtn.setVisible(false);
         } else {
             moreTweetsBtn.setVisible(true);

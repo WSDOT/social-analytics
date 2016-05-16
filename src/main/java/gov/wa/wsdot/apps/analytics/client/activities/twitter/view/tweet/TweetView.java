@@ -139,7 +139,7 @@ public class TweetView extends Composite {
 
         @Override
         public void onFailure(Throwable caught) {
-            MaterialToast.fireToast("Failure: " + caught.getMessage());
+            Window.alert("Failure: " + caught.getMessage());
         }
 
         @Override

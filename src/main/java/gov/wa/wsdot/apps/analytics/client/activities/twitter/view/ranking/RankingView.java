@@ -108,7 +108,7 @@ public class RankingView extends Composite{
 
             @Override
             public void onFailure(Throwable caught) {
-                MaterialToast.fireToast("Failure: " + caught.getMessage());
+                Window.alert("Failure: " + caught.getMessage());
                 loader.setVisible(false);
             }
 
@@ -202,14 +202,6 @@ public class RankingView extends Composite{
 
             tweet.add(updated);
 
-            // Add badge
-            if (listType == "best" && i == 0) {
-                MaterialIcon best = new MaterialIcon(IconType.GRADE);
-                best.setIconColor("amber");
-                best.setFloat(Style.Float.RIGHT);
-                tweet.add(best);
-            }
-
             tweet.setShadow(0);
             tweet.setPadding(10.0);
             list.add(tweet);
@@ -236,7 +228,7 @@ public class RankingView extends Composite{
 
             @Override
             public void onFailure(Throwable caught) {
-                MaterialToast.fireToast("Failure: " + caught.getMessage());
+                Window.alert("Failure: " + caught.getMessage());
                 loader.setVisible(false);
             }
 
@@ -331,15 +323,6 @@ public class RankingView extends Composite{
             });
 
             tweet.add(updated);
-
-            // Add badge
-            if (listType == "best" && i == 0) {
-                MaterialIcon best = new MaterialIcon(IconType.GRADE);
-                best.setIconColor("amber");
-                best.setFloat(Style.Float.RIGHT);
-                tweet.add(best);
-            }
-
             tweet.setPadding(10.0);
             list.add(tweet);
         }

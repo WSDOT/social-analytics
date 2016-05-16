@@ -2,12 +2,15 @@ package gov.wa.wsdot.apps.analytics.client.activities.twitter;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.event.shared.binder.EventBinder;
@@ -23,6 +26,7 @@ import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.summary.Summar
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.tweets.TweetsView;
 import gov.wa.wsdot.apps.analytics.client.resources.Resources;
 import gov.wa.wsdot.apps.analytics.util.Consts;
+import gwt.material.design.client.constants.Orientation;
 import gwt.material.design.client.ui.*;
 import org.apache.commons.lang3.time.DateUtils;
 
@@ -125,6 +129,19 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
             dpEnd.setDate(event.getEndDate());
             presenter.onDateSubmit(dpStart.getDate(), dpEnd.getDate(), accounts[accountPicker.getSelectedIndex()]);
         }
+    }
+
+    // Setting orientation closes date picker.
+    @UiHandler("dpStart")
+    protected void onStartDateSelected(ValueChangeEvent<Date> e){
+        // Forces date picker to close
+        dpStart.setOrientation(dpStart.getOrientation());
+    }
+
+    @UiHandler("dpEnd")
+    protected void onEndDateSelected(ValueChangeEvent<Date> e){
+        // Forces date picker to close
+        dpEnd.setOrientation(dpEnd.getOrientation());
     }
 
     @UiHandler("accountPicker")

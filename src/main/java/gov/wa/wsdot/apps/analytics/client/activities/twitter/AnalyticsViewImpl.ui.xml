@@ -66,6 +66,7 @@
 
                     <m:MaterialColumn grid="s12 l4 m6">
                         <m:MaterialRow ui:field="tweetsTabs">
+
                             <m:MaterialColumn grid="s12">
                                 <m:MaterialTab ui:field="tab" backgroundColor="teal lighten-2" indicatorColor="yellow">
                                     <m:MaterialTabItem waves="LIGHT" grid="s4">
@@ -76,6 +77,7 @@
                                     </m:MaterialTabItem>
                                 </m:MaterialTab>
                             </m:MaterialColumn>
+
                             <m:MaterialColumn  m:id="mentions" grid="s12">
                                 <views.tweets:TweetsView ui:field="tweets"/>
                             </m:MaterialColumn>

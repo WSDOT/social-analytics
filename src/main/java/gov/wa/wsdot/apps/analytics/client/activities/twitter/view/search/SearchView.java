@@ -129,14 +129,14 @@ public class SearchView extends Composite{
     @UiHandler("moreSearchBtn")
     public void onMore(ClickEvent e){
 
-        pageNum++;
+        int nextPage = pageNum + 1;
 
         searchLoader.setVisible(true);
 
         JsonpRequestBuilder jsonp = new JsonpRequestBuilder();
         // Set timeout for 30 seconds (30000 milliseconds)
         jsonp.setTimeout(30000);
-        jsonp.requestObject(url + pageNum, new AsyncCallback<Mention>() {
+        jsonp.requestObject(url + nextPage, new AsyncCallback<Mention>() {
 
             @Override
             public void onFailure(Throwable caught) {
@@ -147,6 +147,7 @@ public class SearchView extends Composite{
             @Override
             public void onSuccess(Mention mention) {
                 if (mention.getMentions() != null) {
+                    pageNum++;
                     updateSearch(mention.getMentions());
                     searchLoader.setVisible(false);
                 }
@@ -164,6 +165,8 @@ public class SearchView extends Composite{
         pageNum = 1;
         backToSearchTopBtn.setVisible(false);
         searchText = e.getSearchText();
+        searchList.clear();
+        moreSearchBtn.setVisible(false);
         exportLink.setVisible(false);
 
         tweetSearch.setText(e.getSearchText());
@@ -186,7 +189,6 @@ public class SearchView extends Composite{
             @Override
             public void onSuccess(Mention mention) {
                 if (mention.getMentions() != null) {
-                    searchList.clear();
                     updateSearch(mention.getMentions());
                     searchLoader.setVisible(false);
                 }
@@ -288,7 +290,7 @@ public class SearchView extends Composite{
             exportLink.setVisible(true);
         }
 
-        if (j == 0){
+        if (j < 25){
             moreSearchBtn.setVisible(false);
         } else {
             moreSearchBtn.setVisible(true);
