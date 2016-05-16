@@ -158,9 +158,10 @@ public class SummaryChart extends Composite{
         tweetLabel.setVisible(true);
         tweetsLoader.setVisible(true);
 
-        String url = "";
+        final String url;
         String screenName = account;
 
+        // no date is passed for first call, date will be set with time from server
         if (screenName.equals("wsdot") && dateRange.equals("")) {
             url = JSON_URL;
         } else {
@@ -188,6 +189,11 @@ public class SummaryChart extends Composite{
                 chartLoader.loadApi(new Runnable() {
                     @Override
                     public void run() {
+                        if (url.equalsIgnoreCase(JSON_URL)) {
+                            // Fire SetDateEvent to change date picker to default date from server
+                            clientFactory.getEventBus().fireEvent(new SetDateEvent(new Date((long) tweetSummary.get(0).getId()),
+                                    new Date((long) tweetSummary.get(tweetSummary.length() - 1).getId())));
+                        }
                         tweetContent.clear();
                         tweetLabel.clear();
                         tweetContent.add(getTweetsChart());
@@ -216,11 +222,7 @@ public class SummaryChart extends Composite{
         String screenName = account;
         String url = "";
 
-        if (screenName.equals("all") && dateRange.equals("")) {
-            url = JSON_URL + "/followers/" + screenName;
-        } else {
-            url = JSON_URL + "/followers/" + screenName + dateRange;
-        }
+        url = JSON_URL + "/followers/" + screenName + dateRange;
 
         JsonpRequestBuilder jsonp = new JsonpRequestBuilder();
         // Set timeout for 30 seconds (30000 milliseconds)
@@ -269,10 +271,6 @@ public class SummaryChart extends Composite{
 
         DateTimeFormat fmt = DateTimeFormat.getFormat("MMM d");
         DateTimeFormat fmt2 = DateTimeFormat.getFormat("/yyyy/M/d");
-
-        // Fire SetDateEvent to change date picker to default date from server
-        clientFactory.getEventBus().fireEvent(new SetDateEvent(new Date((long) tweetSummary.get(0).getId()),
-                new Date((long) tweetSummary.get(tweetSummary.length() - 1).getId())));
 
         int numberOfStatuses = 0;
         int numberOfMentions = 0;

@@ -88,11 +88,7 @@ public class SentimentPieChart extends Composite {
 
         sentimentLoader.setVisible(true);
 
-        if (screenName.equals("all") && dateRange.equals("")) {
-            url = JSON_URL + "/sentiment/" + screenName;
-        } else {
-            url = JSON_URL + "/sentiment/" + screenName + dateRange;
-        }
+        url = JSON_URL + "/sentiment/" + screenName + dateRange;
 
         JsonpRequestBuilder jsonp = new JsonpRequestBuilder();
         // Set timeout for 30 seconds (30000 milliseconds)

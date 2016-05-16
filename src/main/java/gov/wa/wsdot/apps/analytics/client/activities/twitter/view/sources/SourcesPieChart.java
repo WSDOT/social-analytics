@@ -86,11 +86,7 @@ public class SourcesPieChart extends Composite{
 
         sourcesLoader.setVisible(true);
 
-        if (screenName.equals("all") && dateRange.equals("")) {
-            url = JSON_URL + "/" + screenName;
-        } else {
-            url = JSON_URL + "/" + screenName + dateRange;
-        }
+        url = JSON_URL + "/" + screenName + dateRange;
 
         sourcesLoader.setVisible(true);
 

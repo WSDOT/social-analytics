@@ -2,6 +2,7 @@ package gov.wa.wsdot.apps.analytics.client.activities.twitter.view.search;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -111,6 +112,19 @@ public class AdvSearchView extends Composite{
         this.eventBus.fireEvent(searchEvent);
         advSearch.closeModal();
 
+    }
+
+    // Setting orientation closes date picker.
+    @UiHandler("searchdpStart")
+    protected void onStartDateSelected(ValueChangeEvent<Date> e){
+        // Forces date picker to close
+        searchdpStart.setOrientation(searchdpStart.getOrientation());
+    }
+
+    @UiHandler("searchdpEnd")
+    protected void onEndDateSelected(ValueChangeEvent<Date> e){
+        // Forces date picker to close
+        searchdpEnd.setOrientation(searchdpEnd.getOrientation());
     }
 
     @UiHandler("clearAdvSearchBtn")
