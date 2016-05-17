@@ -1,0 +1,31 @@
+{
+  "name": "socialanalytics_server",
+  "version": "2.0.0",
+  "description": "Server for the Social Analytics app",
+  "author": "Your Name <you.name@example.org>",
+  "contributors": [{
+    "name": "Foo Bar",
+    "email": "foo.bar@example.com"
+  }],
+
+  "main": "socialanalytics.js",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+
+  "bugs": {
+    "url": ""
+  },
+
+  "dependencies": {
+    "csv": "0.4.6",
+    "express": "4.13.4",
+    "json2csv": "3.4.1",
+    "mongoose": "4.4.14"
+  },
+
+  "preferGlobal": true,
+  "private": true,  
+  "license": "GNU GPLv3"
+}
