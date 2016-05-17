@@ -19,21 +19,15 @@ package gov.wa.wsdot.apps.analytics.client.activities.twitter;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.event.shared.binder.EventBinder;
 import com.google.web.bindery.event.shared.binder.EventHandler;
 import gov.wa.wsdot.apps.analytics.client.ClientFactory;
-import gov.wa.wsdot.apps.analytics.client.activities.events.DateSubmitEvent;
 import gov.wa.wsdot.apps.analytics.client.activities.events.SetDateEvent;
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.ranking.RankingView;
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.search.SearchView;
@@ -42,12 +36,8 @@ import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.sources.Source
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.summary.SummaryChart;
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.tweets.TweetsView;
 import gov.wa.wsdot.apps.analytics.client.resources.Resources;
-import gov.wa.wsdot.apps.analytics.util.Consts;
-import gwt.material.design.client.constants.Orientation;
 import gwt.material.design.client.ui.*;
-import org.apache.commons.lang3.time.DateUtils;
 
-import java.util.Calendar;
 import java.util.Date;
 
 

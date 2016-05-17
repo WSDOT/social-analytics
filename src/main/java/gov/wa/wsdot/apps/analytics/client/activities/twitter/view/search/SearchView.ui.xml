@@ -2,7 +2,6 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
              xmlns:m="urn:import:gwt.material.design.client.ui"
              xmlns:g="urn:import:com.google.gwt.user.client.ui"
-             xmlns:m.html="urn:import:gwt.material.design.client.ui.html"
              xmlns:views.search="urn:import:gov.wa.wsdot.apps.analytics.client.activities.twitter.view.search">
 
     <ui:with field="res" type="gov.wa.wsdot.apps.analytics.client.resources.Resources" />

@@ -46,6 +46,7 @@ import gov.wa.wsdot.apps.analytics.util.Consts;
 import gwt.material.design.client.base.SearchObject;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
