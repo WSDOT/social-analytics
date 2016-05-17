@@ -1,7 +1,5 @@
-package gov.wa.wsdot.apps.analytics.util;
-
 /*
- * Copyright (c) 2014 Washington State Department of Transportation
+ * Copyright (c) 2016 Washington State Department of Transportation
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,6 +15,7 @@ package gov.wa.wsdot.apps.analytics.util;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+package gov.wa.wsdot.apps.analytics.util;
 
 public final class Consts {
 
