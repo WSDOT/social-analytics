@@ -38,6 +38,7 @@ import com.googlecode.gwt.charts.client.corechart.PieChartOptions;
 import com.googlecode.gwt.charts.client.options.ChartArea;
 import com.googlecode.gwt.charts.client.options.Legend;
 import com.googlecode.gwt.charts.client.options.LegendPosition;
+import gov.wa.wsdot.apps.analytics.client.ClientFactory;
 import gov.wa.wsdot.apps.analytics.client.activities.events.DateSubmitEvent;
 import gov.wa.wsdot.apps.analytics.client.resources.Resources;
 import gov.wa.wsdot.apps.analytics.shared.SourceSummary;
@@ -78,10 +79,10 @@ public class SourcesPieChart extends Composite{
     private static String defaultAccount = "wsdot";
     private static PieChart pieChart;
 
-    public SourcesPieChart(EventBus eventBus) {
+    public SourcesPieChart(ClientFactory clientFactory) {
         res = GWT.create(Resources.class);
         res.css().ensureInjected();
-        eventBinder.bindEventHandlers(this, eventBus);
+        eventBinder.bindEventHandlers(this, clientFactory.getEventBus());
         initWidget(uiBinder.createAndBindUi(this));
     }
 

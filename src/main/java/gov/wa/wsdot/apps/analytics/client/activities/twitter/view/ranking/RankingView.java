@@ -33,6 +33,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.binder.EventBinder;
 import com.google.web.bindery.event.shared.binder.EventHandler;
+import gov.wa.wsdot.apps.analytics.client.ClientFactory;
 import gov.wa.wsdot.apps.analytics.client.activities.events.DateSubmitEvent;
 import gov.wa.wsdot.apps.analytics.client.resources.Resources;
 import gov.wa.wsdot.apps.analytics.shared.Mention;
@@ -90,10 +91,10 @@ public class RankingView extends Composite{
 
     private static String defaultAccount = "wsdot";
 
-    public RankingView(EventBus eventBus) {
+    public RankingView(ClientFactory clientFactory) {
         res = GWT.create(Resources.class);
         res.css().ensureInjected();
-        eventBinder.bindEventHandlers(this, eventBus);
+        eventBinder.bindEventHandlers(this, clientFactory.getEventBus());
         initWidget(uiBinder.createAndBindUi(this));
     }
 

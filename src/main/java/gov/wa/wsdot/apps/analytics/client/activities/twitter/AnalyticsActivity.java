@@ -29,7 +29,7 @@ import gwt.material.design.client.ui.MaterialToast;
 import java.util.Date;
 
 /**
- *  Main activity
+ *  Main twitter analytics activity
  */
 public class AnalyticsActivity extends AbstractActivity implements AnalyticsView.Presenter {
 
@@ -68,11 +68,9 @@ public class AnalyticsActivity extends AbstractActivity implements AnalyticsView
 
     }
 
-
     @Override
     public EventBus getEventBus() {
         return clientFactory.getEventBus();
     }
-
 
 }

@@ -37,6 +37,7 @@ import com.googlecode.gwt.charts.client.event.SelectHandler;
 import com.googlecode.gwt.charts.client.options.ChartArea;
 import com.googlecode.gwt.charts.client.options.Legend;
 import com.googlecode.gwt.charts.client.options.LegendPosition;
+import gov.wa.wsdot.apps.analytics.client.ClientFactory;
 import gov.wa.wsdot.apps.analytics.client.activities.events.DateSubmitEvent;
 import gov.wa.wsdot.apps.analytics.client.activities.events.SentimentDisplayEvent;
 import gov.wa.wsdot.apps.analytics.client.resources.Resources;
@@ -71,17 +72,17 @@ public class SentimentPieChart extends Composite {
     MaterialPreLoader sentimentLoader;
 
     final Resources res;
-    static EventBus eventBus;
+    static ClientFactory clientFactory;
 
     private static final String JSON_URL = Consts.HOST_URL + "/mentions";
     static JsArray<SentimentSummary> sentimentSummary;
     private static PieChart pieChart;
 
-    public SentimentPieChart(EventBus eventBus) {
+    public SentimentPieChart(ClientFactory clientFactory) {
         res = GWT.create(Resources.class);
         res.css().ensureInjected();
-        this.eventBus = eventBus;
-        eventBinder.bindEventHandlers(this, eventBus);
+        this.clientFactory = clientFactory;
+        eventBinder.bindEventHandlers(this, clientFactory.getEventBus());
         initWidget(uiBinder.createAndBindUi(this));
 
     }
@@ -188,11 +189,11 @@ public class SentimentPieChart extends Composite {
                         int row = selection.getRow();
                         // Append the name of the callback function to the JSON URL
                         if (row == 0) {
-                            eventBus.fireEvent(new SentimentDisplayEvent("neutral"));
+                            clientFactory.getEventBus().fireEvent(new SentimentDisplayEvent("neutral"));
                         } else if (row == 1) {
-                            eventBus.fireEvent(new SentimentDisplayEvent("positive"));
+                            clientFactory.getEventBus().fireEvent(new SentimentDisplayEvent("positive"));
                         } else if (row == 2) {
-                            eventBus.fireEvent(new SentimentDisplayEvent("negative"));
+                            clientFactory.getEventBus().fireEvent(new SentimentDisplayEvent("negative"));
                         }
                     }
                 }

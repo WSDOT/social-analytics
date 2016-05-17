@@ -28,6 +28,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.binder.EventBinder;
+import gov.wa.wsdot.apps.analytics.client.ClientFactory;
 import gov.wa.wsdot.apps.analytics.client.activities.events.SearchEvent;
 import gov.wa.wsdot.apps.analytics.util.Consts;
 import gwt.material.design.client.ui.*;
@@ -89,13 +90,13 @@ public class AdvSearchView extends Composite{
     private static final String JSON_URL_SUGGESTION = Consts.HOST_URL + "/search/suggest/";
     private static int pageNum = 1;
     private static String searchText = "";
-    private static EventBus eventBus;
+    private static ClientFactory clientFactory;
 
 
-    public AdvSearchView(EventBus eventBus) {
-        eventBinder.bindEventHandlers(this, eventBus);
+    public AdvSearchView(ClientFactory clientFactory) {
+        eventBinder.bindEventHandlers(this, clientFactory.getEventBus());
         initWidget(uiBinder.createAndBindUi(this));
-        this.eventBus = eventBus;
+        this.clientFactory = clientFactory;
     }
 
     @UiHandler("searchBtn")
@@ -126,7 +127,7 @@ public class AdvSearchView extends Composite{
 
         SearchEvent searchEvent = new SearchEvent(searchTerm, searchType, account, media, startDate, endDate);
 
-        this.eventBus.fireEvent(searchEvent);
+        this.clientFactory.getEventBus().fireEvent(searchEvent);
         advSearch.closeModal();
 
     }

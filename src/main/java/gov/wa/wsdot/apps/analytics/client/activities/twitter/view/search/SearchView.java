@@ -37,6 +37,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.binder.EventBinder;
 import com.google.web.bindery.event.shared.binder.EventHandler;
+import gov.wa.wsdot.apps.analytics.client.ClientFactory;
 import gov.wa.wsdot.apps.analytics.client.activities.events.SearchEvent;
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.tweet.TweetView;
 import gov.wa.wsdot.apps.analytics.client.resources.Resources;
@@ -103,16 +104,16 @@ public class SearchView extends Composite{
     private static String searchText = "";
     private static String url = "";
 
-    private static EventBus eventBus;
+    private static ClientFactory clientFactory;
 
-    public SearchView(EventBus eventBus) {
+    public SearchView(ClientFactory clientFactory) {
 
-        advSearch = new AdvSearchView(eventBus);
+        advSearch = new AdvSearchView(clientFactory);
         res = GWT.create(Resources.class);
         res.css().ensureInjected();
-        eventBinder.bindEventHandlers(this, eventBus);
+        eventBinder.bindEventHandlers(this, clientFactory.getEventBus());
         initWidget(uiBinder.createAndBindUi(this));
-        this.eventBus = eventBus;
+        this.clientFactory = clientFactory;
     }
 
 
@@ -124,7 +125,7 @@ public class SearchView extends Composite{
     @UiHandler("tweetSearch")
     void onSearch(ValueChangeEvent<String> e){
         SearchEvent searchEvent = new SearchEvent(tweetSearch.getValue());
-        eventBus.fireEvent(searchEvent);
+        clientFactory.getEventBus().fireEvent(searchEvent);
     }
 
     @UiHandler("tweetSearch")
@@ -137,12 +138,10 @@ public class SearchView extends Composite{
         tweetSearch.clear();
     }
 
-
     @UiHandler("exportLink")
     void onExport(ClickEvent e){
         Window.open(url, "_blank", "");
     }
-
 
     @UiHandler("moreSearchBtn")
     public void onMore(ClickEvent e){

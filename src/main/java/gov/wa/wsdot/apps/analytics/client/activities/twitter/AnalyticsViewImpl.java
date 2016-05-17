@@ -40,7 +40,6 @@ import gwt.material.design.client.ui.*;
 
 import java.util.Date;
 
-
 public class AnalyticsViewImpl extends Composite implements AnalyticsView{
 
     interface MyEventBinder extends EventBinder<AnalyticsViewImpl> {}
@@ -108,19 +107,18 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
 
         eventBinder.bindEventHandlers(this, clientFactory.getEventBus());
 
-        tweets = new TweetsView(clientFactory.getEventBus());
-        searchResults = new SearchView(clientFactory.getEventBus());
+        tweets = new TweetsView(clientFactory);
+        searchResults = new SearchView(clientFactory);
         summaryChart = new SummaryChart(clientFactory);
-        sentimentPieChart = new SentimentPieChart(clientFactory.getEventBus());
-        sourcesPieChart = new SourcesPieChart(clientFactory.getEventBus());
-        ranking = new RankingView(clientFactory.getEventBus());
+        sentimentPieChart = new SentimentPieChart(clientFactory);
+        sourcesPieChart = new SourcesPieChart(clientFactory);
+        ranking = new RankingView(clientFactory);
 
         initWidget(uiBinder.createAndBindUi(this));
         logo.setResource(Resources.INSTANCE.tacronymWhiteLogoPNG());
         logo.addStyleName(Resources.INSTANCE.css().logo());
 
         accountPicker.setItemSelected(4, true);
-
     }
 
     @Override
@@ -130,7 +128,7 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
 
     @EventHandler
     void onSetDate(SetDateEvent event){
-        // Only react to this event if we have no dates already (Ideally when the application starts)
+        // Only react to this event if we have no dates already (This should only happen when the application starts)
         if(dpStart.getDate() == null || dpEnd.getDate() == null) {
             dpStart.setDate(event.getStartDate());
             dpEnd.setDate(event.getEndDate());
@@ -160,8 +158,5 @@ public class AnalyticsViewImpl extends Composite implements AnalyticsView{
     protected void onClick(ClickEvent click){
         presenter.onDateSubmit(dpStart.getDate(), dpEnd.getDate(), accounts[accountPicker.getSelectedIndex()]);
     }
-
-
-
 }
 
