@@ -20,6 +20,9 @@ package gov.wa.wsdot.apps.analytics.shared;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
+/**
+ *  Model for User in Mention objects
+ */
 public class User extends JavaScriptObject {
 	protected User() {}
 	

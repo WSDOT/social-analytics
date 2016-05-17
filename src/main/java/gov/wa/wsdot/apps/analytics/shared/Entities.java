@@ -21,6 +21,9 @@ package gov.wa.wsdot.apps.analytics.shared;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 
+/**
+ *  Model for entities in Mention objects
+ */
 public class Entities extends JavaScriptObject {
 	protected Entities() {}
 	

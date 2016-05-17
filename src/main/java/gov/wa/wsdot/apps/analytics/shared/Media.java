@@ -20,6 +20,9 @@ package gov.wa.wsdot.apps.analytics.shared;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
+/**
+ *  Model for media in Mention objects
+ */
 public class Media extends JavaScriptObject {
 	protected Media() {}
 	

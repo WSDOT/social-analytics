@@ -21,6 +21,10 @@ package gov.wa.wsdot.apps.analytics.shared;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 
+/**
+ *  Model used for data from
+ *  /mentions/sentiment/:screenName/:fromYear/:fromMonth/:fromDay/:toYear/:toMonth/:toDay
+ */
 public class SentimentSummary extends JavaScriptObject {
 	protected SentimentSummary() {}
 	

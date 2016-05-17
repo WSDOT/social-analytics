@@ -21,6 +21,11 @@ package gov.wa.wsdot.apps.analytics.shared;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 
+/**
+ *  Model used for data from
+ *  /summary/mentions/:screenName/:fromYear/:fromMonth/:fromDay/:toYear/:toMonth/:toDay/:page
+ *  /search/:text/:screenName/:collection/:media/:fromYear/:fromMonth/:fromDay/:toYear/:toMonth/:toDay/:page
+ */
 public class Mention extends JavaScriptObject {
 	protected Mention() {}
 	

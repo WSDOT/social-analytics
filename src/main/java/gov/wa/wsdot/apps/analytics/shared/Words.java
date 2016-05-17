@@ -21,6 +21,10 @@ package gov.wa.wsdot.apps.analytics.shared;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
 
+/**
+ *  Model used for data from
+ *  /search/suggest/:text'
+ */
 public class Words extends JavaScriptObject {
 	protected Words() {}
 	
