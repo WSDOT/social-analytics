@@ -138,7 +138,7 @@ public class SummaryChart extends Composite{
         eventBinder.bindEventHandlers(this, clientFactory.getEventBus());
         initWidget(uiBinder.createAndBindUi(this));
 
-        updateTweetsChart(defaultDateRange, "wsdot");
+        //updateTweetsChart(defaultDateRange, "wsdot");
 
     }
 
@@ -178,12 +178,7 @@ public class SummaryChart extends Composite{
         final String url;
         String screenName = account;
 
-        // no date is passed for first call, date will be set with time from server
-        if (screenName.equals("wsdot") && dateRange.equals("")) {
-            url = JSON_URL;
-        } else {
-            url = JSON_URL + "/" + screenName + dateRange;
-        }
+        url = JSON_URL + "/" + screenName + dateRange;
 
         JsonpRequestBuilder jsonp = new JsonpRequestBuilder();
         // Set timeout for 30 seconds (30000 milliseconds)
@@ -206,11 +201,6 @@ public class SummaryChart extends Composite{
                 chartLoader.loadApi(new Runnable() {
                     @Override
                     public void run() {
-                        if (url.equalsIgnoreCase(JSON_URL)) {
-                            // Fire SetDateEvent to change date picker to default date from server
-                            clientFactory.getEventBus().fireEvent(new SetDateEvent(new Date((long) tweetSummary.get(0).getId()),
-                                    new Date((long) tweetSummary.get(tweetSummary.length() - 1).getId())));
-                        }
                         tweetContent.clear();
                         tweetLabel.clear();
                         tweetContent.add(getTweetsChart());

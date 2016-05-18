@@ -26,7 +26,8 @@ mongoose.connect('mongodb://localhost/twitter');
 // Setup the RESTful API. Handler methods are defined in summary.js controller.
 var summary = require('./controllers/summary.js');
 
-app.get('/summary', summary.tweetsAndMentions);
+app.get('/summary/startTime', summary.getStartTime);
+
 app.get('/summary/:screenName/:fromYear/:fromMonth/:fromDay/:toYear/:toMonth/:toDay', summary.tweetsAndMentionsfromToDate);
 
 app.get('/summary/mentions/:screenName/:fromYear/:fromMonth/:fromDay/:toYear/:toMonth/:toDay/:page', summary.mentionsFromToDate);

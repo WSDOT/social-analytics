@@ -36,60 +36,23 @@ var MentionSummary = require('../models/mentionSummary.js');
 var FollowerSummary = require('../models/followerSummary.js');
 var StatusSummary = require('../models/statusSummary.js');
 
-exports.tweetsAndMentions = function(req, res) {
+exports.getStartTime = function(req, res) { 
     var screenName = 'wsdot'; // Default screenName
     var now = new Date();
     var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     var two_weeks_ago = new Date(today - 60 * 60 * 24 * 14 * 1000);
 
-    var r = function(key, values) {
-        var result = {mentions: 0, statuses: 0};
-        values.forEach(function(value) {
-            result.mentions += (value.mentions !== null) ? value.mentions : 0;
-            result.statuses += (value.statuses !== null) ? value.statuses : 0;
-        });
-        return result;
-    };
-
-    var mentions_command = {
-        query: {'entities.user_mentions.screen_name': screenName, 'created_at': {'$gte': two_weeks_ago}},
-        map: function() {
-            day = new Date(this.created_at.getFullYear(), this.created_at.getMonth(), this.created_at.getDate());
-            emit(day.getTime(), {mentions: 1, statuses: 0});               
-        },
-        reduce: r,
-        out: {reduce: "tweet_summary"}
-    };
-
-    var statuses_command = {
-        query: {'user.screen_name': screenName, 'created_at': {'$gte': two_weeks_ago}},
-        map: function() {
-            day = new Date(this.created_at.getFullYear(), this.created_at.getMonth(), this.created_at.getDate());
-            emit(day.getTime(), {mentions: 0, statuses: 1});               
-        },
-        reduce: r,
-        out: {reduce: "tweet_summary"}
-    };
-
-    // drop the map reduced table and generate a new one.
-    mongoose.connection.db.collection('tweet_summary', function(err, collection) {
-        collection.drop();
-	if(err) throw err;
-        Mentions.mapReduce(mentions_command, function(err, results) {
-	    if(err) throw err;
-	    Statuses.mapReduce(statuses_command, function(err, results) {
-		if(err) throw err;
-		TweetSummary.find({},
-				  null,
-				  {sort: {'_id': 1}},
-				  function(err, results) {
-				      if(err) throw err;
-				      res.jsonp(results)
-				  }
-				 );
-	    });
-	});
-    });
+    Mentions.findOne({'created_at': {'$gte': two_weeks_ago}},
+                    null,
+                    {sort:{'id': 1}},
+                    function(err, firstMention) {
+                          Mentions.findOne({'created_at': {'$gte' : two_weeks_ago}},
+                                           null,
+                                           {sort:{'id': -1}},
+                                           function(err, lastMention) {
+                                                  res.jsonp({firstMention, lastMention});
+                          });
+                    });
 }
 
 exports.tweetsAndMentionsfromToDate = function(req, res) {
@@ -183,7 +146,7 @@ exports.mentionsFromToDate = function(req, res) {
     var pageNum = req.params.page;
     var itemsPerPage = 25;
     
-    // TODO: check count b/c query hangs when limit is greater than the returned results. not sure why.
+    // NOTICE: We check count b/c query hangs when limit is greater than the returned results. not sure why.
     // The sentiment results work fine and use similar queries.
 
     if (screenName == "all") {
@@ -192,7 +155,6 @@ exports.mentionsFromToDate = function(req, res) {
 	if (count != 0){
         if ((count - ((pageNum-1) * itemsPerPage)) < itemsPerPage){
           itemsPerPage = count - ((pageNum-1) * itemsPerPage);
-          console.log(itemsPerPage);
         }
 
         Mentions.find({'created_at': {'$gte': start, '$lte': end}},
@@ -210,7 +172,6 @@ exports.mentionsFromToDate = function(req, res) {
        if (count != 0){
        if ((count - ((pageNum-1) * itemsPerPage)) < itemsPerPage){
           itemsPerPage = count - ((pageNum-1) * itemsPerPage);
-          console.log(itemsPerPage);
        }
 
         Mentions.find({'entities.user_mentions.screen_name': screenName, 'created_at': {'$gte': start, '$lte': end}},
