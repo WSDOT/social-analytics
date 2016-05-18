@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 Washington State Department of Transportation
+ * Copyright (c) 2016 Washington State Department of Transportation
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +25,6 @@ mongoose.connect('mongodb://localhost/twitter');
 
 // Setup the RESTful API. Handler methods are defined in summary.js controller.
 var summary = require('./controllers/summary.js');
-
 
 app.get('/summary', summary.tweetsAndMentions);
 app.get('/summary/:screenName/:fromYear/:fromMonth/:fromDay/:toYear/:toMonth/:toDay', summary.tweetsAndMentionsfromToDate);
