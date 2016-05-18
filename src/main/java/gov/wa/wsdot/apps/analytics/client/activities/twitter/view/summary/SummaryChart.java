@@ -42,7 +42,6 @@ import com.googlecode.gwt.charts.client.corechart.AreaChartOptions;
 import com.googlecode.gwt.charts.client.options.*;
 import gov.wa.wsdot.apps.analytics.client.ClientFactory;
 import gov.wa.wsdot.apps.analytics.client.activities.events.DateSubmitEvent;
-import gov.wa.wsdot.apps.analytics.client.activities.events.SetDateEvent;
 import gov.wa.wsdot.apps.analytics.client.resources.Resources;
 import gov.wa.wsdot.apps.analytics.shared.FollowerSummary;
 import gov.wa.wsdot.apps.analytics.shared.TweetSummary;

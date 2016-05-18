@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 Washington State Department of Transportation
+ * Copyright (c) 2016 Washington State Department of Transportation
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,62 +33,6 @@ var Statuses = require('../models/status.js');
 var Mentions = require('../models/mention.js');
 var SourceSummary = require('../models/sourceSummary.js');
 var SentimentSummary = require('../models/sentimentSummary.js');
-
-exports.source = function(req, res) {
-    var screenName = req.params.screenName;
-    var now = new Date();
-    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    var two_weeks_ago = new Date(today - 60 * 60 * 24 * 14 * 1000);
-    
-    if (screenName == "all") {
-        var command = {
-            query: {'created_at': {'$gte': two_weeks_ago}},
-            map: function() {
-                var src = this.source;
-                var re = new RegExp("(>)(.*)(<)", "");
-                var matched = src.match(re);
-		emit(matched[2], 1);
-            },
-            reduce: function(key, values) { 
-                var sum = 0;
-                for (index in values) {
-                    sum += values[index];
-                }
-                return sum;
-            },
-            out: "source_summary"
-        };
-    } else {
-        var command = {
-            query: {'entities.user_mentions.screen_name': screenName, 'created_at': {'$gte': two_weeks_ago}},
-            map: function() {
-                var src = this.source;
-                var re = new RegExp("(>)(.*)(<)", "");
-                var matched = src.match(re);
-		emit(matched[2], 1);
-            },
-            reduce: function(key, values) { 
-                var sum = 0;
-                for (index in values) {
-                    sum += values[index];
-                }
-                return sum;
-            },
-            out: "source_summary"
-        };
-    }
-
-    Mentions.mapReduce(command, function(err, results) {
-	SourceSummary.find({},
-			    null,
-			    {sort: {'value': -1}, limit: 10},
-			    function(err, results) {
-				if(err) throw err;
-				res.jsonp(results);
-			    }
-			   );
-    });
-}
 
 exports.sourceFromToDate = function(req, res) {
     var screenName = req.params.screenName;
@@ -150,60 +94,7 @@ exports.sourceFromToDate = function(req, res) {
     });
 }
 
-exports.sentiment = function(req, res) {
-    var screenName = req.params.screenName;
-    var now = new Date();
-    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    var two_weeks_ago = new Date(today - 60 * 60 * 24 * 14 * 1000);
-
-    if (screenName == "all") {
-        var command = {
-            query: {'created_at': {'$gte': two_weeks_ago}},
-            map: function() {
-                emit(this.sentiment, 1);
-            },
-            reduce: function(key, values) {
-                var sum = 0;
-                for (index in values) {
-                    sum += values[index];
-                }
-                return sum;
-            },
-            out: "sentiment_summary"
-        };
-    } else {
-        var command = {
-            query: {'entities.user_mentions.screen_name': screenName, 'created_at': {'$gte': two_weeks_ago}},
-            map: function() {
-                emit(this.sentiment, 1);
-            },
-            reduce: function(key, values) {
-                var sum = 0;
-                for (index in values) {
-                    sum += values[index];
-                }
-                return sum;
-            },
-            out: "sentiment_summary"
-        };
-    }
-
-    Mentions.mapReduce(command, function(err, results) {
-	if(err) throw err;
-	SentimentSummary.find({},
-			    null,
-			    {  sort: {'value': -1}
-                           },
-			    function(err, results) {
-				if(err) throw err;
-				res.jsonp(results);
-			    }
-			   );
-    });
-}
-
 exports.sentimentFromToDate = function(req, res) {
-
 
     var screenName = req.params.screenName;
     var start = new Date(req.params.fromYear, req.params.fromMonth - 1, req.params.fromDay, 0, 0, 0);
@@ -278,31 +169,6 @@ exports.sentimentEdit = function(req, res) {
     });
 }
 
-exports.positive = function(req, res) {
-
-
-    var screenName = req.params.screenName;
-    var now = new Date();
-    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    var two_weeks_ago = new Date(today - 60 * 60 * 24 * 14 * 1000);
-
-    if (screenName == "all") {
-        Mentions.find({'created_at': {'$gte': two_weeks_ago}, 'sentiment': 'positive'},
-                      null,
-                      {sort:{'id': -1}},
-                      function(err, results) {
-                          res.jsonp(results);
-                      });
-    } else {
-        Mentions.find({'entities.user_mentions.screen_name': screenName, 'created_at': {'$gte': two_weeks_ago}, 'sentiment': 'positive'},
-                      null,
-                      {sort:{'id': -1}},
-                      function(err, results) {
-                          res.jsonp(results);
-                      });
-    }
-}
-
 exports.positiveFromToDate = function(req, res) {
 
     var itemsPerPage = 25;
@@ -331,29 +197,6 @@ exports.positiveFromToDate = function(req, res) {
                       {sort:{'id': -1},
                        skip: (itemsPerPage * (pageNum - 1)),
                        limit: itemsPerPage},
-                      function(err, results) {
-                          res.jsonp(results);
-                      });
-    }
-}
-
-exports.negative = function(req, res) {
-    var screenName = req.params.screenName;
-    var now = new Date();
-    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    var two_weeks_ago = new Date(today - 60 * 60 * 24 * 14 * 1000);
-
-    if (screenName == "all") {
-        Mentions.find({'created_at': {'$gte': two_weeks_ago}, 'sentiment': 'negative'},
-                      null,
-                      {sort:{'id': -1}},
-                      function(err, results) {
-                          res.jsonp(results);
-                      });
-    } else {
-        Mentions.find({'entities.user_mentions.screen_name': screenName, 'created_at': {'$gte': two_weeks_ago}, 'sentiment': 'negative'},
-                      null,
-                      {sort:{'id': -1}},
                       function(err, results) {
                           res.jsonp(results);
                       });
@@ -390,33 +233,6 @@ exports.negativeFromToDate = function(req, res) {
                        limit: itemsPerPage}, 
                       function(err, results) {
                           if (err){ return res.jsonp(err);} 
-                          return res.jsonp(results);
-                      });
-    }
-}
-
-exports.neutral = function(req, res) {
-    var screenName = req.params.screenName;
-    var now = new Date();
-    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    var two_weeks_ago = new Date(today - 60 * 60 * 24 * 14 * 1000);
- 
-    if (screenName == "all") {
-        Mentions.find({'created_at': {'$gte': two_weeks_ago}, 'sentiment': 'neutral'},
-                      null,
-                      {sort:{'id': -1},
-                       skip: (itemsPerPage * (pageNum - 1)),
-                       limit: itemsPerPage},
-                      function(err, results) {
-                          res.jsonp(results);
-                      });
-    } else {
-        Mentions.find({'entities.user_mentions.screen_name': screenName, 'created_at': {'$gte': two_weeks_ago}, 'sentiment': 'neutral'},
-                      null,
-                      {sort:{'id': -1},   
-                       skip: (itemsPerPage * (pageNum - 1)),
-                       limit: itemsPerPage},
-                      function(err, results) {
                           return res.jsonp(results);
                       });
     }

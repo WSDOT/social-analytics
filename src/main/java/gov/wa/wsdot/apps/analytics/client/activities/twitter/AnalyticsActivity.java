@@ -21,15 +21,9 @@ package gov.wa.wsdot.apps.analytics.client.activities.twitter;
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.jsonp.client.JsonpRequestBuilder;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import gov.wa.wsdot.apps.analytics.client.ClientFactory;
 import gov.wa.wsdot.apps.analytics.client.activities.events.DateSubmitEvent;
-import gov.wa.wsdot.apps.analytics.client.activities.events.SetDateEvent;
-import gov.wa.wsdot.apps.analytics.shared.Mention;
-import gov.wa.wsdot.apps.analytics.util.Consts;
 import gwt.material.design.client.ui.MaterialToast;
 
 import java.util.Date;

@@ -5,11 +5,10 @@ Python scripts for saving tweets from the [Twitter API](https://dev.twitter.com/
 
 Setup
 =====
-1. Install [MongoDB Community Server](https://docs.mongodb.com/).
+1. Install [MongoDB.](https://docs.mongodb.com/)
 2. Create a database named `twitter` with collections 'mentions' and 'statuses'
-3. [Obtain authentication tokens](https://dev.twitter.com/oauth/overview) for twitter
-4. Add tokens, accounts, and sentiment files path to the scripts. 
-
+3. Obtain [authentication tokens](https://dev.twitter.com/oauth/overview) for twitter
+4. Add twitter tokens, accounts, and sentiment file paths to the scripts. 
 
 Dependencies
 ============

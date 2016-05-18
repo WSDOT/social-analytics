@@ -40,7 +40,6 @@ import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.sources.Source
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.summary.SummaryChart;
 import gov.wa.wsdot.apps.analytics.client.activities.twitter.view.tweets.TweetsView;
 import gov.wa.wsdot.apps.analytics.client.resources.Resources;
-import gov.wa.wsdot.apps.analytics.shared.Mention;
 import gov.wa.wsdot.apps.analytics.shared.TweetTimes;
 import gov.wa.wsdot.apps.analytics.util.Consts;
 import gwt.material.design.client.ui.*;

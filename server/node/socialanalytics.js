@@ -57,7 +57,7 @@ app.get('/mentions/neutral/:screenName/:fromYear/:fromMonth/:fromDay/:toYear/:to
 // Hander method is defined in search.js controller.
 var search = require('./controllers/search.js');
 
-app.get('/search/suggest/:text', search.suggest);
+//app.get('/search/suggest/:text', search.suggest);
 
 // Returns a list of tweets that match :text as JSON. If called without a page number will return CSV of all results. 
 app.get('/search/:text/:screenName/:collection/:media/:fromYear/:fromMonth/:fromDay/:toYear/:toMonth/:toDay/:page', search.advSearch);

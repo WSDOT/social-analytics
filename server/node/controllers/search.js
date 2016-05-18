@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 Washington State Department of Transportation
+ * Copyright (c) 2016 Washington State Department of Transportation
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,6 +33,7 @@ var Mentions = require('../models/mention.js');
 var json2csv = require('json2csv');
 var csv = require('csv');
 
+/*
 exports.suggest = function(req, res) {
     var text = req.params.text;
     var re = new RegExp(text, 'i');
@@ -54,25 +55,8 @@ exports.suggest = function(req, res) {
         });
     });
 }
+*/
 
-exports.lookup = function(req, res) {
-    var itemsPerPage = 10;
-    var pageNum = req.params.page;
-    var text = req.params.text;
-    var re = new RegExp(text, 'i');
-    mongoose.connection.db.collection('statuses', function(err, collection) {
-        collection.find({
-            'text': re
-        }, {
-            skip: (itemsPerPage * (pageNum - 1)),
-            limit: itemsPerPage
-        }).sort({
-            'id': -1
-        }).toArray(function(err, results) {
-            res.jsonp(results);
-        });
-    });
-}
 
 exports.advSearch = function(req, res) {
 
