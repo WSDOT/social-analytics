@@ -349,12 +349,11 @@ public class SummaryChart extends Composite{
 
         change = Math.round(change * 100)/(float)100;
 
-        followersIcon.setIconType((change > 0 ? IconType.TRENDING_UP : IconType.TRENDING_DOWN) );
-        followersIcon.setIconColor((change > 0 ? "teal" : "deep-orange accent-2"));
-
-        followersLabel.setText(Math.abs(change) + "% " + (change > 0 ? "increase" : "decrease") + " in followers from "
+        followersIcon.setIconType((change == 0 ? IconType.TRENDING_FLAT : (change > 0 ? IconType.TRENDING_UP : IconType.TRENDING_DOWN)));
+        followersIcon.setIconColor((change == 0 ? "blue" : (change > 0 ? "teal" : "deep-orange accent-2")));
+        followersLabel.setText((change == 0 ? "No change" : Math.abs(change) + "% " + (change > 0 ? "increase" : "decrease") + " in followers from "
                 + fmt.format(new Date((long) followerSummary.get(0).getId()))
-                + " to " + fmt.format(new Date((long) followerSummary.get(j-1).getId())));
+                + " to " + fmt.format(new Date((long) followerSummary.get(j-1).getId()))));
 
         // Set options
         //Grid Lines

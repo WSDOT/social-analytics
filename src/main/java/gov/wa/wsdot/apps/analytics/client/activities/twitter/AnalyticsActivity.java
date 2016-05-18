@@ -64,7 +64,7 @@ public class AnalyticsActivity extends AbstractActivity implements AnalyticsView
 
         if (startDate.getTime() > endDate.getTime()) {
 
-            MaterialToast.fireToast("Whoops! Invalid date range.");
+            MaterialToast.fireToast("Whoops! Invalid date range.", 1000);
         } else {
             String fromDate = fmt.format(startDate);
             String toDate = fmt.format(endDate);
