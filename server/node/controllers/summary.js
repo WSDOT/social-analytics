@@ -145,8 +145,9 @@ exports.mentionsFromToDate = function(req, res) {
     var end = new Date(req.params.toYear, parseInt(req.params.toMonth) - 1, parseInt(req.params.toDay), 23, 59, 59);
     var pageNum = req.params.page;
     var itemsPerPage = 25;
-    
-    // NOTICE: We check count b/c query hangs when limit is greater than the returned results. not sure why.
+    var itemsPerCurrentPage = 25;    
+
+    // NOTE: We check count b/c query hangs when limit is greater than the returned results. not sure why.
     // The sentiment results work fine and use similar queries.
 
     if (screenName == "all") {
@@ -154,12 +155,12 @@ exports.mentionsFromToDate = function(req, res) {
 
 	if (count != 0){
         if ((count - ((pageNum-1) * itemsPerPage)) < itemsPerPage){
-          itemsPerPage = count - ((pageNum-1) * itemsPerPage);
+          itemsPerCurrentPage = count - ((pageNum-1) * itemsPerPage);
         }
 
         Mentions.find({'created_at': {'$gte': start, '$lte': end}},
                       null,
-                      {sort:{'id': -1}, skip: (itemsPerPage * (pageNum - 1)), limit: itemsPerPage},
+                      {sort:{'id': -1}, skip: (itemsPerPage * (pageNum - 1)), limit: itemsPerCurrentPage},
                       function(err, results) {
                           res.jsonp(results);
                       });
@@ -170,13 +171,13 @@ exports.mentionsFromToDate = function(req, res) {
     } else {
       Mentions.count({'entities.user_mentions.screen_name': screenName, 'created_at': {'$gte': start, '$lte': end}}, function(err, count){
        if (count != 0){
-       if ((count - ((pageNum-1) * itemsPerPage)) < itemsPerPage){
-          itemsPerPage = count - ((pageNum-1) * itemsPerPage);
+       if ((count - ((pageNum - 1) * itemsPerPage)) < itemsPerPage){
+          itemsPerCurrentPage = count - ((pageNum - 1) * itemsPerPage);
        }
 
         Mentions.find({'entities.user_mentions.screen_name': screenName, 'created_at': {'$gte': start, '$lte': end}},
                       null,
-                      {sort:{'id': -1}, skip: (itemsPerPage * (pageNum - 1)), limit: itemsPerPage},
+                      {sort:{'id': -1}, skip: (itemsPerPage * (pageNum - 1)), limit: itemsPerCurrentPage},
                       function(err, results) {
                            if (err) {console.log("ERROR " + err); return err;}
                           return res.jsonp(results);
