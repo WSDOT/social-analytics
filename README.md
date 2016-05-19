@@ -3,6 +3,8 @@ Social Analytics
 
 A social analytics dashboard for twitter.
 
+![alt tag](https://github.com/WSDOT/social-analytics/blob/cb86a4bff8bfd0a0a7fd9d1038680742613c601e/images/analyticsScreenShot.png)
+
 Features
 ========
 
