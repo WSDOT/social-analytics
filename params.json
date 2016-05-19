@@ -1,0 +1,6 @@
+{
+  "name": "Social Analytics",
+  "tagline": "An analytics dashboard for twitter.",
+  "body": "Features\r\n========\r\n\r\n* Tweet and Mention counts\r\n* Follower statistics\r\n* Tweet search and export\r\n* Sentiment analytics\r\n* Show popular/unpopular tweets\r\n* Tweet Source data\r\n\r\nSetup\r\n=====\r\n\r\n1. Install [maven.](https://maven.apache.org/)\r\n2. Run `mvn install` in the project directory.\r\n3. Follow this guide on [deploying a GWT app to a web server](http://www.gwtproject.org/doc/latest/DevGuideDeploying.html#DevGuideDeployingWebServer)\r\n4. Set up server files found in `server/`\r\n\r\n*NOTE:* Make sure to change `HOST_URL` in [`Consts.java`](src/main/java/gov/wa/wsdot/apps/analytics/util/Consts.java), as well as adding your twitter accounts in the source ([`AnalyticsViewImpl.java`](/src/main/java/gov/wa/wsdot/apps/analytics/client/activities/twitter/AnalyticsViewImpl.java), [`AnalyticsViewImpl.ui.xml`](src/main/java/gov/wa/wsdot/apps/analytics/client/activities/twitter/AnalyticsViewImpl.ui.xml) and [`AdvSearchView.ui.xml`](src/main/java/gov/wa/wsdot/apps/analytics/client/activities/twitter/view/search/AdvSearchView.ui.xml)).\r\n\r\nLicense\r\n=======\r\n\r\n[GNU GPLv3](http://www.gnu.org/licenses/gpl-3.0.txt)\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
