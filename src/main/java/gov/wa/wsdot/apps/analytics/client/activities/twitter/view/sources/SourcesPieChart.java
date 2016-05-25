@@ -74,8 +74,6 @@ public class SourcesPieChart extends Composite{
     private static final String JSON_URL = Consts.HOST_URL + "/mentions/source";
     static JsArray<SourceSummary> sourceSummary;
 
-    private static String defaultDateRange = "";
-    private static String defaultAccount = "wsdot";
     private static PieChart pieChart;
 
     public SourcesPieChart(ClientFactory clientFactory) {

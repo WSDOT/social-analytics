@@ -88,8 +88,6 @@ public class RankingView extends Composite{
 
     final Resources res;
 
-    private static String defaultAccount = "wsdot";
-
     public RankingView(ClientFactory clientFactory) {
         res = GWT.create(Resources.class);
         res.css().ensureInjected();

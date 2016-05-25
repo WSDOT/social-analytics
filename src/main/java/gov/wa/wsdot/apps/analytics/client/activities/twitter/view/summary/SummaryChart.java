@@ -117,7 +117,7 @@ public class SummaryChart extends Composite{
     private static AreaChart followersChart;
 
     private static String dateRange = "";
-    private static String account = "wsdot";
+    private static String account = Consts.DEFAULT_ACCOUNT;
 
     private static final String JSON_URL = Consts.HOST_URL + "/summary";
     static JsArray<TweetSummary> tweetSummary;
@@ -136,8 +136,6 @@ public class SummaryChart extends Composite{
         res.css().ensureInjected();
         eventBinder.bindEventHandlers(this, clientFactory.getEventBus());
         initWidget(uiBinder.createAndBindUi(this));
-
-        //updateTweetsChart(defaultDateRange, "wsdot");
 
     }
 

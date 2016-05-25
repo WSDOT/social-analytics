@@ -3,3 +3,5 @@ target/
 
 target/*
 *.iml
+
+deploy.sh

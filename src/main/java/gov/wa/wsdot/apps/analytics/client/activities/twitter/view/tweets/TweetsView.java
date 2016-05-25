@@ -77,15 +77,13 @@ public class TweetsView extends Composite {
     MaterialButton backToTweetTopBtn;
 
     // Following 3 values used for loading more tweets
-    private static String currentAccount = "wsdot";
+    private static String currentAccount = Consts.DEFAULT_ACCOUNT;
     private static String startDate;
     private static String endDate;
 
     private static String currentUrl;
 
     private static int pageNum = 1;
-
-    private static String defaultAccount = "wsdot";
 
     public TweetsView(ClientFactory clientFactory) {
 

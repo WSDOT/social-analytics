@@ -21,9 +21,12 @@ Setup
 1. Install [maven.](https://maven.apache.org/)
 2. Run `mvn install` in the project directory.
 3. Follow this guide on [deploying a GWT app to a web server](http://www.gwtproject.org/doc/latest/DevGuideDeploying.html#DevGuideDeployingWebServer)
-4. Set up server files found in `server/`
+4. Set up server files found in [`server/`](https://github.com/WSDOT/social-analytics/tree/master/server)
 
-*NOTE:* Make sure to change `HOST_URL` in [`Consts.java`](src/main/java/gov/wa/wsdot/apps/analytics/util/Consts.java), as well as adding your twitter accounts in the source ([`AnalyticsViewImpl.java`](/src/main/java/gov/wa/wsdot/apps/analytics/client/activities/twitter/AnalyticsViewImpl.java), [`AnalyticsViewImpl.ui.xml`](src/main/java/gov/wa/wsdot/apps/analytics/client/activities/twitter/AnalyticsViewImpl.ui.xml) and [`AdvSearchView.ui.xml`](src/main/java/gov/wa/wsdot/apps/analytics/client/activities/twitter/view/search/AdvSearchView.ui.xml)).
+*NOTE:* Make sure to change `HOST_URL` and `DEFAULT_ACCOUNT` in [`Consts.java`](src/main/java/gov/wa/wsdot/apps/analytics/util/Consts.java), as well as adding your twitter accounts in the source files.
+* [`AnalyticsViewImpl.java`](/src/main/java/gov/wa/wsdot/apps/analytics/client/activities/twitter/AnalyticsViewImpl.java)
+* [`AnalyticsViewImpl.ui.xml`](src/main/java/gov/wa/wsdot/apps/analytics/client/activities/twitter/AnalyticsViewImpl.ui.xml)
+* [`AdvSearchView.ui.xml`](src/main/java/gov/wa/wsdot/apps/analytics/client/activities/twitter/view/search/AdvSearchView.ui.xml)
 
 License
 =======
