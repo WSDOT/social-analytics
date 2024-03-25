@@ -20,7 +20,7 @@
 
   "dependencies": {
     "csv": "0.4.6",
-    "express": "4.13.4",
+    "express": "4.19.2",
     "json2csv": "3.4.1",
     "mongoose": ">=5.7.5"
   },
